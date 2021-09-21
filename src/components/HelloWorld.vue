@@ -1,4 +1,6 @@
 <template>
+
+	<img alt="Vue logo" src="../assets/logo.png"/>
 	<h1>{{ msg }}</h1>
 
 	<p>
@@ -21,14 +23,21 @@
 		Edit
 		<code>components/HelloWorld.vue</code> to test hot module replacement.
 	</p>
+	<button type="button" @click="startGame">start the game</button>
 </template>
 
 <script setup>
 import {ref} from 'vue'
+import {useRouter} from 'vue-router';
 
 defineProps({
 	msg: String
 })
+
+const router = useRouter();
+const startGame = () => {
+	router.push('/main')
+}
 
 const count = ref(0)
 </script>
