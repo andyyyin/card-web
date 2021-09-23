@@ -1,5 +1,7 @@
 <template>
-	main scene
+	<div>
+		main scene
+	</div>
 </template>
 
 <script setup>

@@ -1,0 +1,224 @@
+
+@primary: #3431ED; // 主题色
+@blue: #1B75F0; // 主题色
+@orange: #FF6000;
+@bc: #F7F7F7;
+@fc: #fff;
+@imgRoot: '../../assets';
+
+// // 背景图片地址和大小
+.bg(@url) {
+	background-image: url("@{imgRoot}@{url}");
+	background-repeat: no-repeat;
+}
+
+// //1px底部边框
+.border-1px(@color) {
+	position: relative;
+	&:after {
+		display: block;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		border-top: 1px solid @color;
+		content: '';
+	}
+}
+
+// //定位上下左右居中
+.abs-center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+// //定位上下居中
+.ct {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+// //定位左右居中
+.cl {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+// //宽高
+.wh(@width, @height) {
+	width: @width;
+	height: @height;
+}
+
+.square(@size) {
+	width: @size;
+	height: @size;
+}
+// 圆形
+.round(@size) {
+	.square(@size);
+	border-radius: 50%;
+}
+
+// //字体大小，颜色
+.sc(@size, @color) {
+	font-size: @size;
+	color: @color;
+}
+
+.boxSizing {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.font(@size: 12px, @color: inherit, @weight: inherit) {
+	font-size: @size;
+	line-height: @size;
+	color: @color;
+	font-weight: @weight;
+}
+
+.text-ellipsis{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+//flex 布局和 子元素 对其方式
+
+.flex(@type: row) {
+	display: flex;
+	flex-direction: @type;
+}
+
+.row{
+	.flex(row);
+}
+.column{
+	.flex(column);
+}
+.grow{
+	flex-grow: 1;
+}
+.row-align{
+	.flex();
+	align-items: center;
+}
+.row-space{
+	.flex();
+	justify-content: space-between;
+}
+.row-end{
+	.flex();
+	justify-content: flex-end;
+}
+.row-bottom{
+	.flex(row);
+	align-items: flex-end;
+}
+.row-align-end{
+	.row-align();
+	.row-end();
+}
+.row-wrap{
+	.flex(row);
+	flex-wrap: wrap;
+}
+.row-align-space{
+	.row-align();
+	.row-space();
+}
+
+.flex-center{
+	.flex();
+	justify-content: center;
+	align-items: center;
+}
+.column-align{
+	.flex(column);
+	align-items: center;
+}
+.column-center-align{
+	.flex(column);
+	align-items: center;
+	justify-content: center;
+}
+
+// 折角箭头
+.arrowHead(@size, @color: #000, @width: 1px) {
+	display: block;
+	width: @size;
+	height: @size;
+	border-top: @width solid @color;
+	border-right: @width solid @color;
+	
+	
+}
+.arrowHeadDown(@size, @color: #000, @width: 1px) {
+	.arrowHead(@size, @color, @width);
+	transform: rotate(135deg);
+}
+.arrowHeadUp(@size, @color: #000, @width: 1px) {
+	.arrowHead(@size, @color, @width);
+	transform: rotate(-45deg);
+}
+.arrowHeadLeft(@size, @color: #000, @width: 1px) {
+	.arrowHead(@size, @color, @width);
+	transform: rotate(-135deg);
+}
+.arrowHeadRight(@size, @color: #000, @width: 1px) {
+	.arrowHead(@size, @color, @width);
+	transform: rotate(45deg);
+}
+
+
+.arrow-head{
+	&:after{
+		content: "";
+		.arrowHead(7px, #fff);
+	}
+
+	&.down{
+		transform: translateY(-25%);
+		&:after{
+			transform: rotate(135deg);
+		}
+	}
+	&.up{
+		transform: translateY(25%);
+		&:after{
+			transform: rotate(-45deg);
+		}
+	}
+	&.left{
+		transform: translateX(25%);
+		&:after{
+			transform: rotate(-135deg);
+		}
+	}
+	&.right{
+		transform: translateX(-25%);
+		&:after{
+			transform: rotate(45deg);
+		}
+	}
+}
+
+.triangleBase(@width){
+	width: 0;
+	height: 0;
+	border: @width solid transparent;
+}
+.triangleUp(@width, @height, @color: #000){
+	.triangleBase(@width);
+	border-bottom: @height solid @color;
+}
+.triangleDown(@width, @height, @color: #000){
+	.triangleBase(@width);
+	border-top: @height solid @color;
+}
