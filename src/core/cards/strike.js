@@ -1,9 +1,11 @@
 import BaseCard from "./base";
-import {inject} from "vue";
+import {TYPE} from './enum'
 
 export default class Strike extends BaseCard {
 
 	name = '打击'
+
+	type = TYPE.ATTACK
 
 	constructor() {
 		super();

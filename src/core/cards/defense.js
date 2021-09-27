@@ -1,9 +1,11 @@
 import BaseCard from "./base";
-import {inject} from "vue";
+import {TYPE} from "./enum";
 
 export default class Defense extends BaseCard {
 
 	name = '防御'
+
+	type = TYPE.SKILL
 
 	constructor() {
 		super();

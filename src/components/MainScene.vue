@@ -15,7 +15,7 @@
 			<div class="power-display-container">
 				<span>{{power.cur}}</span>
 				<span>/</span>
-				<span>{{power.max}}</span>
+				<span>{{power.base}}</span>
 			</div>
 			<div class="grow">
 				<van-progress :percentage="hero.hp * 100 / hero.mhp" stroke-width="8" :pivot-text="hero.hp + '/' + hero.mhp"/>
@@ -28,7 +28,7 @@
 		<section class="card-section">
 			<div class="card-group-container">
 				<div v-for="card in handCards" class="card-container" :key="card.id">
-					<div class="card-display" @click.stop="onClickCard(card.id)" :class="{active: card.id === activeCardId, disabled: f.isDisabled(card)}">
+					<div class="card-display" @click.stop="onClickCard(card.id)" :class="cardClassNames(card)">
 						<div>{{card.name}}</div>
 						<div>({{card.cost}})</div>
 					</div>
@@ -43,8 +43,12 @@
 			</div>
 			<div class="card-stack">
 				<span class="title">弃牌堆</span>
-				<span class="value">{{ usedStack.length }}</span>
+				<span class="value">{{ dropStack.length }}</span>
 			</div>
+		</section>
+
+		<section class="main-button-section">
+			<van-button type="primary" size="large" @click="endTheRound">结束回合</van-button>
 		</section>
 
 	</div>
@@ -55,9 +59,14 @@ import {reactive, ref, useAttrs} from 'vue'
 import BattlerView from './BattlerView.vue'
 import Strike from "../core/cards/strike";
 import Defense from "../core/cards/defense";
+import AT from '../core/function/arrayTools'
 
-defineProps({
-})
+const cardClassNames = (card) => {
+	let result = [card.typeClassName]
+	if (card.id === activeCardId) result.push('active')
+	if (f.isDisabled(card)) result.push('disabled')
+	return result.join(' ')
+}
 
 const enemy = reactive({
 	hp: 99,
@@ -73,7 +82,7 @@ const hero = reactive({
 
 const power = reactive({
 	cur: 3,
-	max: 3
+	base: 3
 })
 
 const f = {}
@@ -93,7 +102,20 @@ f.dropCard = (id) => {
 	} else if (((index = drawStack.findIndex(c => c.id === id)) > -1)) {
 		[card] = drawStack.splice(index, 1);
 	}
-	if (card) usedStack.push(card)
+	if (card) dropStack.push(card)
+}
+f.drawCard = (count) => {
+	if (drawStack.length > 0) {
+		let card = drawStack.shift()
+		handCards.push(card)
+		if (count > 1) {
+			f.drawCard(count - 1)
+		}
+	} else {
+		let cardSGroup = dropStack.splice(0, dropStack.length)
+		drawStack.push(...AT.shuffleArray(cardSGroup))
+		f.drawCard(count)
+	}
 }
 f.isDisabled = (card) => {
 	return card.cost > power.cur
@@ -114,7 +136,7 @@ const drawStack = reactive(([
 	new Defense()
 ]))
 
-const usedStack = reactive(([]))
+const dropStack = reactive(([]))
 
 const activeCardId = ref(null)
 
@@ -132,7 +154,22 @@ const onClickCard = (id) => {
 	}
 }
 
-const attrs = useAttrs()
+const startNewRound = () => {
+	console.log('round start')
+	hero.defense = 0
+	power.cur = power.base
+	f.drawCard(5)
+}
+
+const endTheRound = () => {
+	console.log('round end')
+	let dropGroup = handCards.splice(0, handCards.length)
+	dropStack.push(...dropGroup)
+	// todo run ai
+	console.log('run ai')
+	startNewRound()
+}
+
 </script>
 <style src="../common/style/main.less"/>
 
