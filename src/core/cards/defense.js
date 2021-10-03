@@ -1,11 +1,13 @@
 import BaseCard from "./base";
-import {TYPE} from "./enum";
+import {CARD_BASE_TYPE} from "../enum";
 
 export default class Defense extends BaseCard {
 
 	name = '防御'
 
-	type = TYPE.SKILL
+	baseValue = 7
+
+	type = CARD_BASE_TYPE.SKILL
 
 	constructor() {
 		super();
@@ -13,7 +15,7 @@ export default class Defense extends BaseCard {
 	}
 
 	onLaunch(execute) {
-		execute.defense(7)
+		execute.heroChangeDefense(this.baseValue)
 	}
 
 }

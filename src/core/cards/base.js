@@ -1,15 +1,17 @@
-import {TYPE} from './enum'
+import {CARD_BASE_TYPE} from '../enum'
 
 export default class BaseCard {
 	cost = 1;
+
+	baseValue;
 
 	type;
 
 	get typeClassName () {
 		switch (this.type) {
-			case TYPE.SKILL: return 'type-skill'
-			case TYPE.ATTACK: return 'type-attack'
-			case TYPE.ABILITY: return 'type-ability'
+			case CARD_BASE_TYPE.SKILL: return 'type-skill'
+			case CARD_BASE_TYPE.ATTACK: return 'type-attack'
+			case CARD_BASE_TYPE.ABILITY: return 'type-ability'
 		}
 		return '#999999'
 	}
@@ -18,7 +20,19 @@ export default class BaseCard {
 
 	}
 
-	onLaunch () {
+	onLaunch (execute) {
 
 	}
+}
+
+BaseCard.prototype.damageFix = function (execute) {
+	let value = this.baseValue
+	const stateList = execute.getHeroState()
+	value = stateList.reduce((result, state) => {
+		return result + (state.damageFixAdd || 0)
+	}, value)
+	value = stateList.reduce((result, state) => {
+		return result * (state.damageFixMulti || 1)
+	}, value)
+	return value
 }

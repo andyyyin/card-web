@@ -1,11 +1,13 @@
 import BaseCard from "./base";
-import {TYPE} from './enum'
+import {CARD_BASE_TYPE} from '../enum'
 
 export default class Strike extends BaseCard {
 
 	name = '打击'
 
-	type = TYPE.ATTACK
+	baseValue = 10
+
+	type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();
@@ -13,7 +15,8 @@ export default class Strike extends BaseCard {
 	}
 
 	onLaunch(execute) {
-		execute.strike(10)
+		const value = this.damageFix(execute)
+		execute.strikeEnemy(value)
 	}
 
 }
