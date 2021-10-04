@@ -1,4 +1,6 @@
 import {INTENTION} from "../enum";
+import AT from '../function/arrayTools'
+import Weak from "../state/weak";
 
 export default class BaseAI {
 
@@ -9,16 +11,13 @@ export default class BaseAI {
 		switch (this.intention) {
 			case INTENTION.ATTACK: this.attack(execute); break
 			case INTENTION.DEFENSE: this.defense(execute); break
+			case INTENTION.DEBUFF: this.debuff(execute); break
 		}
 	}
 
 	getIntention () {
-		let random = Math.random() > 0.5
-		if (random) {
-			this.intention = INTENTION.ATTACK
-		} else {
-			this.intention = INTENTION.DEFENSE
-		}
+		const options = [INTENTION.ATTACK, INTENTION.DEFENSE, INTENTION.DEBUFF]
+		this.intention = AT.getRandomOne(options)
 		return this.intention
 	}
 
@@ -32,6 +31,11 @@ export default class BaseAI {
 		let value = 5
 		console.log('ai act defense', value)
 		execute.enemyChangeDefense(value)
+	}
+
+	debuff (execute) {
+		console.log('ai act debuff')
+		execute.heroPushState(Weak)
 	}
 
 }

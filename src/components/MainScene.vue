@@ -18,8 +18,8 @@
 		<battler-view/>
 
 
-		<section class="special-state-section down row-align">
-			<state-icon v-for="state in hero.stateList" :icon="state.icon || ''" :level="state.level || 1"/>
+		<section v-if="hero.stateList.length" class="special-state-section down row-align">
+			<state-icon v-for="state in filteredHeroStateList" :icon="state.icon || ''" :level="state.level || 1"/>
 		</section>
 		<section class="state-section row-align">
 			<div class="power-display-container">
@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import {reactive, ref, computed} from 'vue'
+import {reactive, ref, computed, onMounted} from 'vue'
 import BattlerView from './BattlerView.vue'
 import Strike from "../core/cards/strike";
 import Defense from "../core/cards/defense";
@@ -92,6 +92,8 @@ const intentionClassName = computed(() => {
 		case INTENTION.DEBUFF: return 'debuff'
 	}
 })
+const filteredEnemyStateList = computed(() => enemy.stateList.filter(s => s.active))
+const filteredHeroStateList = computed(() => hero.stateList.filter(s => s.active))
 
 const AI = new BaseAI()
 const enemy = reactive(new BaseActor({
@@ -128,7 +130,7 @@ e.enemyChangeDefense = enemy.changeDefense.bind(enemy)
 e.enemyPushState = enemy.pushState.bind(enemy)
 e.strikeEnemy = enemy.getStrike.bind(enemy)
 
-e.getHeroState = () => [...hero.stateList]
+e.getHeroState = () => [...hero.stateList.filter(s => s.active)]
 
 e.cost = (num) => {
 	power.cur -= num
@@ -209,12 +211,19 @@ const endTheRound = () => {
 	console.log('round end')
 	let dropGroup = handCards.splice(0, handCards.length)
 	dropStack.push(...dropGroup)
+	hero.stateList.forEach(s => (s.active && s.onHostEndTurn && s.onHostEndTurn(e)))
+	hero.filterState()
 	AI.act(e)
 	startNewRound()
 }
 
 startNewRound()
 
+onMounted(() => {
+	document.addEventListener('click', () => {
+		activeCardId.value = null
+	})
+})
 </script>
 <style src="../common/style/main.less"/>
 

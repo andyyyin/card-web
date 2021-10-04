@@ -35,13 +35,22 @@ BaseActor.prototype.getStrike = function (value) {
 	this.changeHp(-value)
 }
 
-BaseActor.prototype.pushState = function (state) {
-	let exist = this.stateList.find(s => s.name === state.name)
+BaseActor.prototype.filterState = function () {
+	let filteredList = this.stateList.filter(s => s.active)
+	this.stateList.splice(0, this.stateList.length, ...filteredList)
+}
+
+BaseActor.prototype.pushState = function (State, param) {
+	console.log(this.name, 'before push state', State.name, param)
+	if (typeof State !== 'function') return
+
+	let exist = this.stateList.find(s => s instanceof State)
 	if (exist) {
-		exist.onSuperposition(state)
+		exist.onSuperposition(param)
 	} else {
-		this.stateList.push(state)
+		this.stateList.push(new State(param))
 	}
-	console.log(this.name, 'push state', state.name, state.level)
+	this.filterState()
+	console.log(this.name, 'end push state', State.name, param)
 	console.log(this.stateList);
 }

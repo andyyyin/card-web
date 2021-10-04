@@ -1,5 +1,5 @@
 
-function shuffleArray(array) {
+const shuffleArray = (array) => {
 	let currentIndex = array.length, temporaryValue, randomIndex;
 
 	// While there remain elements to shuffle...

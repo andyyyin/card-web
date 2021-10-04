@@ -34,5 +34,6 @@ BaseCard.prototype.damageFix = function (execute) {
 	value = stateList.reduce((result, state) => {
 		return result * (state.damageFixMulti || 1)
 	}, value)
+	value = value >= this.baseValue ? Math.floor(value) : Math.ceil(value)
 	return value
 }

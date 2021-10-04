@@ -15,8 +15,8 @@ export default class Strength extends BaseState{
 		this.level = level
 	}
 
-	onSuperposition (state) {
-		this.level += state.level
+	onSuperposition (level) {
+		this.level += level
 	}
 
 }
