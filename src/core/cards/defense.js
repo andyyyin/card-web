@@ -5,7 +5,7 @@ export default class Defense extends BaseCard {
 
 	name = '防御'
 
-	baseValue = 7
+	baseValue = 5
 
 	type = CARD_BASE_TYPE.SKILL
 

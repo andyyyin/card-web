@@ -1,4 +1,5 @@
 import {CARD_BASE_TYPE} from '../enum'
+import {stateDamageFix} from "../algorithm";
 
 export default class BaseCard {
 	cost = 1;
@@ -23,17 +24,4 @@ export default class BaseCard {
 	onLaunch (execute) {
 
 	}
-}
-
-BaseCard.prototype.damageFix = function (execute) {
-	let value = this.baseValue
-	const stateList = execute.getHeroState()
-	value = stateList.reduce((result, state) => {
-		return result + (state.damageFixAdd || 0)
-	}, value)
-	value = stateList.reduce((result, state) => {
-		return result * (state.damageFixMulti || 1)
-	}, value)
-	value = value >= this.baseValue ? Math.floor(value) : Math.ceil(value)
-	return value
 }

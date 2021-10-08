@@ -23,7 +23,27 @@ const getRandomOne = (array) => {
 	return array[i]
 }
 
+const getRandomOneWeighted = (array) => {
+	const weightTotal = array.reduce((value, item) => {
+		return value + (item.weight || 1)
+	}, 0)
+	const random = Math.random() * weightTotal
+	let result
+	array.reduce((value, item) => {
+		if (result) return 0
+		let curValue = value + (item.weight || 1)
+		if (curValue > random && !result) {
+			result = item
+			return 0
+		}
+		return value + (item.weight || 1)
+	}, 0)
+	return result
+}
+
+
 export default {
 	shuffleArray,
 	getRandomOne,
+	getRandomOneWeighted,
 }

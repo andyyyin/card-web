@@ -17,6 +17,8 @@ export default class BaseActor {
 
 BaseActor.prototype.changeHp = function (value) {
 	this.hp += value
+	if (this.hp > this.mhp) this.hp = this.mhp
+	if (this.hp <= 0) this.hp = 0
 	console.log(this.name, 'change hp', value)
 }
 

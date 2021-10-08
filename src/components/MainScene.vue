@@ -3,6 +3,7 @@
 		<section class="state-section row-align">
 			<div class="intention-display-container">
 				<div class="intention-icon" :class="intentionClassName"/>
+				<div class="intention-value">{{enemy.intentionValue}}</div>
 			</div>
 			<div class="progress-container grow">
 				<van-progress :percentage="enemy.hp * 100 / enemy.mhp" stroke-width="8" :pivot-text="enemy.hp + '/' + enemy.mhp" color="#ee0a24"/>
@@ -12,10 +13,10 @@
 			</div>
 		</section>
 		<section class="special-state-section up row-align">
-
+			<state-icon v-for="state in filteredEnemyStateList" :icon="state.icon || ''" :level="state.level || 1"/>
 		</section>
 
-		<battler-view/>
+		<battler-view :img="AI.img"/>
 
 
 		<section v-if="hero.stateList.length" class="special-state-section down row-align">
@@ -71,7 +72,7 @@ import BattlerView from './BattlerView.vue'
 import Strike from "../core/cards/strike";
 import Defense from "../core/cards/defense";
 import AT from '../core/function/arrayTools'
-import BaseAI from "../core/ai/base";
+import Monster1 from "../core/ai/monster1";
 import {INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
 import StrengthUp from "../core/cards/strengthUp";
@@ -95,13 +96,14 @@ const intentionClassName = computed(() => {
 const filteredEnemyStateList = computed(() => enemy.stateList.filter(s => s.active))
 const filteredHeroStateList = computed(() => hero.stateList.filter(s => s.active))
 
-const AI = new BaseAI()
+const AI = new Monster1()
 const enemy = reactive(new BaseActor({
 	name: 'enemy',
 	hp: 100,
 	mhp: 100,
 	defense: 0,
 	intention: 0,
+	intentionValue: null,
 	stateList: [],
 }))
 
@@ -131,6 +133,7 @@ e.enemyPushState = enemy.pushState.bind(enemy)
 e.strikeEnemy = enemy.getStrike.bind(enemy)
 
 e.getHeroState = () => [...hero.stateList.filter(s => s.active)]
+e.getEnemyState = () => [...enemy.stateList.filter(s => s.active)]
 
 e.cost = (num) => {
 	power.cur -= num
@@ -204,7 +207,9 @@ const startNewRound = () => {
 	hero.defense = 0
 	power.cur = power.base
 	e.drawCard(5)
-	enemy.intention = AI.getIntention()
+	const actionParam = AI.prepare()
+	enemy.intention = actionParam.intention
+	enemy.intentionValue = actionParam.value
 }
 
 const endTheRound = () => {
@@ -213,7 +218,8 @@ const endTheRound = () => {
 	dropStack.push(...dropGroup)
 	hero.stateList.forEach(s => (s.active && s.onHostEndTurn && s.onHostEndTurn(e)))
 	hero.filterState()
-	AI.act(e)
+	enemy.defense = 0
+	AI.action(e)
 	startNewRound()
 }
 
