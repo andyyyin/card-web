@@ -11,7 +11,6 @@ export default class Defense extends BaseCard {
 
 	constructor() {
 		super();
-		this.id = Math.floor(Math.random() * 10000)
 	}
 
 	onLaunch(execute) {

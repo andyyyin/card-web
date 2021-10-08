@@ -8,11 +8,10 @@ export default class StrengthUp extends BaseCard {
 
 	baseValue = 2
 
-	type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.ABILITY
 
 	constructor() {
 		super();
-		this.id = Math.floor(Math.random() * 100000)
 	}
 
 	onLaunch(execute) {

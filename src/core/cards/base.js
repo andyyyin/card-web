@@ -1,12 +1,19 @@
 import {CARD_BASE_TYPE} from '../enum'
 import {stateDamageFix} from "../algorithm";
 
+let _idCache = 1000
+
 export default class BaseCard {
 	cost = 1;
-
+	name
 	baseValue;
 
 	type;
+
+	constructor() {
+		this.id = ++_idCache
+		console.log('id', this.id)
+	}
 
 	get typeClassName () {
 		switch (this.type) {

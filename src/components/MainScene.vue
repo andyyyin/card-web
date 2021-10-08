@@ -74,10 +74,11 @@ import Strike from "../core/cards/strike";
 import Defense from "../core/cards/defense";
 import AT from '../core/function/arrayTools'
 import Monster1 from "../core/ai/monster1";
-import {INTENTION} from "../core/enum";
+import {CARD_BASE_TYPE, INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
 import StrengthUp from "../core/cards/strengthUp";
 import StateIcon from "./item/StateIcon.vue";
+import G from "../core/game/index"
 
 const cardClassNames = (card) => {
 	let result = [card.typeClassName]
@@ -178,27 +179,35 @@ e.drawCard = (count) => {
 		e.drawCard(count)
 	}
 }
+e.launchCard = (id) => {
+	let index, card
+	if (((index = handCards.findIndex(c => c.id === id)) > -1)) {
+		card = handCards[index]
+	}
+	if (!card) return
+	console.log('launch card', activeCardId.value, card.name)
+	card.onLaunch(e)
+	e.cost(card.cost)
+	if (card.type === CARD_BASE_TYPE.ABILITY) {
+		handCards.splice(index, 1)
+		usedStack.push(card)
+	} else if (card.consume) {
+		handCards.splice(index, 1)
+		consumedStack.push(card)
+	} else {
+		e.dropCard(card.id)
+	}
+}
+
 e.isDisabled = (card) => {
 	return card.cost > power.cur
 }
 
-const handCards = reactive([
-])
-
-const drawStack = reactive(([
-]))
-
-const dropStack = reactive(([
-	new Strike(),
-	new Strike(),
-	new Strike(),
-	new Strike(),
-	new StrengthUp(),
-	new Defense(),
-	new Defense(),
-	new Defense(),
-	new Defense()
-]))
+const handCards = reactive([])
+const drawStack = reactive(([]))
+const dropStack = reactive(([...G.getCards()]))
+const consumedStack = reactive(([]))
+const usedStack = reactive(([]))
 
 const activeCardId = ref(null)
 
@@ -206,10 +215,7 @@ const onClickCard = (id) => {
 	let card = handCards.find(c => c.id === id)
 	if (!card || e.isDisabled(card)) return
 	if (id !== null && activeCardId.value === id) {
-		console.log('use card', activeCardId.value)
-		card.onLaunch(e)
-		e.cost(card.cost)
-		e.dropCard(card.id)
+		e.launchCard(id)
 		activeCardId.value = null
 	} else {
 		activeCardId.value = id
@@ -241,8 +247,9 @@ startNewRound()
 
 const onWin = () => {
 	console.log('hero win')
-	dropStack.push(...handCards.splice(0, handCards.length))
-	dropStack.push(...drawStack.splice(0, drawStack.length))
+	handCards.splice(0, handCards.length)
+	drawStack.splice(0, drawStack.length)
+	dropStack.splice(0, dropStack.length)
 	Dialog.alert({message: 'WIN'}).then(() => {
 		// todo
 		startBattle()
@@ -252,6 +259,7 @@ const onWin = () => {
 const startBattle = () => {
 	hero.reset()
 	enemy.reset()
+	dropStack.push(...G.getCards())
 	console.log('new battle begin')
 	AI = new Monster1() // todo
 	startNewRound()
