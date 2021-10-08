@@ -56,3 +56,9 @@ BaseActor.prototype.pushState = function (State, param) {
 	console.log(this.name, 'end push state', State.name, param)
 	console.log(this.stateList);
 }
+
+BaseActor.prototype.reset = function (State, param) {
+	this.hp = this.mhp
+	this.defense = 0
+	this.stateList.splice(0, this.stateList.length)
+}

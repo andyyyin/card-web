@@ -67,7 +67,8 @@
 </template>
 
 <script setup>
-import {reactive, ref, computed, onMounted} from 'vue'
+import {reactive, ref, computed, onMounted, watchEffect} from 'vue'
+import { Dialog } from 'vant';
 import BattlerView from './BattlerView.vue'
 import Strike from "../core/cards/strike";
 import Defense from "../core/cards/defense";
@@ -96,7 +97,7 @@ const intentionClassName = computed(() => {
 const filteredEnemyStateList = computed(() => enemy.stateList.filter(s => s.active))
 const filteredHeroStateList = computed(() => hero.stateList.filter(s => s.active))
 
-const AI = new Monster1()
+let AI = new Monster1()
 const enemy = reactive(new BaseActor({
 	name: 'enemy',
 	hp: 100,
@@ -115,10 +116,23 @@ const hero = reactive(new BaseActor({
 	stateList: [],
 }))
 
+const isGameOver = ref(false)
+
+watchEffect(() => {
+	if (hero.hp <= 0) {
+		isGameOver.value = true
+		Dialog.alert({message: 'GAME OVER'}).then(() => {})
+	} else if (enemy.hp <= 0) {
+		onWin()
+	}
+})
+
 const power = reactive({
 	cur: 3,
 	base: 3
 })
+
+
 
 const e = {}
 
@@ -224,6 +238,24 @@ const endTheRound = () => {
 }
 
 startNewRound()
+
+const onWin = () => {
+	console.log('hero win')
+	dropStack.push(...handCards.splice(0, handCards.length))
+	dropStack.push(...drawStack.splice(0, drawStack.length))
+	Dialog.alert({message: 'WIN'}).then(() => {
+		// todo
+		startBattle()
+	})
+}
+
+const startBattle = () => {
+	hero.reset()
+	enemy.reset()
+	console.log('new battle begin')
+	AI = new Monster1() // todo
+	startNewRound()
+}
 
 onMounted(() => {
 	document.addEventListener('click', () => {
