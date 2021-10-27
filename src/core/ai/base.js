@@ -20,7 +20,9 @@ export default class BaseAI {
 	}
 
 	prepare () {
-		const action = AT.getRandomOneWeighted(this.actionList)
+		const action = this.actionList.length > 1 ?
+			AT.getRandomOneWeighted(this.actionList) :
+			this.actionList[0]
 		this.prepareAction = action.action
 		const {intention, value} = action
 		return {intention, value}

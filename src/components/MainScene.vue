@@ -16,7 +16,7 @@
 			<state-icon v-for="state in filteredEnemyStateList" :icon="state.icon || ''" :level="state.level || 1"/>
 		</section>
 
-		<battler-view :img="AI.img"/>
+		<battler-view :img="enemy.ai.img"/>
 
 
 		<section v-if="hero.stateList.length" class="special-state-section down row-align">
@@ -24,9 +24,9 @@
 		</section>
 		<section class="state-section row-align">
 			<div class="power-display-container">
-				<span>{{power.cur}}</span>
+				<span>{{battle.powerCur}}</span>
 				<span>/</span>
-				<span>{{power.base}}</span>
+				<span>{{battle.powerBase}}</span>
 			</div>
 			<div class="progress-container grow">
 				<van-progress :percentage="hero.hp * 100 / hero.mhp" stroke-width="8" :pivot-text="hero.hp + '/' + hero.mhp"/>
@@ -60,7 +60,7 @@
 		</section>
 
 		<section class="main-button-section">
-			<van-button type="primary" size="large" @click="endTheRound">结束回合</van-button>
+			<van-button type="primary" size="large" @click="endTheTurn">结束回合</van-button>
 		</section>
 
 	</div>
@@ -79,6 +79,7 @@ import BaseActor from "../core/actor/base";
 import StrengthUp from "../core/cards/strengthUp";
 import StateIcon from "./item/StateIcon.vue";
 import G from "../core/game/index"
+import Wolf from "../core/ai/wolf";
 
 const cardClassNames = (card) => {
 	let result = [card.typeClassName]
@@ -98,7 +99,6 @@ const intentionClassName = computed(() => {
 const filteredEnemyStateList = computed(() => enemy.stateList.filter(s => s.active))
 const filteredHeroStateList = computed(() => hero.stateList.filter(s => s.active))
 
-let AI = new Monster1()
 const enemy = reactive(new BaseActor({
 	name: 'enemy',
 	hp: 100,
@@ -107,6 +107,7 @@ const enemy = reactive(new BaseActor({
 	intention: 0,
 	intentionValue: null,
 	stateList: [],
+	ai: new Wolf(),
 }))
 
 const hero = reactive(new BaseActor({
@@ -117,23 +118,29 @@ const hero = reactive(new BaseActor({
 	stateList: [],
 }))
 
-const isGameOver = ref(false)
+const battle = reactive({
+	isGameOver: false,
+	powerBase: 3,
+	powerCur: 3,
+	turnNum: 0,
+})
+
+const handCards = reactive([])
+const drawStack = reactive(([]))
+const dropStack = reactive(([...G.getCards()]))
+const consumedStack = reactive(([]))
+const usedStack = reactive(([]))
+
+const activeCardId = ref(null)
 
 watchEffect(() => {
 	if (hero.hp <= 0) {
-		isGameOver.value = true
+		battle.isGameOver = true
 		Dialog.alert({message: 'GAME OVER'}).then(() => {})
 	} else if (enemy.hp <= 0) {
 		onWin()
 	}
 })
-
-const power = reactive({
-	cur: 3,
-	base: 3
-})
-
-
 
 const e = {}
 
@@ -151,7 +158,7 @@ e.getHeroState = () => [...hero.stateList.filter(s => s.active)]
 e.getEnemyState = () => [...enemy.stateList.filter(s => s.active)]
 
 e.cost = (num) => {
-	power.cur -= num
+	battle.powerCur -= num
 	console.log('power change -' + num)
 }
 e.dropCard = (id) => {
@@ -200,16 +207,9 @@ e.launchCard = (id) => {
 }
 
 e.isDisabled = (card) => {
-	return card.cost > power.cur
+	return card.cost > battle.powerCur
 }
-
-const handCards = reactive([])
-const drawStack = reactive(([]))
-const dropStack = reactive(([...G.getCards()]))
-const consumedStack = reactive(([]))
-const usedStack = reactive(([]))
-
-const activeCardId = ref(null)
+e.getTurnNum = () => battle.turnNum
 
 const onClickCard = (id) => {
 	let card = handCards.find(c => c.id === id)
@@ -222,28 +222,29 @@ const onClickCard = (id) => {
 	}
 }
 
-const startNewRound = () => {
-	console.log('round start')
+const startNewTurn = () => {
+	battle.turnNum++
+	console.log('turn start')
 	hero.defense = 0
-	power.cur = power.base
+	battle.powerCur = battle.powerBase
 	e.drawCard(5)
-	const actionParam = AI.prepare()
+	const actionParam = enemy.ai.prepare(e)
 	enemy.intention = actionParam.intention
 	enemy.intentionValue = actionParam.value
 }
 
-const endTheRound = () => {
-	console.log('round end')
+const endTheTurn = () => {
+	console.log('turn end')
 	let dropGroup = handCards.splice(0, handCards.length)
 	dropStack.push(...dropGroup)
 	hero.stateList.forEach(s => (s.active && s.onHostEndTurn && s.onHostEndTurn(e)))
 	hero.filterState()
 	enemy.defense = 0
-	AI.action(e)
-	startNewRound()
+	enemy.ai.action(e)
+	startNewTurn()
 }
 
-startNewRound()
+startNewTurn()
 
 const onWin = () => {
 	console.log('hero win')
@@ -261,8 +262,9 @@ const startBattle = () => {
 	enemy.reset()
 	dropStack.push(...G.getCards())
 	console.log('new battle begin')
-	AI = new Monster1() // todo
-	startNewRound()
+	enemy.ai = new Monster1() // todo
+	battle.turnNum = 0
+	startNewTurn()
 }
 
 onMounted(() => {
