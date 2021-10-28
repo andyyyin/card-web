@@ -15,7 +15,7 @@ export default class Wolf extends BaseAI{
 
 	prepare(e) {
 		if (e.getTurnNum() === 1) {
-			this.actionList = [{intention: INTENTION.ATTACK, action: this.multiAttack, value: '3×7'}]
+			this.actionList = [{intention: INTENTION.ATTACK, action: this.multiAttack, value: '7x3'}]
 		} else {
 			this.actionList = [{intention: INTENTION.ATTACK, action: this.commonAttack, value: this.baseDamage}]
 		}

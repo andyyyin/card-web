@@ -1,6 +1,5 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from '../enum'
-import {stateDamageFix} from "../algorithm";
 
 export default class Strike extends BaseCard {
 
@@ -15,8 +14,6 @@ export default class Strike extends BaseCard {
 	}
 
 	onLaunch(execute) {
-		const stateList = execute.getHeroState()
-		const value = stateDamageFix(this.baseValue, stateList)
 		execute.strikeEnemy(value)
 	}
 

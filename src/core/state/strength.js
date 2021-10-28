@@ -8,15 +8,13 @@ export default class Strength extends BaseState{
 
 	level = 1
 
-	get damageFixAdd () { return this.level }
+	get damageFix () {
+		return {add: this.level}
+	}
 
 	constructor(level) {
 		super(level);
-		this.level = level
-	}
-
-	onSuperposition (level) {
-		this.level += level
+		this.level = level || 1
 	}
 
 }

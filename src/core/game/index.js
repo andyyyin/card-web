@@ -1,17 +1,16 @@
-import Strike from "../cards/strike";
-import StrengthUp from "../cards/strengthUp";
-import Defense from "../cards/defense";
+import Cards from '../cards'
 
 const cards = [
-	new Strike(),
-	new Strike(),
-	new Strike(),
-	new Strike(),
-	new StrengthUp(),
-	new Defense(),
-	new Defense(),
-	new Defense(),
-	new Defense()
+	new Cards.Strike(),
+	new Cards.Strike(),
+	new Cards.Strike(),
+	new Cards.Strike(),
+	new Cards.StrengthUp(),
+	new Cards.PutWeak(),
+	new Cards.Defense(),
+	new Cards.Defense(),
+	new Cards.Defense(),
+	new Cards.Defense(),
 ]
 
 const getCards = () => cards

@@ -70,16 +70,14 @@
 import {reactive, ref, computed, onMounted, watchEffect} from 'vue'
 import { Dialog } from 'vant';
 import BattlerView from './BattlerView.vue'
-import Strike from "../core/cards/strike";
-import Defense from "../core/cards/defense";
 import AT from '../core/function/arrayTools'
 import Monster1 from "../core/ai/monster1";
 import {CARD_BASE_TYPE, INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
-import StrengthUp from "../core/cards/strengthUp";
 import StateIcon from "./item/StateIcon.vue";
 import G from "../core/game/index"
 import Wolf from "../core/ai/wolf";
+import {stateDamageFix} from "../core/algorithm";
 
 const cardClassNames = (card) => {
 	let result = [card.typeClassName]
@@ -147,12 +145,18 @@ const e = {}
 e.heroChangeHp = hero.changeHp.bind(hero)
 e.heroChangeDefense = hero.changeDefense.bind(hero)
 e.heroPushState = hero.pushState.bind(hero)
-e.strikeHero = hero.getStrike.bind(hero)
+e.strikeHero = (value) => {
+	const fixedValue = stateDamageFix(value, enemy.stateList)
+	hero.getStrike(fixedValue)
+}
 
 e.enemyChangeHp = enemy.changeHp.bind(enemy)
 e.enemyChangeDefense = enemy.changeDefense.bind(enemy)
 e.enemyPushState = enemy.pushState.bind(enemy)
-e.strikeEnemy = enemy.getStrike.bind(enemy)
+e.strikeEnemy = (value) => {
+	const fixedValue = stateDamageFix(value, hero.stateList)
+	enemy.getStrike(fixedValue)
+}
 
 e.getHeroState = () => [...hero.stateList.filter(s => s.active)]
 e.getEnemyState = () => [...enemy.stateList.filter(s => s.active)]
@@ -241,6 +245,8 @@ const endTheTurn = () => {
 	hero.filterState()
 	enemy.defense = 0
 	enemy.ai.action(e)
+	enemy.stateList.forEach(s => (s.active && s.onHostEndTurn && s.onHostEndTurn(e)))
+	enemy.filterState()
 	startNewTurn()
 }
 

@@ -46,7 +46,7 @@ BaseActor.prototype.pushState = function (State, param) {
 	console.log(this.name, 'before push state', State.name, param)
 	if (typeof State !== 'function') return
 
-	let exist = this.stateList.find(s => s instanceof State)
+	let exist = this.stateList.find(s => s.active && s instanceof State)
 	if (exist) {
 		exist.onSuperposition(param)
 	} else {

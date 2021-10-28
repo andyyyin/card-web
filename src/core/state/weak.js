@@ -8,7 +8,9 @@ export default class Weak extends BaseState{
 
 	level = 1
 
-	get damageFixMulti () { return 0.75 }
+	get damageFix () {
+		return {multi: 0.75}
+	}
 
 	constructor(level) {
 		super(level);
@@ -18,10 +20,6 @@ export default class Weak extends BaseState{
 	onHostEndTurn (execute) {
 		this.level -= 1
 		if (this.level <= 0) this.removeSelf(execute)
-	}
-
-	onSuperposition (level) {
-		this.level += (level || 1)
 	}
 
 }
