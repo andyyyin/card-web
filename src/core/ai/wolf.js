@@ -9,6 +9,8 @@ export default class Wolf extends BaseAI{
 
 	img = 'wolf'
 
+	mhp = 30
+
 	baseDamage = 12
 
 	actionList

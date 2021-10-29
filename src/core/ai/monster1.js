@@ -9,6 +9,8 @@ export default class Monster1 extends BaseAI{
 
 	img = 'monster1'
 
+	mhp = 60
+
 	baseDamage = 9
 	baseDefense = 7
 

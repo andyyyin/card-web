@@ -105,7 +105,7 @@ const enemy = reactive(new BaseActor({
 	intention: 0,
 	intentionValue: null,
 	stateList: [],
-	ai: new Wolf(),
+	ai: null,
 }))
 
 const hero = reactive(new BaseActor({
@@ -124,10 +124,10 @@ const battle = reactive({
 })
 
 const handCards = reactive([])
-const drawStack = reactive(([]))
-const dropStack = reactive(([...G.getCards()]))
-const consumedStack = reactive(([]))
-const usedStack = reactive(([]))
+const drawStack = reactive([])
+const dropStack = reactive([])
+const consumedStack = reactive([])
+const usedStack = reactive([])
 
 const activeCardId = ref(null)
 
@@ -250,8 +250,6 @@ const endTheTurn = () => {
 	startNewTurn()
 }
 
-startNewTurn()
-
 const onWin = () => {
 	console.log('hero win')
 	handCards.splice(0, handCards.length)
@@ -263,15 +261,23 @@ const onWin = () => {
 	})
 }
 
+const createEnemy = () => {
+	enemy.ai = new Wolf() // todo
+	enemy.hp = enemy.mhp = enemy.ai.mhp
+}
+
 const startBattle = () => {
+	createEnemy()
+	dropStack.push(...G.getCards())
 	hero.reset()
 	enemy.reset()
-	dropStack.push(...G.getCards())
 	console.log('new battle begin')
-	enemy.ai = new Monster1() // todo
+	// enemy.ai = new Monster1() // todo
 	battle.turnNum = 0
 	startNewTurn()
 }
+
+startBattle()
 
 onMounted(() => {
 	document.addEventListener('click', () => {

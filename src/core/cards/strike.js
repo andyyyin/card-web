@@ -14,7 +14,7 @@ export default class Strike extends BaseCard {
 	}
 
 	onLaunch(execute) {
-		execute.strikeEnemy(value)
+		execute.strikeEnemy(this.baseValue)
 	}
 
 }
