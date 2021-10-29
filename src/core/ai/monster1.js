@@ -11,17 +11,16 @@ export default class Monster1 extends BaseAI{
 
 	mhp = 60
 
-	baseDamage = 9
-	baseDefense = 7
+	baseDamage = 10
+	baseDefense = 8
 
 	actionList = [
 		{intention: INTENTION.ATTACK, action: this.commonAttack, value: this.baseDamage},
-		{intention: INTENTION.DEFENSE, action: this.commonDefense},
-		{intention: INTENTION.BUFF, action: this.stableUp},
+		{intention: INTENTION.DEFENSE, action: this.stableDefense},
 	]
 
-	stableUp (execute) {
-		console.log('ai action agility up 2')
+	stableDefense (execute) {
+		this.commonDefense(execute)
 		execute.enemyPushState(Agility, 2)
 	}
 

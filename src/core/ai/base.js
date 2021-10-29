@@ -35,10 +35,8 @@ export default class BaseAI {
 	}
 
 	commonDefense (execute) {
-		let stateList = execute.getEnemyState()
-		let value = stateDefenseFix(this.baseDefense, stateList)
-		console.log('ai act defense', value)
-		execute.enemyChangeDefense(value)
+		console.log('ai act defense', this.baseDefense)
+		execute.enemyChangeDefense(this.baseDefense)
 	}
 
 }

@@ -16,7 +16,7 @@
 			<state-icon v-for="state in filteredEnemyStateList" :icon="state.icon || ''" :level="state.level || 1"/>
 		</section>
 
-		<battler-view :img="enemy.ai.img"/>
+		<battler-view :img="enemy.ai && enemy.ai.img"/>
 
 
 		<section v-if="hero.stateList.length" class="special-state-section down row-align">
@@ -68,16 +68,16 @@
 
 <script setup>
 import {reactive, ref, computed, onMounted, watchEffect} from 'vue'
+import {useRouter} from 'vue-router';
 import { Dialog } from 'vant';
 import BattlerView from './BattlerView.vue'
 import AT from '../core/function/arrayTools'
-import Monster1 from "../core/ai/monster1";
 import {CARD_BASE_TYPE, INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
 import StateIcon from "./item/StateIcon.vue";
 import G from "../core/game/index"
-import Wolf from "../core/ai/wolf";
-import {stateDamageFix} from "../core/algorithm";
+import {stateDamageFix, stateDefenseFix} from "../core/algorithm";
+const router = useRouter();
 
 const cardClassNames = (card) => {
 	let result = [card.typeClassName]
@@ -143,16 +143,22 @@ watchEffect(() => {
 const e = {}
 
 e.heroChangeHp = hero.changeHp.bind(hero)
-e.heroChangeDefense = hero.changeDefense.bind(hero)
 e.heroPushState = hero.pushState.bind(hero)
+e.heroChangeDefense = (value) => {
+	const fixedValue = stateDefenseFix(value, hero.stateList)
+	hero.changeDefense(fixedValue)
+}
 e.strikeHero = (value) => {
 	const fixedValue = stateDamageFix(value, enemy.stateList)
 	hero.getStrike(fixedValue)
 }
 
 e.enemyChangeHp = enemy.changeHp.bind(enemy)
-e.enemyChangeDefense = enemy.changeDefense.bind(enemy)
 e.enemyPushState = enemy.pushState.bind(enemy)
+e.enemyChangeDefense = (value) => {
+	const fixedValue = stateDefenseFix(value, enemy.stateList)
+	enemy.changeDefense(fixedValue)
+}
 e.strikeEnemy = (value) => {
 	const fixedValue = stateDamageFix(value, hero.stateList)
 	enemy.getStrike(fixedValue)
@@ -262,19 +268,26 @@ const onWin = () => {
 }
 
 const createEnemy = () => {
-	enemy.ai = new Wolf() // todo
+	const NextEnemy = G.getNextEnemy()
+	if (!NextEnemy) return false
+	enemy.ai = new NextEnemy()
 	enemy.hp = enemy.mhp = enemy.ai.mhp
+	return true
 }
 
 const startBattle = () => {
-	createEnemy()
-	dropStack.push(...G.getCards())
-	hero.reset()
-	enemy.reset()
-	console.log('new battle begin')
-	// enemy.ai = new Monster1() // todo
-	battle.turnNum = 0
-	startNewTurn()
+	if (createEnemy()) {
+		dropStack.push(...G.getCards())
+		hero.reset()
+		enemy.reset()
+		console.log('new battle begin')
+		battle.turnNum = 0
+		startNewTurn()
+	} else {
+		Dialog.alert({message: 'CLEARANCE'}).then(() => {
+			window.location.reload()
+		})
+	}
 }
 
 startBattle()
