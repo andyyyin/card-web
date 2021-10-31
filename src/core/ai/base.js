@@ -28,8 +28,8 @@ export default class BaseAI {
 			AT.getRandomOneWeighted(this.actionList) :
 			this.actionList[0]
 		this.prepareAction = action.action
-		const {intention, value} = action
-		return {intention, value}
+		const {intention, name, value} = action
+		return {intention, name, value}
 	}
 
 	stay () {}

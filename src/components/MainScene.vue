@@ -3,7 +3,8 @@
 		<section class="state-section row-align">
 			<div class="intention-display-container">
 				<div class="intention-icon" :class="intentionClassName"/>
-				<div class="intention-value">{{enemy.intentionValue}}</div>
+				<div class="action-name" v-show="enemy.actionName">{{enemy.actionName}}</div>
+				<div class="action-value">{{enemy.actionValue}}</div>
 			</div>
 			<div class="progress-container grow">
 				<van-progress :percentage="enemy.hp * 100 / enemy.mhp" stroke-width="8" :pivot-text="enemy.hp + '/' + enemy.mhp" color="#ee0a24"/>
@@ -104,7 +105,8 @@ const enemy = reactive(new BaseActor({
 	mhp: 100,
 	defense: 0,
 	intention: 0,
-	intentionValue: null,
+	actionName: null,
+	actionValue: null,
 	stateList: [],
 	ai: null,
 }))
@@ -156,6 +158,9 @@ e.strikeHero = (value) => {
 	hero.stateList.map(state => state.onGetDamage())
 	hero.getStrike(fixedValue)
 }
+e.specialStrikeHero = (value) => {
+	hero.getStrike(value)
+}
 
 e.enemyChangeHp = enemy.changeHp.bind(enemy)
 e.enemyPushState = enemy.pushState.bind(enemy)
@@ -169,6 +174,9 @@ e.strikeEnemy = (value) => {
 	fixedValue = stateGetDamageFix(fixedValue, enemy.stateList)
 	enemy.stateList.map(state => state.onGetDamage())
 	enemy.getStrike(fixedValue)
+}
+e.specialStrikeEnemy = (value) => {
+	enemy.getStrike(value)
 }
 
 e.getHeroState = () => [...hero.stateList.filter(s => s.active)]
@@ -223,10 +231,24 @@ e.launchCard = (id) => {
 	}
 }
 
+e.addCardIntoDrop = (card, positionType) => addCardIntoStack(card, dropStack, positionType)
+e.addCardIntoDraw = (card, positionType) => addCardIntoStack(card, drawStack, positionType)
+e.addCardIntoHand = (card, positionType) => addCardIntoStack(card, handCards, positionType)
+
 e.isDisabled = (card) => {
 	return card.cost > battle.powerCur
 }
 e.getTurnNum = () => battle.turnNum
+
+const addCardIntoStack = (card, stack, positionType) => {
+	switch (positionType) {
+		case 1: stack.push(card); break
+		case -1: stack.unshift(card); break
+		default:
+			let index = Math.floor(Math.random() * stack.length)
+			stack.splice(index, 0, card)
+	}
+}
 
 const onClickCard = (id) => {
 	let card = handCards.find(c => c.id === id)
@@ -247,13 +269,15 @@ const startNewTurn = () => {
 	e.drawCard(5)
 	const actionParam = enemy.ai.prepare(e)
 	enemy.intention = actionParam.intention
-	enemy.intentionValue = actionParam.value
+	enemy.actionName = actionParam.name
+	enemy.actionValue = actionParam.value
 	enemy.ai.onStartNewTurn(e)
 }
 
 const endTheTurn = () => {
 	console.log('turn end')
 	// 玩家回合结束
+	handCards.map(c => c.onHandEndTurn(e))
 	let dropGroup = handCards.splice(0, handCards.length)
 	dropStack.push(...dropGroup)
 	hero.stateList.forEach(s => (s.active && s.onHostEndTurn(e)))
@@ -286,14 +310,16 @@ const createEnemy = () => {
 	if (!NextEnemy) return false
 	enemy.ai = new NextEnemy()
 	enemy.hp = enemy.mhp = enemy.ai.mhp
+	enemy.reset()
 	return true
 }
 
 const startBattle = () => {
 	if (createEnemy()) {
 		dropStack.push(...G.getCards())
-		hero.reset()
-		enemy.reset()
+		// 主角初始化
+		hero.defense = 0
+		hero.stateList.splice(0, hero.stateList.length)
 		console.log('new battle begin')
 		battle.turnNum = 0
 		enemy.ai.onDebut(e)

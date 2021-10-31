@@ -2,6 +2,7 @@ export const CARD_BASE_TYPE = {
 	ATTACK: 1,
 	SKILL: 2,
 	ABILITY: 3,
+	STATE: 4,
 }
 
 export const INTENTION = {

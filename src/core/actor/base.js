@@ -57,7 +57,7 @@ BaseActor.prototype.pushState = function (State, param) {
 	console.log(this.stateList);
 }
 
-BaseActor.prototype.reset = function (State, param) {
+BaseActor.prototype.reset = function () {
 	this.hp = this.mhp
 	this.defense = 0
 	this.stateList.splice(0, this.stateList.length)

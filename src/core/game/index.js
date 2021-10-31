@@ -16,6 +16,7 @@ const cards = [
 ]
 
 const aiQueue = [
+	AIMap.Mage,
 	AIMap.Ninja,
 	AIMap.Wolf,
 	AIMap.Monster1,

@@ -21,11 +21,13 @@ export default class BaseCard {
 			case CARD_BASE_TYPE.SKILL: return 'type-skill'
 			case CARD_BASE_TYPE.ATTACK: return 'type-attack'
 			case CARD_BASE_TYPE.ABILITY: return 'type-ability'
+			case CARD_BASE_TYPE.STATE: return 'type-state'
 		}
 		return '#999999'
 	}
 
 	onDraw () {}
+	onHandEndTurn () {}
 
 	onLaunch (execute) {}
 }
