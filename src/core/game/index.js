@@ -8,7 +8,7 @@ const cards = [
 	new Cards.Strike(),
 	new Cards.TripleStrike(),
 	new Cards.StrengthUp(),
-	new Cards.PutWeak(),
+	new Cards.HeavyStrike(),
 	new Cards.Defense(),
 	new Cards.Defense(),
 	new Cards.Defense(),

@@ -4,6 +4,7 @@ import {stateDamageFix} from "../algorithm";
 let _idCache = 1000
 
 export default class BaseCard {
+
 	cost = 1;
 	name
 	baseValue;
@@ -24,11 +25,7 @@ export default class BaseCard {
 		return '#999999'
 	}
 
-	onDraw () {
+	onDraw () {}
 
-	}
-
-	onLaunch (execute) {
-
-	}
+	onLaunch (execute) {}
 }
