@@ -6,6 +6,7 @@ const cards = [
 	new Cards.Strike(),
 	new Cards.Strike(),
 	new Cards.Strike(),
+	new Cards.TripleStrike(),
 	new Cards.StrengthUp(),
 	new Cards.PutWeak(),
 	new Cards.Defense(),
@@ -15,9 +16,9 @@ const cards = [
 ]
 
 const aiQueue = [
+	AIMap.Ninja,
 	AIMap.Wolf,
 	AIMap.Monster1,
-	AIMap.Ninja,
 ]
 
 const getCards = () => cards
