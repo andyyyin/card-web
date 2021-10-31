@@ -17,6 +17,7 @@ const cards = [
 const aiQueue = [
 	AIMap.Wolf,
 	AIMap.Monster1,
+	AIMap.Ninja,
 ]
 
 const getCards = () => cards

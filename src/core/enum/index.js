@@ -9,4 +9,5 @@ export const INTENTION = {
 	DEFENSE: 2,
 	BUFF: 3,
 	DEBUFF: 4,
+	STAY: 5,
 }

@@ -19,6 +19,10 @@ export default class BaseAI {
 		this.prepareAction(execute)
 	}
 
+	onDebut () {}
+
+	onStartNewTurn () {}
+
 	prepare () {
 		const action = this.actionList.length > 1 ?
 			AT.getRandomOneWeighted(this.actionList) :
@@ -27,6 +31,8 @@ export default class BaseAI {
 		const {intention, value} = action
 		return {intention, value}
 	}
+
+	stay () {}
 
 	commonAttack (execute) {
 		let value = this.baseDamage

@@ -16,6 +16,10 @@ export const stateDamageFix = (value, stateList) => {
 	return stateAttrFixProcess(value, stateList, 'damageFix')
 }
 
+export const stateGetDamageFix = (value, stateList) => {
+	return stateAttrFixProcess(value, stateList, 'getDamageFix')
+}
+
 export const stateDefenseFix = (value, stateList) => {
 	return stateAttrFixProcess(value, stateList, 'defenseFix')
 }

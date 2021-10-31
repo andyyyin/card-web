@@ -13,14 +13,14 @@
 			</div>
 		</section>
 		<section class="special-state-section up row-align">
-			<state-icon v-for="state in filteredEnemyStateList" :icon="state.icon || ''" :level="state.level || 1"/>
+			<state-icon v-for="state in filteredEnemyStateList" :icon="state.icon || ''" :level="state.level || ''"/>
 		</section>
 
 		<battler-view :img="enemy.ai && enemy.ai.img"/>
 
 
 		<section v-if="hero.stateList.length" class="special-state-section down row-align">
-			<state-icon v-for="state in filteredHeroStateList" :icon="state.icon || ''" :level="state.level || 1"/>
+			<state-icon v-for="state in filteredHeroStateList" :icon="state.icon || ''" :level="state.level || ''"/>
 		</section>
 		<section class="state-section row-align">
 			<div class="power-display-container">
@@ -76,7 +76,7 @@ import {CARD_BASE_TYPE, INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
 import StateIcon from "./item/StateIcon.vue";
 import G from "../core/game/index"
-import {stateDamageFix, stateDefenseFix} from "../core/algorithm";
+import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../core/algorithm";
 const router = useRouter();
 
 const cardClassNames = (card) => {
@@ -92,6 +92,7 @@ const intentionClassName = computed(() => {
 		case INTENTION.DEFENSE: return 'defense'
 		case INTENTION.BUFF: return 'buff'
 		case INTENTION.DEBUFF: return 'debuff'
+		case INTENTION.STAY: return 'stay'
 	}
 })
 const filteredEnemyStateList = computed(() => enemy.stateList.filter(s => s.active))
@@ -149,7 +150,10 @@ e.heroChangeDefense = (value) => {
 	hero.changeDefense(fixedValue)
 }
 e.strikeHero = (value) => {
-	const fixedValue = stateDamageFix(value, enemy.stateList)
+	let fixedValue = value
+	fixedValue = stateDamageFix(fixedValue, enemy.stateList)
+	fixedValue = stateGetDamageFix(fixedValue, hero.stateList)
+	hero.stateList.map(state => state.onGetDamage())
 	hero.getStrike(fixedValue)
 }
 
@@ -160,7 +164,10 @@ e.enemyChangeDefense = (value) => {
 	enemy.changeDefense(fixedValue)
 }
 e.strikeEnemy = (value) => {
-	const fixedValue = stateDamageFix(value, hero.stateList)
+	let fixedValue = value
+	fixedValue = stateDamageFix(fixedValue, hero.stateList)
+	fixedValue = stateGetDamageFix(fixedValue, enemy.stateList)
+	enemy.stateList.map(state => state.onGetDamage())
 	enemy.getStrike(fixedValue)
 }
 
@@ -241,18 +248,25 @@ const startNewTurn = () => {
 	const actionParam = enemy.ai.prepare(e)
 	enemy.intention = actionParam.intention
 	enemy.intentionValue = actionParam.value
+	enemy.ai.onStartNewTurn(e)
 }
 
 const endTheTurn = () => {
 	console.log('turn end')
+	// 玩家回合结束
 	let dropGroup = handCards.splice(0, handCards.length)
 	dropStack.push(...dropGroup)
-	hero.stateList.forEach(s => (s.active && s.onHostEndTurn && s.onHostEndTurn(e)))
+	hero.stateList.forEach(s => (s.active && s.onHostEndTurn(e)))
+	enemy.stateList.forEach(s => (s.active && s.onOpponentEndTurn(e)))
 	hero.filterState()
+	// ai行动
 	enemy.defense = 0
 	enemy.ai.action(e)
-	enemy.stateList.forEach(s => (s.active && s.onHostEndTurn && s.onHostEndTurn(e)))
+	// ai回合结束
+	enemy.stateList.forEach(s => (s.active && s.onHostEndTurn(e)))
+	hero.stateList.forEach(s => (s.active && s.onOpponentEndTurn(e)))
 	enemy.filterState()
+
 	startNewTurn()
 }
 
@@ -282,6 +296,7 @@ const startBattle = () => {
 		enemy.reset()
 		console.log('new battle begin')
 		battle.turnNum = 0
+		enemy.ai.onDebut(e)
 		startNewTurn()
 	} else {
 		Dialog.alert({message: 'CLEARANCE'}).then(() => {

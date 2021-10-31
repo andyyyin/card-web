@@ -12,6 +12,12 @@ export default class BaseState {
 		this.active = 0
 	}
 
+	onGetDamage () {}
+
+	onHostEndTurn () {}
+
+	onOpponentEndTurn () {}
+
 	onSuperposition (param) {
 		if ((!param || typeof param === 'number') && this.level) {
 			this.level += (param || 1)
