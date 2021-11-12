@@ -38,23 +38,28 @@
 		</section>
 
 		<section class="card-section">
-			<div class="card-group-container">
-				<div v-for="card in handCards" class="card-container" :key="card.id">
-					<div class="card-display" @click.stop="onClickCard(card.id)" :class="cardClassNames(card)">
-						<div>{{card.name}}</div>
-						<div v-show="card.baseValue">({{card.baseValue}})</div>
-						<div class="card-cost">{{card.cost}}</div>
-					</div>
-				</div>
+			<div class="hand-cards-panel" :ref="el => { if (el) refs.cardsPanel = el }">
+				<transition-group :css="false" @before-enter="cardBeforeEnter" @leave="cardOnLeave" @enter="cardOnEnter" name="card-flip-list">
+					<card
+						v-for="(card, index) in handCards"
+						:key="card.id"
+						:card="card"
+						:prepare-card-id="prepareCardId"
+						:power-cur="battle.powerCur"
+						:card-launch="e.launchCard"
+						:card-prepare="cardPrepare"
+						:index="index"
+					/>
+				</transition-group>
 			</div>
 		</section>
 
 		<section class="card-stack-section">
-			<div class="card-stack">
+			<div class="card-stack" :ref="el => { if (el) refs.drawStack = el }">
 				<span class="title">抽牌堆</span>
 				<span class="value">{{ drawStack.length }}</span>
 			</div>
-			<div class="card-stack">
+			<div class="card-stack" :ref="el => { if (el) refs.dropStack = el }">
 				<span class="title">弃牌堆</span>
 				<span class="value">{{ dropStack.length }}</span>
 			</div>
@@ -72,19 +77,30 @@ import {reactive, ref, computed, onMounted, watchEffect} from 'vue'
 import {useRouter} from 'vue-router';
 import { Dialog } from 'vant';
 import BattlerView from './BattlerView.vue'
+import Card from './item/Card.vue'
 import AT from '../core/function/arrayTools'
 import {CARD_BASE_TYPE, INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
 import StateIcon from "./item/StateIcon.vue";
 import G from "../core/game/index"
 import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../core/algorithm";
+import anime from "../anime";
 const router = useRouter();
 
-const cardClassNames = (card) => {
-	let result = [card.typeClassName]
-	if (card.id === activeCardId.value) result.push('active')
-	if (e.isDisabled(card)) result.push('disabled')
-	return result.join(' ')
+const refs = {
+	dropStack: null,
+	drawStack: null,
+	cardsPanel: null
+}
+
+const cardOnLeave = (el, done) => {
+	anime.moveToTarget(el, refs.dropStack).then(done)
+}
+const cardBeforeEnter = (element) => {
+	anime.cardsPositionToTarget(element, refs.drawStack)
+}
+const cardOnEnter = (el, done) => {
+	anime.moveBack(el).then(done)
 }
 
 const intentionClassName = computed(() => {
@@ -132,7 +148,7 @@ const dropStack = reactive([])
 const consumedStack = reactive([])
 const usedStack = reactive([])
 
-const activeCardId = ref(null)
+const prepareCardId = ref(null)
 
 watchEffect(() => {
 	if (hero.hp <= 0) {
@@ -190,11 +206,13 @@ e.dropCard = (id) => {
 	let index, card
 	if (((index = handCards.findIndex(c => c.id === id)) > -1)) {
 		[card] = handCards.splice(index, 1);
+		console.log('drop card', card.id, card.name)
+		dropStack.push(card)
 	} else if (((index = drawStack.findIndex(c => c.id === id)) > -1)) {
 		[card] = drawStack.splice(index, 1);
+		if (card) dropStack.push(card)
 	}
-	console.log('drop card', card.id, card.name)
-	if (card) dropStack.push(card)
+
 }
 e.drawCard = (count) => {
 	if (drawStack.length > 0) {
@@ -202,7 +220,9 @@ e.drawCard = (count) => {
 		handCards.push(card)
 		console.log('draw card', card.id, card.name)
 		if (count > 1) {
-			e.drawCard(count - 1)
+			setTimeout(() => {
+				e.drawCard(count - 1)
+			}, 100)
 		}
 	} else if (dropStack.length > 0) {
 		let cardSGroup = dropStack.splice(0, dropStack.length)
@@ -212,12 +232,13 @@ e.drawCard = (count) => {
 	}
 }
 e.launchCard = (id) => {
+	if (prepareCardId.value === id) prepareCardId.value = null
 	let index, card
 	if (((index = handCards.findIndex(c => c.id === id)) > -1)) {
 		card = handCards[index]
 	}
 	if (!card) return
-	console.log('launch card', activeCardId.value, card.name)
+	console.log('launch card', id, card.name)
 	card.onLaunch(e)
 	e.cost(card.cost)
 	if (card.type === CARD_BASE_TYPE.ABILITY) {
@@ -250,16 +271,7 @@ const addCardIntoStack = (card, stack, positionType) => {
 	}
 }
 
-const onClickCard = (id) => {
-	let card = handCards.find(c => c.id === id)
-	if (!card || e.isDisabled(card)) return
-	if (id !== null && activeCardId.value === id) {
-		e.launchCard(id)
-		activeCardId.value = null
-	} else {
-		activeCardId.value = id
-	}
-}
+const cardPrepare = id => prepareCardId.value = id
 
 const startNewTurn = () => {
 	battle.turnNum++
@@ -335,7 +347,7 @@ startBattle()
 
 onMounted(() => {
 	document.addEventListener('click', () => {
-		activeCardId.value = null
+		prepareCardId.value = null
 	})
 })
 </script>
