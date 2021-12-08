@@ -55,6 +55,26 @@ export const cardsPositionToTarget = (element, target) => {
 	// element.style.opacity = 0
 }
 
+export const recoverToHeight = (el, height) => {
+	return anime({
+		targets: el,
+		opacity: 1,
+		height,
+		duration: 400,
+		easing: 'easeInQuint',
+	}).finished
+}
+
+export const flatten = (el) => {
+	return anime({
+		targets: el,
+		opacity: 0,
+		height: 0,
+		duration: 400,
+		easing: 'easeInQuint',
+	}).finished
+}
+
 export const moveBack = (element) => {
 	return anime({
 		targets: element,
@@ -71,4 +91,6 @@ export default {
 	moveToTarget,
 	cardsPositionToTarget,
 	moveBack,
+	recoverToHeight,
+	flatten,
 }

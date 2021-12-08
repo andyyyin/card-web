@@ -1,6 +1,7 @@
 import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../algorithm";
 import AT from "../function/arrayTools";
 import {CARD_BASE_TYPE} from "../enum";
+import logFn from "./log"
 
 export default (state) => {
 
@@ -114,7 +115,10 @@ export default (state) => {
 		}
 	}
 
-	return fn
+	return {
+		...fn,
+		...logFn(state),
+	}
 }
 
 

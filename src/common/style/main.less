@@ -2,6 +2,23 @@
 
 .battle-view{
 	background-color: #ccc;
+	position: relative;
+
+	.log-show-panel{
+		position: absolute;
+		left: 0;
+		top: 30px;
+		//transform: translateY(-50%);
+		background: rgba(0, 0, 0, .2);
+		padding: 2px;
+		color: hotpink;
+		font-size: 12px;
+		.log-text-row{
+			text-align: left;
+			height: 14px;
+			line-height: 14px;
+		}
+	}
 }
 
 .hand-cards-panel{
@@ -28,14 +45,14 @@
 }
 
 .special-state-section{
-	position: relative;
+	position: absolute;
 	width: 100%;
 	height: 24px;
 	&.up{
-		margin-bottom: -24px;
+		top: 0;
 	}
 	&.down{
-		margin-top: -24px;
+		bottom: 0;
 	}
 }
 

@@ -13,16 +13,14 @@
 				{{state.enemy.defense || ''}}
 			</div>
 		</section>
-		<section class="special-state-section up row-align">
-			<state-icon v-for="state in filteredEnemyStateList" :icon="state.icon || ''" :level="state.level || ''"/>
-		</section>
 
-		<battler-view :img="state.enemy.ai && state.enemy.ai.img"/>
+		<battler-view
+			:stateShowUpList="filteredEnemyStateList"
+			:stateShowDownList="filteredHeroStateList"
+			:img="state.enemy.ai && state.enemy.ai.img"
+			:logs="state.logs"
+		/>
 
-
-		<section v-if="state.hero.stateList.length" class="special-state-section down row-align">
-			<state-icon v-for="state in filteredHeroStateList" :icon="state.icon || ''" :level="state.level || ''"/>
-		</section>
 		<section class="state-section row-align">
 			<div class="power-display-container">
 				<span>{{state.powerCur}}</span>
@@ -81,11 +79,10 @@ import Card from './item/Card.vue'
 import AT from '../core/function/arrayTools'
 import {CARD_BASE_TYPE, INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
-import StateIcon from "./item/StateIcon.vue";
 import G from "../core/game/index"
 import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../core/algorithm";
 import anime from "../anime";
-import battleFunctionsInit from "../core/game/battle"
+import battleFunctionsInit from "../core/battle"
 
 const refs = {
 	dropStack: null,
@@ -143,9 +140,10 @@ const state = reactive({
 	consumedStack: [],
 	usedStack: [],
 	prepareCardId: null,
+	logs: [],
 })
-const filteredEnemyStateList = computed(() => state.enemy.stateList.filter(s => state.active))
-const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => state.active))
+const filteredEnemyStateList = computed(() => state.enemy.stateList.filter(s => s.active))
+const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => s.active))
 
 watchEffect(() => {
 	if (state.hero.hp <= 0) {
