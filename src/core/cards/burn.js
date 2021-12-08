@@ -15,7 +15,7 @@ export default class Burn extends BaseCard {
 		super();
 	}
 
-	onHandEndTurn (execute) {
-		execute.specialStrikeHero(this.baseValue)
+	onHandEndTurn (fn) {
+		fn.specialStrikeHero(this.baseValue)
 	}
 }

@@ -24,9 +24,9 @@ export default class Mage extends BaseAI{
 		return super.prepare();
 	}
 
-	fireAttack (execute) {
-		execute.strikeHero(this.baseDamage)
-		execute.addCardIntoDraw(new Cards.Burn())
+	fireAttack (fn) {
+		fn.strikeHero(this.baseDamage)
+		fn.addCardIntoDraw(new Cards.Burn())
 	}
 
 }

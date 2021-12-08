@@ -14,8 +14,8 @@ export default class StrengthUp extends BaseCard {
 		super();
 	}
 
-	onLaunch(execute) {
-		execute.heroPushState(Strength, this.baseValue)
+	onLaunch(fn) {
+		fn.heroPushState(Strength, this.baseValue)
 	}
 
 }

@@ -17,9 +17,9 @@ export default class Weak extends BaseState{
 		this.level = level || 1
 	}
 
-	onHostEndTurn (execute) {
+	onHostEndTurn (fn) {
 		this.level -= 1
-		if (this.level <= 0) this.removeSelf(execute)
+		if (this.level <= 0) this.removeSelf(fn)
 	}
 
 }

@@ -13,8 +13,8 @@ export default class Defense extends BaseCard {
 		super();
 	}
 
-	onLaunch(execute) {
-		execute.heroChangeDefense(this.baseValue)
+	onLaunch(fn) {
+		fn.heroChangeDefense(this.baseValue)
 	}
 
 }

@@ -29,13 +29,13 @@ export default class Ninja extends BaseAI{
 		return super.prepare();
 	}
 
-	onStartNewTurn (execute) {
-		execute.enemyPushState(Ninjutsu, 3)
+	onStartNewTurn (fn) {
+		fn.enemyPushState(Ninjutsu, 3)
 	}
 
-	multiAttack (execute) {
-		execute.strikeHero(this.baseDamage)
-		execute.strikeHero(this.baseDamage)
+	multiAttack (fn) {
+		fn.strikeHero(this.baseDamage)
+		fn.strikeHero(this.baseDamage)
 	}
 
 }

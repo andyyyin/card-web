@@ -13,10 +13,10 @@ export default class TripleStrike extends BaseCard {
 		super();
 	}
 
-	onLaunch(execute) {
-		execute.strikeEnemy(this.baseValue)
-		execute.strikeEnemy(this.baseValue)
-		execute.strikeEnemy(this.baseValue)
+	onLaunch(fn) {
+		fn.strikeEnemy(this.baseValue)
+		fn.strikeEnemy(this.baseValue)
+		fn.strikeEnemy(this.baseValue)
 	}
 
 }

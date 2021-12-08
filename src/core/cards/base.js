@@ -29,5 +29,5 @@ export default class BaseCard {
 	onDraw () {}
 	onHandEndTurn () {}
 
-	onLaunch (execute) {}
+	onLaunch (fn) {}
 }

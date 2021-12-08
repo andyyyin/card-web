@@ -14,9 +14,9 @@ export default class BaseAI {
 
 	actionList
 
-	action (execute) {
+	action (fn) {
 		console.log('run ai')
-		this.prepareAction(execute)
+		this.prepareAction(fn)
 	}
 
 	onDebut () {}
@@ -34,15 +34,15 @@ export default class BaseAI {
 
 	stay () {}
 
-	commonAttack (execute) {
+	commonAttack (fn) {
 		let value = this.baseDamage
 		console.log('ai act attack', value)
-		execute.strikeHero(value)
+		fn.strikeHero(value)
 	}
 
-	commonDefense (execute) {
+	commonDefense (fn) {
 		console.log('ai act defense', this.baseDefense)
-		execute.enemyChangeDefense(this.baseDefense)
+		fn.enemyChangeDefense(this.baseDefense)
 	}
 
 }

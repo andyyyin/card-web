@@ -13,8 +13,8 @@ export default class Strike extends BaseCard {
 		super();
 	}
 
-	onLaunch(execute) {
-		execute.strikeEnemy(this.baseValue)
+	onLaunch(fn) {
+		fn.strikeEnemy(this.baseValue)
 	}
 
 }

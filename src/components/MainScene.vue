@@ -3,37 +3,37 @@
 		<section class="state-section row-align">
 			<div class="intention-display-container">
 				<div class="intention-icon" :class="intentionClassName"/>
-				<div class="action-name" v-show="enemy.actionName">{{enemy.actionName}}</div>
-				<div class="action-value">{{enemy.actionValue}}</div>
+				<div class="action-name" v-show="state.enemy.actionName">{{state.enemy.actionName}}</div>
+				<div class="action-value">{{state.enemy.actionValue}}</div>
 			</div>
 			<div class="progress-container grow">
-				<van-progress :percentage="enemy.hp * 100 / enemy.mhp" stroke-width="8" :pivot-text="enemy.hp + '/' + enemy.mhp" color="#ee0a24"/>
+				<van-progress :percentage="state.enemy.hp * 100 / state.enemy.mhp" stroke-width="8" :pivot-text="state.enemy.hp + '/' + state.enemy.mhp" color="#ee0a24"/>
 			</div>
-			<div class="defense-display-container" :class="{active: enemy.defense}">
-				{{enemy.defense || ''}}
+			<div class="defense-display-container" :class="{active: state.enemy.defense}">
+				{{state.enemy.defense || ''}}
 			</div>
 		</section>
 		<section class="special-state-section up row-align">
 			<state-icon v-for="state in filteredEnemyStateList" :icon="state.icon || ''" :level="state.level || ''"/>
 		</section>
 
-		<battler-view :img="enemy.ai && enemy.ai.img"/>
+		<battler-view :img="state.enemy.ai && state.enemy.ai.img"/>
 
 
-		<section v-if="hero.stateList.length" class="special-state-section down row-align">
+		<section v-if="state.hero.stateList.length" class="special-state-section down row-align">
 			<state-icon v-for="state in filteredHeroStateList" :icon="state.icon || ''" :level="state.level || ''"/>
 		</section>
 		<section class="state-section row-align">
 			<div class="power-display-container">
-				<span>{{battle.powerCur}}</span>
+				<span>{{state.powerCur}}</span>
 				<span>/</span>
-				<span>{{battle.powerBase}}</span>
+				<span>{{state.powerBase}}</span>
 			</div>
 			<div class="progress-container grow">
-				<van-progress :percentage="hero.hp * 100 / hero.mhp" stroke-width="8" :pivot-text="hero.hp + '/' + hero.mhp"/>
+				<van-progress :percentage="state.hero.hp * 100 / state.hero.mhp" stroke-width="8" :pivot-text="state.hero.hp + '/' + state.hero.mhp"/>
 			</div>
-			<div class="defense-display-container" :class="{active: hero.defense}">
-				{{hero.defense || ''}}
+			<div class="defense-display-container" :class="{active: state.hero.defense}">
+				{{state.hero.defense || ''}}
 			</div>
 		</section>
 
@@ -41,12 +41,12 @@
 			<div class="hand-cards-panel" :ref="el => { if (el) refs.cardsPanel = el }">
 				<transition-group :css="false" @before-enter="cardBeforeEnter" @leave="cardOnLeave" @enter="cardOnEnter" name="card-flip-list">
 					<card
-						v-for="(card, index) in handCards"
+						v-for="(card, index) in state.handCards"
 						:key="card.id"
 						:card="card"
-						:prepare-card-id="prepareCardId"
-						:power-cur="battle.powerCur"
-						:card-launch="e.launchCard"
+						:prepare-card-id="state.prepareCardId"
+						:power-cur="state.powerCur"
+						:card-launch="fn.launchCard"
 						:card-prepare="cardPrepare"
 						:index="index"
 					/>
@@ -57,11 +57,11 @@
 		<section class="card-stack-section">
 			<div class="card-stack" :ref="el => { if (el) refs.drawStack = el }">
 				<span class="title">抽牌堆</span>
-				<span class="value">{{ drawStack.length }}</span>
+				<span class="value">{{ state.drawStack.length }}</span>
 			</div>
 			<div class="card-stack" :ref="el => { if (el) refs.dropStack = el }">
 				<span class="title">弃牌堆</span>
-				<span class="value">{{ dropStack.length }}</span>
+				<span class="value">{{ state.dropStack.length }}</span>
 			</div>
 		</section>
 
@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import {reactive, ref, computed, onMounted, watchEffect} from 'vue'
+import {reactive, ref, computed, onMounted, watchEffect, toRefs} from 'vue'
 import {useRouter} from 'vue-router';
 import { Dialog } from 'vant';
 import BattlerView from './BattlerView.vue'
@@ -85,7 +85,7 @@ import StateIcon from "./item/StateIcon.vue";
 import G from "../core/game/index"
 import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../core/algorithm";
 import anime from "../anime";
-const router = useRouter();
+import battleFunctionsInit from "../core/game/battle"
 
 const refs = {
 	dropStack: null,
@@ -104,7 +104,7 @@ const cardOnEnter = (el, done) => {
 }
 
 const intentionClassName = computed(() => {
-	switch (enemy.intention) {
+	switch (state.enemy.intention) {
 		case INTENTION.ATTACK: return 'attack'
 		case INTENTION.DEFENSE: return 'defense'
 		case INTENTION.BUFF: return 'buff'
@@ -112,205 +112,92 @@ const intentionClassName = computed(() => {
 		case INTENTION.STAY: return 'stay'
 	}
 })
-const filteredEnemyStateList = computed(() => enemy.stateList.filter(s => s.active))
-const filteredHeroStateList = computed(() => hero.stateList.filter(s => s.active))
 
-const enemy = reactive(new BaseActor({
-	name: 'enemy',
-	hp: 100,
-	mhp: 100,
-	defense: 0,
-	intention: 0,
-	actionName: null,
-	actionValue: null,
-	stateList: [],
-	ai: null,
-}))
-
-const hero = reactive(new BaseActor({
-	name: 'hero',
-	hp: 100,
-	mhp: 100,
-	defense: 0,
-	stateList: [],
-}))
-
-const battle = reactive({
+const state = reactive({
 	isGameOver: false,
 	powerBase: 3,
 	powerCur: 3,
 	turnNum: 0,
+	messageList: [],
+	hero: Object.assign(new BaseActor(), {
+		name: 'hero',
+		hp: 100,
+		mhp: 100,
+		defense: 0,
+		stateList: [],
+	}),
+	enemy: Object.assign(new BaseActor(), {
+		name: 'enemy',
+		hp: 100,
+		mhp: 100,
+		defense: 0,
+		intention: 0,
+		actionName: null,
+		actionValue: null,
+		stateList: [],
+		ai: null,
+	}),
+	handCards: [],
+	drawStack: [],
+	dropStack: [],
+	consumedStack: [],
+	usedStack: [],
+	prepareCardId: null,
 })
-
-const handCards = reactive([])
-const drawStack = reactive([])
-const dropStack = reactive([])
-const consumedStack = reactive([])
-const usedStack = reactive([])
-
-const prepareCardId = ref(null)
+const filteredEnemyStateList = computed(() => state.enemy.stateList.filter(s => state.active))
+const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => state.active))
 
 watchEffect(() => {
-	if (hero.hp <= 0) {
-		battle.isGameOver = true
+	if (state.hero.hp <= 0) {
+		state.isGameOver = true
 		Dialog.alert({message: 'GAME OVER'}).then(() => {})
-	} else if (enemy.hp <= 0) {
+	} else if (state.enemy.hp <= 0) {
 		onWin()
 	}
 })
 
-const e = {}
+const fn = battleFunctionsInit(state)
 
-e.heroChangeHp = hero.changeHp.bind(hero)
-e.heroPushState = hero.pushState.bind(hero)
-e.heroChangeDefense = (value) => {
-	const fixedValue = stateDefenseFix(value, hero.stateList)
-	hero.changeDefense(fixedValue)
-}
-e.strikeHero = (value) => {
-	let fixedValue = value
-	fixedValue = stateDamageFix(fixedValue, enemy.stateList)
-	fixedValue = stateGetDamageFix(fixedValue, hero.stateList)
-	hero.stateList.map(state => state.onGetDamage())
-	hero.getStrike(fixedValue)
-}
-e.specialStrikeHero = (value) => {
-	hero.getStrike(value)
-}
-
-e.enemyChangeHp = enemy.changeHp.bind(enemy)
-e.enemyPushState = enemy.pushState.bind(enemy)
-e.enemyChangeDefense = (value) => {
-	const fixedValue = stateDefenseFix(value, enemy.stateList)
-	enemy.changeDefense(fixedValue)
-}
-e.strikeEnemy = (value) => {
-	let fixedValue = value
-	fixedValue = stateDamageFix(fixedValue, hero.stateList)
-	fixedValue = stateGetDamageFix(fixedValue, enemy.stateList)
-	enemy.stateList.map(state => state.onGetDamage())
-	enemy.getStrike(fixedValue)
-}
-e.specialStrikeEnemy = (value) => {
-	enemy.getStrike(value)
-}
-
-e.getHeroState = () => [...hero.stateList.filter(s => s.active)]
-e.getEnemyState = () => [...enemy.stateList.filter(s => s.active)]
-
-e.cost = (num) => {
-	battle.powerCur -= num
-	console.log('power change -' + num)
-}
-e.dropCard = (id) => {
-	let index, card
-	if (((index = handCards.findIndex(c => c.id === id)) > -1)) {
-		[card] = handCards.splice(index, 1);
-		console.log('drop card', card.id, card.name)
-		dropStack.push(card)
-	} else if (((index = drawStack.findIndex(c => c.id === id)) > -1)) {
-		[card] = drawStack.splice(index, 1);
-		if (card) dropStack.push(card)
-	}
-
-}
-e.drawCard = (count) => {
-	if (drawStack.length > 0) {
-		let card = drawStack.shift()
-		handCards.push(card)
-		console.log('draw card', card.id, card.name)
-		if (count > 1) {
-			setTimeout(() => {
-				e.drawCard(count - 1)
-			}, 100)
-		}
-	} else if (dropStack.length > 0) {
-		let cardSGroup = dropStack.splice(0, dropStack.length)
-		drawStack.push(...AT.shuffleArray(cardSGroup))
-		console.log('shuffle')
-		e.drawCard(count)
-	}
-}
-e.launchCard = (id) => {
-	if (prepareCardId.value === id) prepareCardId.value = null
-	let index, card
-	if (((index = handCards.findIndex(c => c.id === id)) > -1)) {
-		card = handCards[index]
-	}
-	if (!card) return
-	console.log('launch card', id, card.name)
-	card.onLaunch(e)
-	e.cost(card.cost)
-	if (card.type === CARD_BASE_TYPE.ABILITY) {
-		handCards.splice(index, 1)
-		usedStack.push(card)
-	} else if (card.consume) {
-		handCards.splice(index, 1)
-		consumedStack.push(card)
-	} else {
-		e.dropCard(card.id)
-	}
-}
-
-e.addCardIntoDrop = (card, positionType) => addCardIntoStack(card, dropStack, positionType)
-e.addCardIntoDraw = (card, positionType) => addCardIntoStack(card, drawStack, positionType)
-e.addCardIntoHand = (card, positionType) => addCardIntoStack(card, handCards, positionType)
-
-e.isDisabled = (card) => {
-	return card.cost > battle.powerCur
-}
-e.getTurnNum = () => battle.turnNum
-
-const addCardIntoStack = (card, stack, positionType) => {
-	switch (positionType) {
-		case 1: stack.push(card); break
-		case -1: stack.unshift(card); break
-		default:
-			let index = Math.floor(Math.random() * stack.length)
-			stack.splice(index, 0, card)
-	}
-}
-
-const cardPrepare = id => prepareCardId.value = id
+const cardPrepare = id => state.prepareCardId = id
 
 const startNewTurn = () => {
-	battle.turnNum++
+	state.turnNum++
 	console.log('turn start')
-	hero.defense = 0
-	battle.powerCur = battle.powerBase
-	e.drawCard(5)
-	const actionParam = enemy.ai.prepare(e)
-	enemy.intention = actionParam.intention
-	enemy.actionName = actionParam.name
-	enemy.actionValue = actionParam.value
-	enemy.ai.onStartNewTurn(e)
+	state.hero.defense = 0
+	state.powerCur = state.powerBase
+	fn.drawCard(5)
+	const actionParam = state.enemy.ai.prepare(fn)
+	state.enemy.intention = actionParam.intention
+	state.enemy.actionName = actionParam.name
+	state.enemy.actionValue = actionParam.value
+	state.enemy.ai.onStartNewTurn(fn)
 }
 
 const endTheTurn = () => {
 	console.log('turn end')
 	// 玩家回合结束
-	handCards.map(c => c.onHandEndTurn(e))
-	let dropGroup = handCards.splice(0, handCards.length)
-	dropStack.push(...dropGroup)
-	hero.stateList.forEach(s => (s.active && s.onHostEndTurn(e)))
-	enemy.stateList.forEach(s => (s.active && s.onOpponentEndTurn(e)))
-	hero.filterState()
+	state.handCards.map(c => c.onHandEndTurn(fn))
+	let dropGroup = state.handCards.splice(0, state.handCards.length)
+	state.dropStack.push(...dropGroup)
+	state.hero.stateList.forEach(s => (state.active && state.onHostEndTurn(fn)))
+	state.enemy.stateList.forEach(s => (state.active && state.onOpponentEndTurn(fn)))
+	state.hero.filterState()
 	// ai行动
-	enemy.defense = 0
-	enemy.ai.action(e)
+	state.enemy.defense = 0
+	state.enemy.ai.action(fn)
 	// ai回合结束
-	enemy.stateList.forEach(s => (s.active && s.onHostEndTurn(e)))
-	hero.stateList.forEach(s => (s.active && s.onOpponentEndTurn(e)))
-	enemy.filterState()
+	state.enemy.stateList.forEach(s => (state.active && state.onHostEndTurn(fn)))
+	state.hero.stateList.forEach(s => (state.active && state.onOpponentEndTurn(fn)))
+	state.enemy.filterState()
 
 	startNewTurn()
 }
 
 const onWin = () => {
 	console.log('hero win')
-	handCards.splice(0, handCards.length)
-	drawStack.splice(0, drawStack.length)
-	dropStack.splice(0, dropStack.length)
+	state.handCards.splice(0, state.handCards.length)
+	state.drawStack.splice(0, state.drawStack.length)
+	state.dropStack.splice(0, state.dropStack.length)
 	Dialog.alert({message: 'WIN'}).then(() => {
 		// todo
 		startBattle()
@@ -320,21 +207,21 @@ const onWin = () => {
 const createEnemy = () => {
 	const NextEnemy = G.getNextEnemy()
 	if (!NextEnemy) return false
-	enemy.ai = new NextEnemy()
-	enemy.hp = enemy.mhp = enemy.ai.mhp
-	enemy.reset()
+	state.enemy.ai = new NextEnemy()
+	state.enemy.hp = state.enemy.mhp = state.enemy.ai.mhp
+	state.enemy.reset()
 	return true
 }
 
 const startBattle = () => {
 	if (createEnemy()) {
-		dropStack.push(...G.getCards())
+		state.dropStack.push(...G.getCards())
 		// 主角初始化
-		hero.defense = 0
-		hero.stateList.splice(0, hero.stateList.length)
+		state.hero.defense = 0
+		state.hero.stateList.splice(0, state.hero.stateList.length)
 		console.log('new battle begin')
-		battle.turnNum = 0
-		enemy.ai.onDebut(e)
+		state.turnNum = 0
+		state.enemy.ai.onDebut(fn)
 		startNewTurn()
 	} else {
 		Dialog.alert({message: 'CLEARANCE'}).then(() => {
@@ -347,9 +234,10 @@ startBattle()
 
 onMounted(() => {
 	document.addEventListener('click', () => {
-		prepareCardId.value = null
+		state.prepareCardId = null
 	})
 })
+
 </script>
 <style src="../common/style/main.less"/>
 
