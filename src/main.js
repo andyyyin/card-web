@@ -11,5 +11,3 @@ app.use(Progress)
 app.use(Button)
 
 app.mount('#app')
-
-// 测试提交
