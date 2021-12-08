@@ -3,7 +3,8 @@
 export default (state) => {
 	const fn = {}
 
-	fn.pushLog = (newLog) => {
+	fn.pushLog = (param) => {
+		let newLog = typeof param === 'string' ? {text: param} : param
 		state.logs.push(newLog)
 	}
 

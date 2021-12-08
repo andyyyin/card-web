@@ -52,7 +52,7 @@ const logBeforeEnter = (el) => {
 	el.style.height = '0'
 }
 const logEnter = (el, done) => {
-	anime.recoverToHeight(el, 14).then(done)
+	anime.recoverToHeight(el, 12).then(done)
 }
 const logLeave = (el, done) => {
 	anime.flatten(el).then(done)

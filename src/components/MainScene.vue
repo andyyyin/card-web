@@ -208,6 +208,7 @@ const createEnemy = () => {
 	state.enemy.ai = new NextEnemy()
 	state.enemy.hp = state.enemy.mhp = state.enemy.ai.mhp
 	state.enemy.reset()
+	fn.pushLog('遭遇战 - ' + (state.enemy.ai.name || state.enemy.ai.img))
 	return true
 }
 
