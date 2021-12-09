@@ -1,6 +1,6 @@
 <template>
 	<section class="battle-view" :style="battleViewStyle">
-		<img class="actor-show" :src="img && `/src/assets/actor/${img}.png`" alt="">
+		<img class="actor-show" :src="imgSrc" alt="">
 		<div class="log-show-panel">
 			<transition-group :css="false" @before-enter="logBeforeEnter" @enter="logEnter" @leave="logLeave">
 				<div class="log-text-row" v-for="(log, index) in logShowList" :key="log.index" :data-index="index">
@@ -19,7 +19,7 @@
 	</section>
 </template>
 <script setup>
-import {ref, watchEffect} from "vue";
+import {computed, ref, watchEffect} from "vue";
 import StateIcon from "./item/StateIcon.vue";
 import anime, {flatten} from "../anime";
 
@@ -33,6 +33,13 @@ const props = defineProps({
 const logShowList = ref([])
 
 const logShowNum = 5
+
+const imgSrc = computed(() => {
+	const {img} = props
+	if (!img) return
+	if (img.startsWith('http')) return img
+	return `/src/assets/actor/${img}.png`
+})
 
 watchEffect(() => {
 	let {length} = props.logs
