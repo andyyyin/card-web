@@ -1,9 +1,12 @@
 
-const shuffleArray = (array) => {
+const shuffleArray = (array, count) => {
+	if (!array || !array.length) return undefined
+	if (array.length === 1) return array[0]
 	let currentIndex = array.length, temporaryValue, randomIndex;
+	count = count || array.length
 
 	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
+	while (currentIndex > array.length - count) {
 
 		// Pick a remaining element...
 		randomIndex = Math.floor(Math.random() * currentIndex);
@@ -15,10 +18,12 @@ const shuffleArray = (array) => {
 		array[randomIndex] = temporaryValue;
 	}
 
-	return array;
+	return count ? array.slice(array.length - count, array.length) : array;
 }
 
 const getRandomOne = (array) => {
+	if (!array || !array.length) return undefined
+	if (array.length === 1) return array[0]
 	let i = Math.floor(Math.random() * array.length)
 	return array[i]
 }
