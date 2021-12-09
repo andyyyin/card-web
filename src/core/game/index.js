@@ -24,7 +24,7 @@ const aiQueue = [
 
 const getCards = () => cards
 
-const getNextEnemy = () => {
+const getNextEnemy = async () => {
 	return aiQueue.pop()
 }
 

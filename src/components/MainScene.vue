@@ -198,12 +198,12 @@ const onWin = () => {
 	state.dropStack.splice(0, state.dropStack.length)
 	Dialog.alert({message: 'WIN'}).then(() => {
 		// todo
-		startBattle()
+		startBattle().then()
 	})
 }
 
-const createEnemy = () => {
-	const NextEnemy = G.getNextEnemy()
+const createEnemy = async () => {
+	const NextEnemy = await G.getNextEnemy()
 	if (!NextEnemy) return false
 	state.enemy.ai = new NextEnemy()
 	state.enemy.hp = state.enemy.mhp = state.enemy.ai.mhp
@@ -212,8 +212,8 @@ const createEnemy = () => {
 	return true
 }
 
-const startBattle = () => {
-	if (createEnemy()) {
+const startBattle = async () => {
+	if (await createEnemy()) {
 		state.dropStack.push(...G.getCards())
 		// 主角初始化
 		state.hero.defense = 0
@@ -229,7 +229,7 @@ const startBattle = () => {
 	}
 }
 
-startBattle()
+startBattle().then()
 
 onMounted(() => {
 	document.addEventListener('click', () => {

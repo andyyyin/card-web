@@ -1,6 +1,6 @@
 <template>
 	<section class="battle-view" :style="battleViewStyle">
-		<img class="actor-show" :src="`/src/assets/actor/${img}.png`" alt="">
+		<img class="actor-show" :src="img && `/src/assets/actor/${img}.png`" alt="">
 		<div class="log-show-panel">
 			<transition-group :css="false" @before-enter="logBeforeEnter" @enter="logEnter" @leave="logLeave">
 				<div class="log-text-row" v-for="(log, index) in logShowList" :key="log.index" :data-index="index">
