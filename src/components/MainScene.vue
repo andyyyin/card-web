@@ -107,6 +107,7 @@ const intentionClassName = computed(() => {
 		case INTENTION.BUFF: return 'buff'
 		case INTENTION.DEBUFF: return 'debuff'
 		case INTENTION.STAY: return 'stay'
+		default: return state.enemy.intention
 	}
 })
 
@@ -167,7 +168,7 @@ const startNewTurn = () => {
 	const actionParam = state.enemy.ai.prepare(fn)
 	state.enemy.intention = actionParam.intention
 	state.enemy.actionName = actionParam.name
-	state.enemy.actionValue = actionParam.value
+	state.enemy.actionValue = actionParam.valueStr || actionParam.value
 	state.enemy.ai.onStartNewTurn(fn)
 }
 

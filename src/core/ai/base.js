@@ -16,7 +16,7 @@ export default class BaseAI {
 
 	action (fn) {
 		console.log('run ai')
-		this.prepareAction(fn)
+		this.prepareAction.run(fn)
 	}
 
 	onDebut () {}
@@ -24,12 +24,8 @@ export default class BaseAI {
 	onStartNewTurn () {}
 
 	prepare () {
-		const action = this.actionList.length > 1 ?
-			AT.getRandomOneWeighted(this.actionList) :
-			this.actionList[0]
-		this.prepareAction = action.action
-		const {intention, name, value} = action
-		return {intention, name, value}
+		this.prepareAction = AT.getRandomOneWeighted(this.actionList)
+		return this.prepareAction
 	}
 
 	stay () {}

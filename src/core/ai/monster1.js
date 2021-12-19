@@ -15,8 +15,8 @@ export default class Monster1 extends BaseAI{
 	baseDefense = 8
 
 	actionList = [
-		{intention: INTENTION.ATTACK, action: this.commonAttack, value: this.baseDamage},
-		{intention: INTENTION.DEFENSE, action: this.stableDefense},
+		{intention: INTENTION.ATTACK, run: this.commonAttack, value: this.baseDamage},
+		{intention: INTENTION.DEFENSE, run: this.stableDefense},
 	]
 
 	stableDefense (fn) {

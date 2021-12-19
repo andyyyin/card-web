@@ -18,13 +18,13 @@ export default class Ninja extends BaseAI{
 	prepare(e) {
 		const turnNum = e.getTurnNum()
 		if (turnNum % 3 === 0) {
-			this.actionList = [{intention: INTENTION.STAY, action: this.stay}]
+			this.actionList = [{intention: INTENTION.STAY, run: this.stay}]
 		} else if ((turnNum - 1) % 3 === 0 && turnNum > 3) {
 			this.baseDamage = 10
-			this.actionList = [{intention: INTENTION.ATTACK, action: this.multiAttack, value: this.baseDamage + 'x2'}]
+			this.actionList = [{intention: INTENTION.ATTACK, run: this.multiAttack, valueStr: this.baseDamage + 'x2'}]
 		} else {
 			this.baseDamage = 5
-			this.actionList = [{intention: INTENTION.ATTACK, action: this.multiAttack, value: this.baseDamage + 'x2'}]
+			this.actionList = [{intention: INTENTION.ATTACK, run: this.multiAttack, valueStr: this.baseDamage + 'x2'}]
 		}
 		return super.prepare();
 	}

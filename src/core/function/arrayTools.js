@@ -1,6 +1,6 @@
 
 const shuffleArray = (array, count) => {
-	if (!array || !array.length) return undefined
+	if (!array || !array.length) return
 	if (array.length === 1) return array[0]
 	let currentIndex = array.length, temporaryValue, randomIndex;
 	count = count || array.length
@@ -22,13 +22,15 @@ const shuffleArray = (array, count) => {
 }
 
 const getRandomOne = (array) => {
-	if (!array || !array.length) return undefined
+	if (!array || !array.length) return
 	if (array.length === 1) return array[0]
 	let i = Math.floor(Math.random() * array.length)
 	return array[i]
 }
 
 const getRandomOneWeighted = (array) => {
+	if (!array || !array.length) return
+	if (array.length === 1) return array[0]
 	const weightTotal = array.reduce((value, item) => {
 		return value + (item.weight || 1)
 	}, 0)

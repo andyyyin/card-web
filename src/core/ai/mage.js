@@ -17,9 +17,9 @@ export default class Mage extends BaseAI{
 	prepare(e) {
 		const turnNum = e.getTurnNum()
 		if ((turnNum - 1) % 3 === 0) {
-			this.actionList = [{intention: INTENTION.STAY, action: this.stay}]
+			this.actionList = [{intention: INTENTION.STAY, run: this.stay}]
 		} else {
-			this.actionList = [{intention: INTENTION.ATTACK, action: this.fireAttack, name: '火球术', value: this.baseDamage}]
+			this.actionList = [{intention: INTENTION.ATTACK, run: this.fireAttack, name: '火球术', value: this.baseDamage}]
 		}
 		return super.prepare();
 	}
