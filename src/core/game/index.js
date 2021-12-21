@@ -28,7 +28,12 @@ const getNextEnemy = async () => {
 	return aiQueue.pop()
 }
 
+const install = (extendCallback) => {
+	extendCallback({cards, aiQueue})
+}
+
 export default {
 	getCards,
 	getNextEnemy,
+	install
 }
