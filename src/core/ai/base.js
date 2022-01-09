@@ -14,9 +14,9 @@ export default class BaseAI {
 
 	actionList
 
-	action (fn) {
+	async action (fn) {
 		console.log('run ai')
-		this.prepareAction.run(fn)
+		await this.prepareAction.run(fn)
 	}
 
 	onDebut () {}

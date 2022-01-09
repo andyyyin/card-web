@@ -47,6 +47,7 @@
 						:card-launch="fn.launchCard"
 						:card-prepare="cardPrepare"
 						:index="index"
+						:locked="state.locked"
 					/>
 				</transition-group>
 			</div>
@@ -64,7 +65,7 @@
 		</section>
 
 		<section class="main-button-section">
-			<van-button type="primary" size="large" @click="endTheTurn">结束回合</van-button>
+			<van-button type="primary" size="large" @click="onClickEndTurn">结束回合</van-button>
 		</section>
 
 	</div>
@@ -113,6 +114,7 @@ const intentionClassName = computed(() => {
 
 const state = reactive({
 	isGameOver: false,
+	locked: false,
 	powerBase: 3,
 	powerCur: 3,
 	turnNum: 0,
@@ -159,37 +161,53 @@ const fn = battleFunctionsInit(state)
 
 const cardPrepare = id => state.prepareCardId = id
 
-const startNewTurn = () => {
+const onClickEndTurn = () => {
+	if (state.locked) return
+	;(async () => {
+		await endTheTurn()
+		await startNewTurn()
+	})()
+}
+
+const startNewTurn = async () => {
+	state.locked = true
+
 	state.turnNum++
 	console.log('turn start')
 	state.hero.defense = 0
 	state.powerCur = state.powerBase
-	fn.drawCard(5)
+	await fn.drawCard(5)
 	const actionParam = state.enemy.ai.prepare(fn)
 	state.enemy.intention = actionParam.intention
 	state.enemy.actionName = actionParam.name
 	state.enemy.actionValue = actionParam.valueStr || actionParam.value
 	state.enemy.ai.onStartNewTurn(fn)
+
+	state.locked = false
 }
 
-const endTheTurn = () => {
+const endTheTurn = async () => {
 	console.log('turn end')
-	// 玩家回合结束
-	state.handCards.map(c => c.onHandEndTurn(fn))
+	state.locked = true
+
+	/* 玩家回合结束 */
+	for (let c of state.handCards) await c.onHandEndTurn(fn)
 	let dropGroup = state.handCards.splice(0, state.handCards.length)
 	state.dropStack.push(...dropGroup)
-	state.hero.stateList.forEach(s => (state.active && state.onHostEndTurn(fn)))
-	state.enemy.stateList.forEach(s => (state.active && state.onOpponentEndTurn(fn)))
+	for (let s of state.hero.stateList) s.active && await s.onHostEndTurn(fn)
+	for (let s of state.enemy.stateList) s.active && await s.onOpponentEndTurn(fn)
 	state.hero.filterState()
-	// ai行动
+
+	/* ai行动 */
 	state.enemy.defense = 0
-	state.enemy.ai.action(fn)
-	// ai回合结束
-	state.enemy.stateList.forEach(s => (state.active && state.onHostEndTurn(fn)))
-	state.hero.stateList.forEach(s => (state.active && state.onOpponentEndTurn(fn)))
+	await state.enemy.ai.action(fn)
+
+	/* ai回合结束 */
+	for (let s of state.enemy.stateList) s.active && await s.onHostEndTurn(fn)
+	for (let s of state.hero.stateList) s.active && await s.onOpponentEndTurn(fn)
 	state.enemy.filterState()
 
-	startNewTurn()
+	state.locked = false
 }
 
 const onWin = () => {
@@ -204,12 +222,16 @@ const onWin = () => {
 }
 
 const createEnemy = async () => {
+	state.locked = true
+
 	const NextEnemy = await G.getNextEnemy()
 	if (!NextEnemy) return false
 	state.enemy.ai = new NextEnemy()
 	state.enemy.hp = state.enemy.mhp = state.enemy.ai.mhp
 	state.enemy.reset()
 	fn.pushLog('遭遇战 - ' + (state.enemy.ai.name || state.enemy.ai.img))
+
+	state.locked = false
 	return true
 }
 
@@ -222,7 +244,7 @@ const startBattle = async () => {
 		console.log('new battle begin')
 		state.turnNum = 0
 		state.enemy.ai.onDebut(fn)
-		startNewTurn()
+		await startNewTurn()
 	} else {
 		Dialog.alert({message: 'CLEARANCE'}).then(() => {
 			window.location.reload()

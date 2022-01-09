@@ -26,8 +26,8 @@ export default class BaseCard {
 		return '#999999'
 	}
 
-	onDraw () {}
-	onHandEndTurn () {}
+	async onDraw () {}
+	async onHandEndTurn () {}
 
-	onLaunch (fn) {}
+	async onLaunch (fn) {}
 }

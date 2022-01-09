@@ -13,7 +13,7 @@ export default class TripleStrike extends BaseCard {
 		super();
 	}
 
-	onLaunch(fn) {
+	async onLaunch(fn) {
 		fn.strikeEnemy(this.baseValue)
 		fn.strikeEnemy(this.baseValue)
 		fn.strikeEnemy(this.baseValue)

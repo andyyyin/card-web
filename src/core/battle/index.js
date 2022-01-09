@@ -48,7 +48,7 @@ export default (state) => {
 		state.powerCur -= num
 		console.log('power change -' + num)
 	}
-	fn.dropCard = (id) => {
+	fn.dropCard = async (id) => {
 		let index, card
 		if (((index = state.handCards.findIndex(c => c.id === id)) > -1)) {
 			[card] = state.handCards.splice(index, 1);
@@ -60,7 +60,7 @@ export default (state) => {
 		}
 
 	}
-	fn.drawCard = (count) => {
+	fn.drawCard = async (count) => {
 		if (state.drawStack.length > 0) {
 			let card = state.drawStack.shift()
 			state.handCards.push(card)
@@ -74,10 +74,10 @@ export default (state) => {
 			let cardSGroup = state.dropStack.splice(0, state.dropStack.length)
 			state.drawStack.push(...AT.shuffleArray(cardSGroup))
 			console.log('shuffle')
-			fn.drawCard(count)
+			await fn.drawCard(count)
 		}
 	}
-	fn.launchCard = (id) => {
+	fn.launchCard = async (id) => {
 		if (state.prepareCardId === id) state.prepareCardId = null
 		let index, card
 		if (((index = state.handCards.findIndex(c => c.id === id)) > -1)) {
@@ -94,7 +94,7 @@ export default (state) => {
 			state.handCards.splice(index, 1)
 			state.consumedStack.push(card)
 		} else {
-			fn.dropCard(card.id)
+			await fn.dropCard(card.id)
 		}
 	}
 

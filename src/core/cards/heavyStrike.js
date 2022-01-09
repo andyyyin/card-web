@@ -17,7 +17,7 @@ export default class HeavyStrike extends BaseCard {
 		super();
 	}
 
-	onLaunch(fn) {
+	async onLaunch(fn) {
 		fn.strikeEnemy(this.baseValue)
 		fn.enemyPushState(Weak, 1)
 		fn.enemyPushState(Fracture, 1)

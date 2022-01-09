@@ -16,6 +16,7 @@ export default {
 		powerCur: Number,
 		cardLaunch: Function,
 		cardPrepare: Function,
+		locked: Boolean,
 	},
 	computed: {
 		isDisabled () { return this.card.cost > this.powerCur },
@@ -29,6 +30,7 @@ export default {
 	},
 	methods: {
 		onClickCard () {
+			if (this.locked) return
 			if (this.isDisabled) return
 			if (this.isPrepared) {
 				this.cardLaunch(this.card.id)
