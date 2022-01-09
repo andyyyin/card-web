@@ -2,8 +2,9 @@ import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../algorithm";
 import AT from "../function/arrayTools";
 import {CARD_BASE_TYPE} from "../enum";
 import logFn from "./log"
+import animFn from "./anim"
 
-export default (state) => {
+export default (state, refs) => {
 
 	const fn = {}
 
@@ -117,7 +118,8 @@ export default (state) => {
 
 	return {
 		...fn,
-		...logFn(state),
+		...logFn(state, refs),
+		...animFn(state, refs),
 	}
 }
 

@@ -19,6 +19,7 @@
 			:stateShowDownList="filteredHeroStateList"
 			:img="state.enemy.ai && state.enemy.ai.img"
 			:logs="state.logs"
+			:animMaskRef="(el) => { if (el) refs.animMask = el }"
 		/>
 
 		<section class="state-section row-align">
@@ -88,7 +89,8 @@ import battleFunctionsInit from "../core/battle"
 const refs = {
 	dropStack: null,
 	drawStack: null,
-	cardsPanel: null
+	cardsPanel: null,
+	animMask: null,
 }
 
 const cardOnLeave = (el, done) => {
@@ -157,7 +159,7 @@ watchEffect(() => {
 	}
 })
 
-const fn = battleFunctionsInit(state)
+const fn = battleFunctionsInit(state, refs)
 
 const cardPrepare = id => state.prepareCardId = id
 

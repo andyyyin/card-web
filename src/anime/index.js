@@ -87,10 +87,19 @@ export const moveBack = (element) => {
 	}).finished
 }
 
+export const glint = (element) => {
+	return anime({
+		targets: element,
+		opacity: [0, 1, 0],
+		easing: 'easeInOutQuad'
+	}).finished;
+}
+
 export default {
 	moveToTarget,
 	cardsPositionToTarget,
 	moveBack,
 	recoverToHeight,
 	flatten,
+	glint,
 }

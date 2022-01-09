@@ -16,6 +16,7 @@
 		<section class="special-state-section down row-align">
 			<state-icon v-for="state in stateShowDownList" :icon="state.icon || ''" :level="state.level || ''"/>
 		</section>
+		<div class="anim-mask" :ref="props.animMaskRef"/>
 	</section>
 </template>
 <script setup>
@@ -28,6 +29,7 @@ const props = defineProps({
 	stateShowDownList: Array,
 	logs: Array,
 	img: String,
+	animMaskRef: Function,
 })
 
 const logShowList = ref([])
@@ -73,5 +75,14 @@ const logLeave = (el, done) => {
 		display: block;
 		object-fit: contain;
 	}
+}
+.anim-mask{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #000;
+	opacity: 0;
 }
 </style>
