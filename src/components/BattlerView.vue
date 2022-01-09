@@ -3,8 +3,8 @@
 		<img class="actor-show" :src="imgSrc" alt="">
 		<div class="log-show-panel">
 			<transition-group :css="false" @before-enter="logBeforeEnter" @enter="logEnter" @leave="logLeave">
-				<div class="log-text-row" v-for="(log, index) in logShowList" :key="log.index" :data-index="index">
-					{{log.text}}
+				<div class="log-text-row" v-for="(log, index) in logShowList" :key="log.index" :data-index="index"
+					 v-html="log.text">
 				</div>
 			</transition-group>
 		</div>
@@ -77,6 +77,7 @@ const logLeave = (el, done) => {
 	}
 }
 .anim-mask{
+	display: none;
 	position: absolute;
 	top: 0;
 	left: 0;

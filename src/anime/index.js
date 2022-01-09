@@ -90,8 +90,9 @@ export const moveBack = (element) => {
 export const glint = (element) => {
 	return anime({
 		targets: element,
-		opacity: [0, 1, 0],
-		easing: 'easeInOutQuad'
+		opacity: [0, .4, .2, .6, 0],
+		easing: 'easeInOutQuad',
+		duration: 600,
 	}).finished;
 }
 
