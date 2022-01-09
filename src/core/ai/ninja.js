@@ -33,7 +33,7 @@ export default class Ninja extends BaseAI{
 		fn.enemyPushState(Ninjutsu, 3)
 	}
 
-	multiAttack (fn) {
+	async multiAttack (fn) {
 		fn.strikeHero(this.baseDamage)
 		fn.strikeHero(this.baseDamage)
 	}

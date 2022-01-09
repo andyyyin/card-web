@@ -26,7 +26,7 @@ export default class Wolf extends BaseAI{
 		return super.prepare();
 	}
 
-	multiAttack (fn) {
+	async multiAttack (fn) {
 		fn.strikeHero(7)
 		fn.strikeHero(7)
 		fn.strikeHero(7)

@@ -19,7 +19,7 @@ export default class Monster1 extends BaseAI{
 		{intention: INTENTION.DEFENSE, run: this.stableDefense.bind(this)},
 	]
 
-	stableDefense (fn) {
+	async stableDefense (fn) {
 		this.commonDefense(fn)
 		fn.enemyPushState(Agility, 2)
 	}

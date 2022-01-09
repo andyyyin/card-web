@@ -30,14 +30,14 @@ export default class BaseAI {
 
 	stay () {}
 
-	commonAttack (fn) {
+	async commonAttack (fn) {
 		let value = this.baseDamage
 		fn.pushLog({text: '攻击，威力=' + value})
 		// console.log('ai act attack', value)
 		fn.strikeHero(value)
 	}
 
-	commonDefense (fn) {
+	async commonDefense (fn) {
 		// console.log('ai act defense', this.baseDefense)
 		fn.pushLog({text: '防御=' + this.baseDefense})
 		fn.enemyChangeDefense(this.baseDefense)
