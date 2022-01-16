@@ -8,12 +8,13 @@
 export default {
 	props: {
 		icon: String,
+		iconUrl: String,
 		level: Number
 	},
 	computed: {
 		style () {
 			return {
-				backgroundImage: `url(/src/assets/state-icon/${this.icon}.svg)`,
+				backgroundImage: this.iconUrl || `url(/src/assets/state-icon/${this.icon}.svg)`,
 				backgroundSize: '18px',
 				backgroundRepeat: 'no-repeat',
 				backgroundPosition: 'center',

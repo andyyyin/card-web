@@ -9,6 +9,7 @@ export default class Burn extends BaseCard {
 
 	baseValue = 2
 
+	unplayable = true
 	consume = true
 
 	constructor() {
@@ -16,6 +17,6 @@ export default class Burn extends BaseCard {
 	}
 
 	async onHandEndTurn (fn) {
-		fn.specialStrikeHero(this.baseValue)
+		fn.pureStrikeHero(this.baseValue)
 	}
 }

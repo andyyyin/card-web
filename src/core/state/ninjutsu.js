@@ -28,7 +28,7 @@ export default class Ninjutsu extends BaseState{
 		this.level = level || 1
 	}
 
-	onOpponentEndTurn () {
+	async onOpponentEndTurn () {
 		this.removeSelf()
 	}
 

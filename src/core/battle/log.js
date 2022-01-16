@@ -1,7 +1,6 @@
 
 
-export default (state) => {
-	const fn = {}
+export default (fn, state) => {
 
 	fn.pushLog = (param) => {
 		let newLog = typeof param === 'string' ? {text: param} : param

@@ -14,9 +14,11 @@ export default class BaseState {
 
 	onGetDamage () {}
 
-	onHostEndTurn () {}
+	async onHostEndTurn () {}
 
-	onOpponentEndTurn () {}
+	async onHostStartTurn () {}
+
+	async onOpponentEndTurn () {}
 
 	onSuperposition (param) {
 		if ((!param || typeof param === 'number') && this.level) {

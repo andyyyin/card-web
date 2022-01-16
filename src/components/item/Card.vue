@@ -2,8 +2,10 @@
 	<div class="card-container">
 		<div class="card-display" @click.stop="onClickCard" :class="cardClassNames">
 			<div>{{card.name}}</div>
-			<div v-show="card.baseValue">({{card.baseValue}})</div>
-			<div class="card-cost">{{card.cost}}</div>
+			<div v-if="card.baseValue">({{card.baseValue}})</div>
+			<div v-if="!card.unplayable" class="card-cost" :class="{fixed: card.fixedCost !== undefined}">
+				{{card.cost}}
+			</div>
 		</div>
 	</div>
 </template>
@@ -32,6 +34,7 @@ export default {
 		onClickCard () {
 			if (this.locked) return
 			if (this.isDisabled) return
+			if (this.card.unplayable) return
 			if (this.isPrepared) {
 				this.cardLaunch(this.card.id)
 			} else {

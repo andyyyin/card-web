@@ -35,6 +35,7 @@ BaseActor.prototype.getStrike = function (value) {
 		console.log(this.name, 'parry', parry)
 	}
 	this.changeHp(-value)
+	return value
 }
 
 BaseActor.prototype.filterState = function () {

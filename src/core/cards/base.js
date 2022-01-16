@@ -5,7 +5,11 @@ let _idCache = 1000
 
 export default class BaseCard {
 
-	cost = 1;
+	baseCost = 1;
+	fixedCost;
+
+	get cost () { return this.fixedCost === undefined ? this.baseCost : this.fixedCost }
+
 	name
 	baseValue;
 
@@ -29,5 +33,13 @@ export default class BaseCard {
 	async onDraw () {}
 	async onHandEndTurn () {}
 
+	async onLeaveFromHand () {
+		this.fixedCost = undefined
+	}
+
 	async onLaunch (fn) {}
+}
+
+BaseCard.prototype.tempFixCost = function (value) {
+	this.fixedCost = this.cost + 1
 }

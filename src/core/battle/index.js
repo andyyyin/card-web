@@ -3,6 +3,7 @@ import AT from "../function/arrayTools";
 import {CARD_BASE_TYPE} from "../enum";
 import logFn from "./log"
 import animFn from "./anim"
+import {waitFor} from "../function/common";
 
 export default (state, refs) => {
 
@@ -19,10 +20,10 @@ export default (state, refs) => {
 		fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
 		state.hero.stateList.map(state => state.onGetDamage())
-		state.hero.getStrike(fixedValue)
+		return state.hero.getStrike(fixedValue)
 	}
-	fn.specialStrikeHero = (value) => {
-		state.hero.getStrike(value)
+	fn.pureStrikeHero = (value) => {
+		return state.hero.getStrike(value)
 	}
 
 	fn.enemyChangeHp = state.enemy.changeHp.bind(state.enemy)
@@ -36,10 +37,10 @@ export default (state, refs) => {
 		fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.enemy.stateList)
 		state.enemy.stateList.map(state => state.onGetDamage())
-		state.enemy.getStrike(fixedValue)
+		return state.enemy.getStrike(fixedValue)
 	}
-	fn.specialStrikeEnemy = (value) => {
-		state.enemy.getStrike(value)
+	fn.pureStrikeEnemy = (value) => {
+		return state.enemy.getStrike(value)
 	}
 
 	fn.getHeroState = () => [...state.hero.stateList.filter(s => state.active)]
@@ -55,6 +56,7 @@ export default (state, refs) => {
 			[card] = state.handCards.splice(index, 1);
 			console.log('drop card', card.id, card.name)
 			state.dropStack.push(card)
+			await card.onLeaveFromHand(fn)
 		} else if (((index = state.drawStack.findIndex(c => c.id === id)) > -1)) {
 			[card] = state.drawStack.splice(index, 1);
 			if (card) state.dropStack.push(card)
@@ -66,10 +68,10 @@ export default (state, refs) => {
 			let card = state.drawStack.shift()
 			state.handCards.push(card)
 			console.log('draw card', card.id, card.name)
+			await waitFor(250)
+			await card.onDraw(fn)
 			if (count > 1) {
-				setTimeout(() => {
-					fn.drawCard(count - 1)
-				}, 100)
+				await fn.drawCard(count - 1)
 			}
 		} else if (state.dropStack.length > 0) {
 			let cardSGroup = state.dropStack.splice(0, state.dropStack.length)
@@ -86,17 +88,26 @@ export default (state, refs) => {
 		}
 		if (!card) return
 		console.log('launch card', id, card.name)
-		card.onLaunch(fn)
+		await card.onLaunch(fn)
 		fn.cost(card.cost)
 		if (card.type === CARD_BASE_TYPE.ABILITY) {
 			state.handCards.splice(index, 1)
+			await card.onLeaveFromHand(fn)
 			state.usedStack.push(card)
 		} else if (card.consume) {
-			state.handCards.splice(index, 1)
-			state.consumedStack.push(card)
+			await fn.consumeCard(card.id)
 		} else {
 			await fn.dropCard(card.id)
 		}
+	}
+
+	fn.consumeCard = async (id) => {
+		let index, card
+		if (((index = state.handCards.findIndex(c => c.id === id)) === -1)) return
+		card = state.handCards[index]
+		state.handCards.splice(index, 1)
+		await card.onLeaveFromHand(fn)
+		state.consumedStack.push(card)
 	}
 
 	fn.addCardIntoDrop = (card, positionType) => addCardIntoStack(card, state.dropStack, positionType)
@@ -105,6 +116,22 @@ export default (state, refs) => {
 
 	fn.getTurnNum = () => state.turnNum
 
+	fn.dropRandomHandCard = async (filter) => {
+		let handCards = [...state.handCards]
+		if (filter && typeof filter === 'function') handCards = handCards.filter(filter)
+		if (!handCards.length) return
+		let toBeDropped = AT.getRandomOne(handCards)
+		fn.pushLog('丢弃：' + toBeDropped.name)
+		await fn.dropCard(toBeDropped.id)
+	}
+
+	fn.raiseRandomCard = (filter) => {
+		let handCards = [...state.handCards]
+		if (filter && typeof filter === 'function') handCards = handCards.filter(filter)
+		if (!handCards.length) return
+		let toBeRaised = AT.getRandomOne(handCards)
+		toBeRaised.tempFixCost(1)
+	}
 
 	const addCardIntoStack = (card, stack, positionType) => {
 		switch (positionType) {
@@ -116,11 +143,10 @@ export default (state, refs) => {
 		}
 	}
 
-	return {
-		...fn,
-		...logFn(state, refs),
-		...animFn(state, refs),
-	}
+	logFn(fn, state, refs)
+	animFn(fn, state, refs)
+
+	return fn
 }
 
 

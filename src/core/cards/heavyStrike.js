@@ -5,7 +5,7 @@ import Fracture from "../state/fracture";
 
 export default class HeavyStrike extends BaseCard {
 
-	cost = 2
+	baseCost = 2
 
 	name = '重击'
 

@@ -55,11 +55,11 @@
 		</section>
 
 		<section class="card-stack-section">
-			<div class="card-stack" :ref="el => { if (el) refs.drawStack = el }">
+			<div class="card-stack" :ref="el => { if (el) refs.drawStack = el }" @click="showDrawStack">
 				<span class="title">抽牌堆</span>
 				<span class="value">{{ state.drawStack.length }}</span>
 			</div>
-			<div class="card-stack" :ref="el => { if (el) refs.dropStack = el }">
+			<div class="card-stack" :ref="el => { if (el) refs.dropStack = el }" @click="showDropStack">
 				<span class="title">弃牌堆</span>
 				<span class="value">{{ state.dropStack.length }}</span>
 			</div>
@@ -155,7 +155,7 @@ watchEffect(() => {
 		state.isGameOver = true
 		Dialog.alert({message: 'GAME OVER'}).then(() => {})
 	} else if (state.enemy.hp <= 0) {
-		onWin()
+		onWin().then()
 	}
 })
 
@@ -169,6 +169,16 @@ const onClickEndTurn = () => {
 		await endTheTurn()
 		await startNewTurn()
 	})()
+}
+
+const showDrawStack = () => {
+	const str = state.drawStack.map(c => c.name).join(',')
+	alert(str)
+}
+
+const showDropStack = () => {
+	const str = state.dropStack.map(c => c.name).join(',')
+	alert(str)
 }
 
 const startNewTurn = async () => {
@@ -185,6 +195,8 @@ const startNewTurn = async () => {
 	state.enemy.actionValue = actionParam.valueStr || actionParam.value
 	state.enemy.ai.onStartNewTurn(fn)
 
+	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
+
 	state.locked = false
 }
 
@@ -194,8 +206,12 @@ const endTheTurn = async () => {
 
 	/* 玩家回合结束 */
 	for (let c of state.handCards) await c.onHandEndTurn(fn)
-	let dropGroup = state.handCards.splice(0, state.handCards.length)
-	state.dropStack.push(...dropGroup)
+	let toBeConsumed = state.handCards.filter(c => c.consume)
+	for (let c of toBeConsumed)  await fn.consumeCard(c.id)
+	let toBeDropped = state.handCards.splice(0, state.handCards.length)
+	for (let c of toBeDropped) await c.onLeaveFromHand(fn)
+	state.dropStack.push(...toBeDropped)
+
 	for (let s of state.hero.stateList) s.active && await s.onHostEndTurn(fn)
 	for (let s of state.enemy.stateList) s.active && await s.onOpponentEndTurn(fn)
 	state.hero.filterState()
@@ -212,15 +228,16 @@ const endTheTurn = async () => {
 	state.locked = false
 }
 
-const onWin = () => {
+const onWin = async () => {
 	console.log('hero win')
+	for (let c of state.handCards) await c.onLeaveFromHand(fn)
 	state.handCards.splice(0, state.handCards.length)
 	state.drawStack.splice(0, state.drawStack.length)
 	state.dropStack.splice(0, state.dropStack.length)
-	Dialog.alert({message: 'WIN'}).then(() => {
-		// todo
-		startBattle().then()
-	})
+
+	await Dialog.alert({message: 'WIN'})
+	// todo
+	await startBattle()
 }
 
 const createEnemy = async () => {

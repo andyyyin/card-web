@@ -17,7 +17,7 @@ export default class Fracture extends BaseState{
 		this.level = level || 1
 	}
 
-	onHostEndTurn (fn) {
+	async onHostEndTurn (fn) {
 		this.level -= 1
 		if (this.level <= 0) this.removeSelf(fn)
 	}

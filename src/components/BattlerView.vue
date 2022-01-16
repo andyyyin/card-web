@@ -10,11 +10,11 @@
 		</div>
 
 		<section class="special-state-section up row-align">
-			<state-icon v-for="state in stateShowUpList" :icon="state.icon || ''" :level="state.level || ''"/>
+			<state-icon v-for="state in stateShowUpList" v-bind="state"/>
 		</section>
 
 		<section class="special-state-section down row-align">
-			<state-icon v-for="state in stateShowDownList" :icon="state.icon || ''" :level="state.level || ''"/>
+			<state-icon v-for="state in stateShowDownList" v-bind="state"/>
 		</section>
 		<div class="anim-mask" :ref="props.animMaskRef"/>
 	</section>
