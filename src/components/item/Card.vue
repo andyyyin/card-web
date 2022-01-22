@@ -1,9 +1,9 @@
 <template>
 	<div class="card-container">
 		<div class="card-display" @click.stop="onClickCard" :class="cardClassNames">
-			<div>{{card.name}}</div>
-			<div v-if="card.baseValue">({{card.baseValue}})</div>
-			<div v-if="!card.unplayable" class="card-cost" :class="{fixed: card.fixedCost !== undefined}">
+			<div class="name">{{card.name}}</div>
+			<div class="value" v-if="card.baseValue">{{card.baseValue}}</div>
+			<div class="card-cost" v-if="!card.unplayable" :class="{fixed: card.fixedCost !== undefined}">
 				{{card.cost}}
 			</div>
 		</div>
@@ -14,15 +14,13 @@
 export default {
 	props: {
 		card: Object,
-		prepareCardId: null,
-		powerCur: Number,
+		isPrepared: false,
 		cardLaunch: Function,
 		cardPrepare: Function,
 		locked: Boolean,
+		isDisabled: false,
 	},
 	computed: {
-		isDisabled () { return this.card.cost > this.powerCur },
-		isPrepared () { return this.card.id === this.prepareCardId },
 		cardClassNames () {
 			let result = [this.card.typeClassName]
 			if (this.isPrepared) result.push('active')
@@ -35,7 +33,7 @@ export default {
 			if (this.locked) return
 			if (this.isDisabled) return
 			if (this.card.unplayable) return
-			if (this.isPrepared) {
+			if (this.isPrepared || !this.cardPrepare) {
 				this.cardLaunch(this.card.id)
 			} else {
 				this.cardPrepare(this.card.id)

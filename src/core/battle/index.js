@@ -69,7 +69,12 @@ export default (state, refs) => {
 			state.handCards.push(card)
 			console.log('draw card', card.id, card.name)
 			await waitFor(250)
-			await card.onDraw(fn)
+			if (state.handCards.length > 10) {
+				await fn.dropCard(card.id)
+			} else {
+				// todo 抽到直接丢弃不触发抽牌效果？？待定
+				await card.onDraw(fn)
+			}
 			if (count > 1) {
 				await fn.drawCard(count - 1)
 			}
@@ -99,6 +104,7 @@ export default (state, refs) => {
 		} else {
 			await fn.dropCard(card.id)
 		}
+		await card.afterLaunch(fn)
 	}
 
 	fn.consumeCard = async (id) => {
@@ -131,6 +137,26 @@ export default (state, refs) => {
 		if (!handCards.length) return
 		let toBeRaised = AT.getRandomOne(handCards)
 		toBeRaised.tempFixCost(1)
+	}
+
+	fn.handCardsSelector = ({title, onSelect}) => {
+		state.selector.show = true
+		state.selector.title = title
+		state.selector.cards = [...state.handCards]
+		state.selector.onSelect = async (id) => {
+			await onSelect(id)
+			state.selector.show = false
+		}
+	}
+
+	fn.dropSelectCard = () => {
+		if (!state.handCards.length) return
+		fn.handCardsSelector({
+			title: '选择一张卡丢弃',
+			onSelect: async (id) => {
+				await fn.dropCard(id)
+			}
+		})
 	}
 
 	const addCardIntoStack = (card, stack, positionType) => {

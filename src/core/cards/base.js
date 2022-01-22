@@ -1,5 +1,4 @@
 import {CARD_BASE_TYPE} from '../enum'
-import {stateDamageFix} from "../algorithm";
 
 let _idCache = 1000
 
@@ -38,6 +37,7 @@ export default class BaseCard {
 	}
 
 	async onLaunch (fn) {}
+	async afterLaunch (fn) {}
 }
 
 BaseCard.prototype.tempFixCost = function (value) {

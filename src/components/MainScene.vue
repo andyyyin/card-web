@@ -37,14 +37,14 @@
 		</section>
 
 		<section class="card-section">
-			<div class="hand-cards-panel" :ref="el => { if (el) refs.cardsPanel = el }">
+			<div class="operate-cards-panel" :ref="el => { if (el) refs.cardsPanel = el }">
 				<transition-group :css="false" @before-enter="cardBeforeEnter" @leave="cardOnLeave" @enter="cardOnEnter" name="card-flip-list">
 					<card
 						v-for="(card, index) in state.handCards"
 						:key="card.id"
 						:card="card"
-						:prepare-card-id="state.prepareCardId"
-						:power-cur="state.powerCur"
+						:is-prepared="state.prepareCardId === card.id"
+						:is-disabled="card.cost > state.powerCur"
 						:card-launch="fn.launchCard"
 						:card-prepare="cardPrepare"
 						:index="index"
@@ -68,6 +68,21 @@
 		<section class="main-button-section">
 			<van-button type="primary" size="large" @click="onClickEndTurn">结束回合</van-button>
 		</section>
+
+		<!-- 动态组件 ↓↓↓↓↓↓ -->
+
+		<van-popup class="selector-popup" v-model:show="state.selector.show" :close-on-click-overlay="false">
+			<div class="selector-title">{{state.selector.title}}</div>
+			<div class="operate-cards-panel">
+				<card class="card-item"
+					v-for="(card, index) in state.selector.cards"
+					:key="card.id"
+					:card="card"
+					:card-launch="state.selector.onSelect"
+					:locked="state.locked"
+				/>
+			</div>
+		</van-popup>
 
 	</div>
 </template>
@@ -121,6 +136,13 @@ const state = reactive({
 	powerCur: 3,
 	turnNum: 0,
 	messageList: [],
+	selector: {
+		show: false,
+		title: '',
+		cards: [],
+		options: [],
+		onSelect: () => {},
+	},
 	hero: Object.assign(new BaseActor(), {
 		name: 'hero',
 		hp: 100,
@@ -172,12 +194,12 @@ const onClickEndTurn = () => {
 }
 
 const showDrawStack = () => {
-	const str = state.drawStack.map(c => c.name).join(',')
+	const str = state.drawStack.map(c => `${c.cost} ${c.name} ${c.baseValue}`).join('\r\n')
 	alert(str)
 }
 
 const showDropStack = () => {
-	const str = state.dropStack.map(c => c.name).join(',')
+	const str = state.dropStack.map(c => `${c.cost} ${c.name} ${c.baseValue}`).join('\r\n')
 	alert(str)
 }
 

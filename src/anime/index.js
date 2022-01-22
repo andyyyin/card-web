@@ -11,6 +11,12 @@ const cardsPosOfPanel = {
 	7: {x: 150, y: 541, width: 74, height: 100},
 	8: {x: 224, y: 541, width: 74, height: 100},
 	9: {x: 298, y: 541, width: 74, height: 100},
+	// 后面这些没有实际作用，只是在动画演出时占位防止报错
+	10: {x: 298, y: 541, width: 74, height: 100},
+	11: {x: 298, y: 541, width: 74, height: 100},
+	12: {x: 298, y: 541, width: 74, height: 100},
+	13: {x: 298, y: 541, width: 74, height: 100},
+	14: {x: 298, y: 541, width: 74, height: 100},
 }
 
 const getRelPosition = (src, target) => {

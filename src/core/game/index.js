@@ -1,18 +1,23 @@
 import Cards from '../cards'
 import AIMap from '../ai'
+import Neutralize from "../cards/neutralize";
 
 const cards = [
-	new Cards.Strike(),
-	new Cards.Strike(),
-	new Cards.Strike(),
-	new Cards.Strike(),
+	new Cards.Neutralize(),
+	new Cards.Neutralize(),
+	new Cards.Neutralize(),
+	new Cards.Neutralize(),
 	new Cards.TripleStrike(),
 	new Cards.StrengthUp(),
 	new Cards.HeavyStrike(),
-	new Cards.Defense(),
-	new Cards.Defense(),
-	new Cards.Defense(),
-	new Cards.Defense(),
+	new Cards.BackFlip(),
+	new Cards.BackFlip(),
+	new Cards.BackFlip(),
+	new Cards.BackFlip(),
+	new Cards.BackFlip(),
+	new Cards.BackFlip(),
+	new Cards.BackFlip(),
+	new Cards.Survivor(),
 ]
 
 const aiQueue = [

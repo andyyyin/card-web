@@ -4,6 +4,9 @@ import Strike from "./strike";
 import TripleStrike from "./tripleStrike";
 import HeavyStrike from "./heavyStrike";
 import Burn from "./burn";
+import Survivor from "./survivor";
+import Neutralize from "./neutralize";
+import BackFlip from "./backFlip";
 
 export default {
 	Defense,
@@ -12,4 +15,7 @@ export default {
 	HeavyStrike,
 	TripleStrike,
 	Burn,
+	Survivor,
+	Neutralize,
+	BackFlip,
 }
