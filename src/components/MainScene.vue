@@ -2,9 +2,14 @@
 	<div>
 		<section class="state-section row-align">
 			<div class="intention-display-container">
-				<div class="intention-icon" :class="intentionClassName"/>
-				<div class="action-name" v-show="state.enemy.actionName">{{state.enemy.actionName}}</div>
-				<div class="action-value">{{state.enemy.actionValue}}</div>
+				<div class="intention-icon" v-show="!eAct.name" :class="intentionClassName"/>
+				<div class="action-name" v-show="eAct.name">{{eAct.name}}</div>
+				<div class="action-value">
+					<span :class="{up: eAct.fixedValue > eAct.value, down: eAct.fixedValue < eAct.value}">
+						{{eAct.fixedValue || eAct.value}}
+					</span>
+					<span>{{eAct.time && ('×' + eAct.time)}}</span>
+				</div>
 			</div>
 			<div class="progress-container grow">
 				<van-progress :percentage="state.enemy.hp * 100 / state.enemy.mhp" stroke-width="8" :pivot-text="state.enemy.hp + '/' + state.enemy.mhp" color="#ee0a24"/>
@@ -40,14 +45,13 @@
 			<div class="operate-cards-panel" :ref="el => { if (el) refs.cardsPanel = el }">
 				<transition-group :css="false" @before-enter="cardBeforeEnter" @leave="cardOnLeave" @enter="cardOnEnter" name="card-flip-list">
 					<card
-						v-for="(card, index) in state.handCards"
+						v-for="card in state.handCards"
 						:key="card.id"
 						:card="card"
 						:is-prepared="state.prepareCardId === card.id"
 						:is-disabled="card.cost > state.powerCur"
 						:card-launch="fn.launchCard"
 						:card-prepare="cardPrepare"
-						:index="index"
 						:locked="state.locked"
 					/>
 				</transition-group>
@@ -69,17 +73,18 @@
 			<van-button type="primary" size="large" @click="onClickEndTurn">结束回合</van-button>
 		</section>
 
-		<!-- 动态组件 ↓↓↓↓↓↓ -->
+		<!-- 动态组件区 ↓↓↓↓↓↓ -->
 
 		<van-popup class="selector-popup" v-model:show="state.selector.show" :close-on-click-overlay="false">
 			<div class="selector-title">{{state.selector.title}}</div>
 			<div class="operate-cards-panel">
 				<card class="card-item"
-					v-for="(card, index) in state.selector.cards"
+					v-for="card in state.selector.cards"
 					:key="card.id"
 					:card="card"
 					:card-launch="state.selector.onSelect"
 					:locked="state.locked"
+				  	:is-static="true"
 				/>
 			</div>
 		</van-popup>
@@ -119,15 +124,16 @@ const cardOnEnter = (el, done) => {
 }
 
 const intentionClassName = computed(() => {
-	switch (state.enemy.intention) {
+	switch (state.enemy.action.intention) {
 		case INTENTION.ATTACK: return 'attack'
 		case INTENTION.DEFENSE: return 'defense'
 		case INTENTION.BUFF: return 'buff'
 		case INTENTION.DEBUFF: return 'debuff'
 		case INTENTION.STAY: return 'stay'
-		default: return state.enemy.intention
+		default: return state.enemy.action.intention
 	}
 })
+const eAct = computed(() => state.enemy.action)
 
 const state = reactive({
 	isGameOver: false,
@@ -155,9 +161,17 @@ const state = reactive({
 		hp: 100,
 		mhp: 100,
 		defense: 0,
-		intention: 0,
-		actionName: null,
-		actionValue: null,
+		action: {
+			intention: 0,
+			name: null,
+			value: null,
+			fixedValue: null,
+			time: null,
+			reset: function () {
+				this.name = this.value = this.fixedValue = this.time = null
+				this.intention = 0
+			}
+		},
 		stateList: [],
 		ai: null,
 	}),
@@ -211,11 +225,8 @@ const startNewTurn = async () => {
 	state.hero.defense = 0
 	state.powerCur = state.powerBase
 	await fn.drawCard(5)
-	const actionParam = state.enemy.ai.prepare(fn)
-	state.enemy.intention = actionParam.intention
-	state.enemy.actionName = actionParam.name
-	state.enemy.actionValue = actionParam.valueStr || actionParam.value
-	state.enemy.ai.onStartNewTurn(fn)
+
+	fn.enemyPrepareAction()
 
 	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
 
@@ -241,6 +252,7 @@ const endTheTurn = async () => {
 	/* ai行动 */
 	state.enemy.defense = 0
 	await state.enemy.ai.action(fn)
+	state.enemy.action.reset()
 
 	/* ai回合结束 */
 	for (let s of state.enemy.stateList) s.active && await s.onHostEndTurn(fn)

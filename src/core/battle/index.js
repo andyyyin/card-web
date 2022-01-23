@@ -1,6 +1,6 @@
 import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../algorithm";
 import AT from "../function/arrayTools";
-import {CARD_BASE_TYPE} from "../enum";
+import {CARD_BASE_TYPE, INTENTION} from "../enum";
 import logFn from "./log"
 import animFn from "./anim"
 import {waitFor} from "../function/common";
@@ -10,7 +10,10 @@ export default (state, refs) => {
 	const fn = {}
 
 	fn.heroChangeHp = state.hero.changeHp.bind(state.hero)
-	fn.heroPushState = state.hero.pushState.bind(state.hero)
+	fn.heroPushState = (...params) => {
+		state.hero.pushState(...params)
+		updateRelationValueShow()
+	}
 	fn.heroChangeDefense = (value) => {
 		const fixedValue = stateDefenseFix(value, state.hero.stateList)
 		state.hero.changeDefense(fixedValue)
@@ -27,7 +30,10 @@ export default (state, refs) => {
 	}
 
 	fn.enemyChangeHp = state.enemy.changeHp.bind(state.enemy)
-	fn.enemyPushState = state.enemy.pushState.bind(state.enemy)
+	fn.enemyPushState = (...params) => {
+		state.enemy.pushState(...params)
+		updateRelationValueShow()
+	}
 	fn.enemyChangeDefense = (value) => {
 		const fixedValue = stateDefenseFix(value, state.enemy.stateList)
 		state.enemy.changeDefense(fixedValue)
@@ -77,6 +83,9 @@ export default (state, refs) => {
 			}
 			if (count > 1) {
 				await fn.drawCard(count - 1)
+			} else {
+				// 等所有卡抽完了一起更新
+				updateRelationValueShow()
 			}
 		} else if (state.dropStack.length > 0) {
 			let cardSGroup = state.dropStack.splice(0, state.dropStack.length)
@@ -157,6 +166,38 @@ export default (state, refs) => {
 				await fn.dropCard(id)
 			}
 		})
+	}
+
+	fn.enemyPrepareAction = () => {
+		const actionParam = state.enemy.ai.prepare(fn)
+		state.enemy.action.intention = actionParam.intention
+		state.enemy.action.name = actionParam.name
+		state.enemy.action.value = actionParam.value
+		state.enemy.action.fixedValue = actionParam.value
+		state.enemy.action.time = actionParam.time
+		state.enemy.ai.onStartNewTurn(fn)
+		updateRelationValueShow()
+	}
+
+	const updateRelationValueShow = () => {
+		state.handCards.map(card => {
+			if (card.type === CARD_BASE_TYPE.ATTACK && card.baseValue) {
+				let fixedValue = card.baseValue
+				fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
+				fixedValue = stateGetDamageFix(fixedValue, state.enemy.stateList)
+				card.fixedValue = fixedValue
+			}
+			if (card.type === CARD_BASE_TYPE.SKILL && card.baseValue) {
+				card.fixedValue = stateDefenseFix(card.baseValue, state.hero.stateList)
+			}
+		})
+		if (state.enemy.action.intention === INTENTION.ATTACK && state.enemy.actionValue) {
+			let fixedValue = state.enemy.actionValue
+			fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
+			fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
+			state.enemy.actionFixedValue = fixedValue
+			console.log(state.enemy.actionFixedValue)
+		}
 	}
 
 	const addCardIntoStack = (card, stack, positionType) => {

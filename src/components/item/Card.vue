@@ -2,7 +2,11 @@
 	<div class="card-container">
 		<div class="card-display" @click.stop="onClickCard" :class="cardClassNames">
 			<div class="name">{{card.name}}</div>
-			<div class="value" v-if="card.baseValue">{{card.baseValue}}</div>
+			<div class="value" v-if="card.baseValue && isStatic">{{card.baseValue}}</div>
+			<div class="value" v-if="card.baseValue && !isStatic"
+				 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
+				{{card.fixedValue || card.baseValue}}
+			</div>
 			<div class="card-cost" v-if="!card.unplayable" :class="{fixed: card.fixedCost !== undefined}">
 				{{card.cost}}
 			</div>
@@ -14,6 +18,7 @@
 export default {
 	props: {
 		card: Object,
+		isStatic: false,
 		isPrepared: false,
 		cardLaunch: Function,
 		cardPrepare: Function,

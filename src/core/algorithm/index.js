@@ -1,15 +1,13 @@
 
 const stateAttrFixProcess = (value, stateList, attrName) => {
-	let org = value
-	value = stateList.reduce((result, state) => {
-		if (!state.active) return result
-		return result + ((state[attrName] && state[attrName].add) || 0)
-	}, value)
-	value = stateList.reduce((result, state) => {
-		if (!state.active) return result
-		return result * ((state[attrName] && state[attrName].multi) || 1)
-	}, value)
-	return value >= org ? Math.ceil(value) : Math.floor(value)
+	let add = 0, multi = 1
+	stateList.forEach(state => {
+		if (!state.active || !state[attrName]) return
+		add += (state[attrName].add || 0)
+		multi *= (state[attrName].multi || 1)
+	})
+	let fixed = (value + add) * multi
+	return fixed >= value ? Math.ceil(fixed) : Math.floor(fixed)
 }
 
 export const stateDamageFix = (value, stateList) => {
