@@ -10,6 +10,7 @@ import BackFlip from "./backFlip";
 import Acrobatics from "./acrobatics";
 import Bane from "./bane";
 import Poison from "./poison";
+import BladeDance from "./bladeDance";
 
 export default {
 	Defense,
@@ -24,4 +25,5 @@ export default {
 	Acrobatics,
 	Bane,
 	Poison,
+	BladeDance,
 }

@@ -2,7 +2,7 @@
 	<div>
 		<section class="state-section row-align">
 			<div class="intention-display-container">
-				<div class="intention-icon" v-show="!e_act.name" :class="intentionClassName"/>
+				<div class="intention-icon" :class="intentionClassName"/>
 				<div class="action-name" v-show="e_act.name">{{e_act.name}}</div>
 				<div class="action-value">
 					<span :class="{up: e_act.fixedValue > e_act.value, down: e_act.fixedValue < e_act.value}">
@@ -165,7 +165,7 @@ const state = reactive({
 	handCards: [],
 	drawStack: [],
 	dropStack: [],
-	consumedStack: [],
+	exhaustedStack: [],
 	usedStack: [],
 	prepareCardId: null,
 	logs: [],
@@ -195,12 +195,12 @@ const onClickEndTurn = () => {
 }
 
 const showDrawStack = () => {
-	const str = state.drawStack.map(c => `${c.cost} ${c.name} ${c.baseValue}`).join('\r\n')
+	const str = state.drawStack.map(c => `${c.baseCost} ${c.name} ${c.baseValue || ''}`).join('\r\n')
 	alert(str)
 }
 
 const showDropStack = () => {
-	const str = state.dropStack.map(c => `${c.cost} ${c.name} ${c.baseValue}`).join('\r\n')
+	const str = state.dropStack.map(c => `${c.baseCost} ${c.name} ${c.baseValue || ''}`).join('\r\n')
 	alert(str)
 }
 
@@ -226,8 +226,10 @@ const endTheTurn = async () => {
 
 	/* 玩家回合结束 */
 	for (let c of state.handCards) await c.onHandEndTurn(fn)
-	let toBeConsumed = state.handCards.filter(c => c.consume)
-	for (let c of toBeConsumed)  await fn.consumeCard(c.id)
+	/* 消耗掉有[虚无]属性的卡牌 */
+	let toBeExhaust = state.handCards.filter(c => c.ethereal)
+	for (let c of toBeExhaust)  await fn.exhaustCard(c.id)
+
 	let toBeDropped = state.handCards.splice(0, state.handCards.length)
 	for (let c of toBeDropped) await c.onLeaveFromHand(fn)
 	state.dropStack.push(...toBeDropped)

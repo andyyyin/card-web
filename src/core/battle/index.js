@@ -80,12 +80,8 @@ export default (state, refs) => {
 	fn.drawCard = async (count) => {
 		if (state.drawStack.length > 0) {
 			let card = state.drawStack.shift()
-			state.handCards.push(card)
-			console.log('draw card', card.id, card.name)
-			await waitFor(250)
-			if (state.handCards.length > 10) {
-				await fn.dropCard(card.id)
-			} else {
+			if (await fn.pushCardToHand(card)) {
+				console.log('draw card', card.id, card.name)
 				// todo 抽到直接丢弃不触发抽牌效果？？待定
 				await card.onDraw(fn)
 			}
@@ -102,6 +98,15 @@ export default (state, refs) => {
 			await fn.drawCard(count)
 		}
 	}
+	fn.pushCardToHand = async (card) => {
+		state.handCards.push(card)
+		await waitFor(250)
+		if (state.handCards.length > 10) {
+			await fn.dropCard(card.id)
+			return false
+		}
+		return true
+	}
 	fn.launchCard = async (id) => {
 		if (state.prepareCardId === id) state.prepareCardId = null
 		let index, card
@@ -116,8 +121,8 @@ export default (state, refs) => {
 			state.handCards.splice(index, 1)
 			await card.onLeaveFromHand(fn)
 			state.usedStack.push(card)
-		} else if (card.consume) {
-			await fn.consumeCard(card.id)
+		} else if (card.exhaust) {
+			await fn.exhaustCard(card.id)
 		} else {
 			await fn.dropCard(card.id)
 		}
@@ -125,13 +130,13 @@ export default (state, refs) => {
 		updateRelationValueShow()
 	}
 
-	fn.consumeCard = async (id) => {
+	fn.exhaustCard = async (id) => {
 		let index, card
 		if (((index = state.handCards.findIndex(c => c.id === id)) === -1)) return
 		card = state.handCards[index]
 		state.handCards.splice(index, 1)
 		await card.onLeaveFromHand(fn)
-		state.consumedStack.push(card)
+		state.exhaustedStack.push(card)
 	}
 
 	fn.addCardIntoDrop = (card, positionType) => addCardIntoStack(card, state.dropStack, positionType)
@@ -191,6 +196,12 @@ export default (state, refs) => {
 		state.enemy.action.time = actionParam.time
 		state.enemy.ai.onStartNewTurn(fn)
 		updateRelationValueShow()
+	}
+
+	fn.createCard = async (Card) => {
+		const card = new Card()
+		console.log('创建临时卡牌：' + card.name)
+		await fn.pushCardToHand(card)
 	}
 
 	const updateRelationValueShow = () => {

@@ -10,7 +10,8 @@ export default class Burn extends BaseCard {
 	baseValue = 2
 
 	unplayable = true
-	consume = true
+
+	ethereal = true
 
 	constructor() {
 		super();

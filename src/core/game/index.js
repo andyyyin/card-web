@@ -13,20 +13,20 @@ const cards = [
 	new Cards.Survivor(),
 	new Cards.Poison(),
 	new Cards.Poison(),
-	new Cards.Poison(),
-	new Cards.Poison(),
-	new Cards.Poison(),
+	new Cards.BladeDance(),
+	new Cards.BladeDance(),
+	new Cards.BladeDance(),
 	new Cards.Bane(),
 	new Cards.Bane(),
-	new Cards.Bane(),
-	new Cards.Bane(),
-	new Cards.Bane(),
+	new Cards.BladeDance(),
+	new Cards.BladeDance(),
+	new Cards.BladeDance(),
 ]
 
 const aiQueue = [
-	AIMap.Mage,
 	AIMap.Wolf,
 	AIMap.Ninja,
+	AIMap.Mage,
 	AIMap.Monster1,
 ]
 
