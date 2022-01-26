@@ -4,27 +4,30 @@ import Neutralize from "../cards/neutralize";
 
 const cards = [
 	new Cards.Neutralize(),
-	new Cards.Neutralize(),
-	new Cards.HeavyStrike(),
 	new Cards.HeavyStrike(),
 	new Cards.TripleStrike(),
 	new Cards.StrengthUp(),
-	new Cards.HeavyStrike(),
-	new Cards.HeavyStrike(),
 	new Cards.BackFlip(),
-	new Cards.BackFlip(),
-	new Cards.Acrobatics(),
-	new Cards.Acrobatics(),
 	new Cards.Acrobatics(),
 	new Cards.Survivor(),
 	new Cards.Survivor(),
+	new Cards.Poison(),
+	new Cards.Poison(),
+	new Cards.Poison(),
+	new Cards.Poison(),
+	new Cards.Poison(),
+	new Cards.Bane(),
+	new Cards.Bane(),
+	new Cards.Bane(),
+	new Cards.Bane(),
+	new Cards.Bane(),
 ]
 
 const aiQueue = [
 	AIMap.Mage,
-	AIMap.Monster1,
 	AIMap.Wolf,
 	AIMap.Ninja,
+	AIMap.Monster1,
 ]
 
 const getCards = () => cards

@@ -58,6 +58,10 @@ BaseActor.prototype.pushState = function (State, param) {
 	console.log(this.stateList);
 }
 
+BaseActor.prototype.findState = function (State) {
+	return this.stateList.find(s => s.active && s instanceof State)
+}
+
 BaseActor.prototype.reset = function () {
 	this.hp = this.mhp
 	this.defense = 0

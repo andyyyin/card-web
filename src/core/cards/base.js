@@ -14,6 +14,8 @@ export default class BaseCard {
 
 	type;
 
+	comboFlag;
+
 	constructor() {
 		this.id = ++_idCache
 		console.log('id', this.id)
@@ -38,6 +40,8 @@ export default class BaseCard {
 
 	async onLaunch (fn) {}
 	async afterLaunch (fn) {}
+
+	checkCombo (fn) {}
 }
 
 BaseCard.prototype.tempFixCost = function (value) {

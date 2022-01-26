@@ -8,6 +8,8 @@ import Survivor from "./survivor";
 import Neutralize from "./neutralize";
 import BackFlip from "./backFlip";
 import Acrobatics from "./acrobatics";
+import Bane from "./bane";
+import Poison from "./poison";
 
 export default {
 	Defense,
@@ -20,4 +22,6 @@ export default {
 	Neutralize,
 	BackFlip,
 	Acrobatics,
+	Bane,
+	Poison,
 }

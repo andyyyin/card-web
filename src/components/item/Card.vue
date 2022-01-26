@@ -2,6 +2,7 @@
 	<div class="card-container">
 		<div class="card-display" @click.stop="onClickCard" :class="cardClassNames">
 			<div class="name">{{card.name}}</div>
+			<div class="value" v-if="card.stateValue">{{card.stateValue}}</div>
 			<div class="value" v-if="card.baseValue && isStatic">{{card.baseValue}}</div>
 			<div class="value" v-if="card.baseValue && !isStatic"
 				 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
@@ -31,6 +32,7 @@ export default {
 			let result = [this.card.typeClassName]
 			if (this.isPrepared) result.push('active')
 			if (this.isDisabled) result.push('disabled')
+			if (this.card.comboFlag) result.push('combo')
 			return result.join(' ')
 		},
 	},

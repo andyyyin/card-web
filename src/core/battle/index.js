@@ -52,6 +52,14 @@ export default (state, refs) => {
 	fn.getHeroState = () => [...state.hero.stateList.filter(s => state.active)]
 	fn.getEnemyState = () => [...state.enemy.stateList.filter(s => state.active)]
 
+	fn.heroFindState = (State) => state.hero.findState(State)
+	fn.enemyFindState = (State) => state.enemy.findState(State)
+
+	fn.hostChangeHp = (exState, value) => {
+		if (state.hero.stateList.indexOf(exState) > -1) fn.heroChangeHp(value)
+		if (state.enemy.stateList.indexOf(exState) > -1) fn.enemyChangeHp(value)
+	}
+
 	fn.cost = (num) => {
 		state.powerCur -= num
 		console.log('power change -' + num)
@@ -196,6 +204,7 @@ export default (state, refs) => {
 			if (card.type === CARD_BASE_TYPE.SKILL && card.baseValue) {
 				card.fixedValue = stateDefenseFix(card.baseValue, state.hero.stateList)
 			}
+			card.checkCombo(fn)
 		})
 		if (state.enemy.action.intention === INTENTION.ATTACK && state.enemy.action.value) {
 			let fixedValue = state.enemy.action.value
