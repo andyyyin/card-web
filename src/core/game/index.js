@@ -13,10 +13,10 @@ const cards = [
 	new Cards.HeavyStrike(),
 	new Cards.BackFlip(),
 	new Cards.BackFlip(),
-	new Cards.BackFlip(),
-	new Cards.BackFlip(),
-	new Cards.BackFlip(),
-	new Cards.BackFlip(),
+	new Cards.Acrobatics(),
+	new Cards.Acrobatics(),
+	new Cards.Acrobatics(),
+	new Cards.Survivor(),
 	new Cards.Survivor(),
 ]
 

@@ -6,7 +6,7 @@ export default class StrengthUp extends BaseCard {
 
 	name = '力量'
 
-	baseValue = 2
+	baseValue = 1
 
 	type = CARD_BASE_TYPE.ABILITY
 

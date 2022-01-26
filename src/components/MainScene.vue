@@ -2,13 +2,13 @@
 	<div>
 		<section class="state-section row-align">
 			<div class="intention-display-container">
-				<div class="intention-icon" v-show="!eAct.name" :class="intentionClassName"/>
-				<div class="action-name" v-show="eAct.name">{{eAct.name}}</div>
+				<div class="intention-icon" v-show="!e_act.name" :class="intentionClassName"/>
+				<div class="action-name" v-show="e_act.name">{{e_act.name}}</div>
 				<div class="action-value">
-					<span :class="{up: eAct.fixedValue > eAct.value, down: eAct.fixedValue < eAct.value}">
-						{{eAct.fixedValue || eAct.value}}
+					<span :class="{up: e_act.fixedValue > e_act.value, down: e_act.fixedValue < e_act.value}">
+						{{e_act.fixedValue || e_act.value}}
 					</span>
-					<span>{{eAct.time && ('×' + eAct.time)}}</span>
+					<span>{{e_act.time && ('×' + e_act.time)}}</span>
 				</div>
 			</div>
 			<div class="progress-container grow">
@@ -75,34 +75,20 @@
 
 		<!-- 动态组件区 ↓↓↓↓↓↓ -->
 
-		<van-popup class="selector-popup" v-model:show="state.selector.show" :close-on-click-overlay="false">
-			<div class="selector-title">{{state.selector.title}}</div>
-			<div class="operate-cards-panel">
-				<card class="card-item"
-					v-for="card in state.selector.cards"
-					:key="card.id"
-					:card="card"
-					:card-launch="state.selector.onSelect"
-					:locked="state.locked"
-				  	:is-static="true"
-				/>
-			</div>
-		</van-popup>
+		<selector v-bind="state.selector" v-model:show="state.selector.show"/>
 
 	</div>
 </template>
 
 <script setup>
 import {reactive, ref, computed, onMounted, watchEffect, toRefs} from 'vue'
-import {useRouter} from 'vue-router';
 import { Dialog } from 'vant';
 import BattlerView from './BattlerView.vue'
 import Card from './item/Card.vue'
-import AT from '../core/function/arrayTools'
+import Selector from './item/Selector.vue'
 import {CARD_BASE_TYPE, INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
 import G from "../core/game/index"
-import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../core/algorithm";
 import anime from "../anime";
 import battleFunctionsInit from "../core/battle"
 
@@ -133,7 +119,7 @@ const intentionClassName = computed(() => {
 		default: return state.enemy.action.intention
 	}
 })
-const eAct = computed(() => state.enemy.action)
+const e_act = computed(() => state.enemy.action)
 
 const state = reactive({
 	isGameOver: false,
@@ -145,9 +131,10 @@ const state = reactive({
 	selector: {
 		show: false,
 		title: '',
+		onSkip: null,
 		cards: [],
-		options: [],
-		onSelect: () => {},
+		limit: [],
+		onConfirm: () => {},
 	},
 	hero: Object.assign(new BaseActor(), {
 		name: 'hero',

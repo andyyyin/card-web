@@ -12,7 +12,7 @@ export default (state, refs) => {
 	fn.heroChangeHp = state.hero.changeHp.bind(state.hero)
 	fn.heroPushState = (...params) => {
 		state.hero.pushState(...params)
-		updateRelationValueShow()
+		// updateRelationValueShow()
 	}
 	fn.heroChangeDefense = (value) => {
 		const fixedValue = stateDefenseFix(value, state.hero.stateList)
@@ -32,7 +32,7 @@ export default (state, refs) => {
 	fn.enemyChangeHp = state.enemy.changeHp.bind(state.enemy)
 	fn.enemyPushState = (...params) => {
 		state.enemy.pushState(...params)
-		updateRelationValueShow()
+		// updateRelationValueShow()
 	}
 	fn.enemyChangeDefense = (value) => {
 		const fixedValue = stateDefenseFix(value, state.enemy.stateList)
@@ -114,6 +114,7 @@ export default (state, refs) => {
 			await fn.dropCard(card.id)
 		}
 		await card.afterLaunch(fn)
+		updateRelationValueShow()
 	}
 
 	fn.consumeCard = async (id) => {
@@ -148,23 +149,28 @@ export default (state, refs) => {
 		toBeRaised.tempFixCost(1)
 	}
 
-	fn.handCardsSelector = ({title, onSelect}) => {
+	fn.handCardsSelector = ({title, onConfirm, count, onSkip}) => {
 		state.selector.show = true
 		state.selector.title = title
+		state.selector.limit = [count || 1]
 		state.selector.cards = [...state.handCards]
-		state.selector.onSelect = async (id) => {
-			await onSelect(id)
-			state.selector.show = false
-		}
+		state.selector.onSkip = onSkip
+		state.selector.onConfirm = onConfirm
 	}
 
-	fn.dropSelectCard = () => {
+	fn.dropSelectCard = async (count) => {
 		if (!state.handCards.length) return
-		fn.handCardsSelector({
-			title: '选择一张卡丢弃',
-			onSelect: async (id) => {
-				await fn.dropCard(id)
-			}
+		await new Promise(resolve => {
+			fn.handCardsSelector({
+				title: `选择${count || 1}张卡丢弃`,
+				count,
+				onConfirm: async (idList) => {
+					for (let id of idList) {
+						await fn.dropCard(id)
+					}
+					resolve()
+				}
+			})
 		})
 	}
 
@@ -191,12 +197,11 @@ export default (state, refs) => {
 				card.fixedValue = stateDefenseFix(card.baseValue, state.hero.stateList)
 			}
 		})
-		if (state.enemy.action.intention === INTENTION.ATTACK && state.enemy.actionValue) {
-			let fixedValue = state.enemy.actionValue
+		if (state.enemy.action.intention === INTENTION.ATTACK && state.enemy.action.value) {
+			let fixedValue = state.enemy.action.value
 			fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
 			fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
-			state.enemy.actionFixedValue = fixedValue
-			console.log(state.enemy.actionFixedValue)
+			state.enemy.action.fixedValue = fixedValue
 		}
 	}
 

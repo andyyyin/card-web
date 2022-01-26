@@ -1,11 +1,10 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from "../enum";
+import Weak from "../state/weak";
 
-export default class survivor extends BaseCard {
+export default class Acrobatics extends BaseCard {
 
-	name = '幸存'
-
-	baseValue = 8
+	name = '杂技'
 
 	type = CARD_BASE_TYPE.SKILL
 
@@ -14,7 +13,7 @@ export default class survivor extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.heroChangeDefense(this.baseValue)
+		await fn.drawCard(3)
 	}
 
 	async afterLaunch(fn) {

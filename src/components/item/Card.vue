@@ -24,6 +24,7 @@ export default {
 		cardPrepare: Function,
 		locked: Boolean,
 		isDisabled: false,
+		onClick: Function,
 	},
 	computed: {
 		cardClassNames () {
@@ -35,13 +36,14 @@ export default {
 	},
 	methods: {
 		onClickCard () {
+			this.onClick && this.onClick(this.card.id)
 			if (this.locked) return
 			if (this.isDisabled) return
 			if (this.card.unplayable) return
 			if (this.isPrepared || !this.cardPrepare) {
-				this.cardLaunch(this.card.id)
+				this.cardLaunch && this.cardLaunch(this.card.id)
 			} else {
-				this.cardPrepare(this.card.id)
+				this.cardLaunch && this.cardPrepare(this.card.id)
 			}
 		},
 	}

@@ -7,6 +7,7 @@ import Burn from "./burn";
 import Survivor from "./survivor";
 import Neutralize from "./neutralize";
 import BackFlip from "./backFlip";
+import Acrobatics from "./acrobatics";
 
 export default {
 	Defense,
@@ -18,4 +19,5 @@ export default {
 	Survivor,
 	Neutralize,
 	BackFlip,
+	Acrobatics,
 }

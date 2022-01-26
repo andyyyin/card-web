@@ -223,6 +223,7 @@
 }
 
 .selector-popup{
+	overflow-y: unset;
 	.selector-title{
 		text-align: center;
 		background-color: #1b05ad;
@@ -234,5 +235,22 @@
 		height: auto;
 		justify-content: center;
 		background-color: unset;
+		padding-top: 6px;
+		padding-bottom: 6px;
+	}
+	.button-group{
+		position: absolute;
+		top: calc(100% + 5px);
+		left: 0;
+		width: 100%;
+		.button{
+			background-color: darkgreen;
+			color: #fff;
+			text-align: center;
+			padding: 4px 0;
+			&.skip{
+				background-color: #333;
+			}
+		}
 	}
 }
