@@ -13,7 +13,7 @@ export default class Poisoned extends BaseState{
 		this.level = level || 1
 	}
 
-	async onHostEndTurn (fn) {
+	async onOpponentEndTurn (fn) {
 		fn.hostChangeHp(this, -this.level)
 		this.level -= 1
 		if (this.level <= 0) this.removeSelf(fn)
