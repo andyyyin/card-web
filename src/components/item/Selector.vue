@@ -20,7 +20,7 @@
 
 <script setup>
 import Card from './Card.vue'
-import {ref, defineProps, defineEmits} from "vue";
+import {ref} from "vue";
 
 const props = defineProps({
 	show: Boolean,

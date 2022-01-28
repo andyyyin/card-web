@@ -1,12 +1,12 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from "../enum";
-import Weak from "../state/weak";
+import NextTurnBlock from "../state/nextTurnBlock";
 
-export default class BackFlip extends BaseCard {
+export default class DodgeRoll extends BaseCard {
 
-	name = '后空翻'
+	name = '翻滚回避'
 
-	baseValue = 5
+	baseValue = 4
 
 	type = CARD_BASE_TYPE.SKILL
 
@@ -16,10 +16,7 @@ export default class BackFlip extends BaseCard {
 
 	async onLaunch(fn) {
 		fn.heroChangeDefense(this.baseValue)
-	}
-
-	async afterLaunch(fn) {
-		await fn.drawCard(2)
+		fn.heroPushState(NextTurnBlock)
 	}
 
 }

@@ -11,6 +11,9 @@ import Acrobatics from "./acrobatics";
 import Bane from "./bane";
 import Poison from "./poison";
 import BladeDance from "./bladeDance";
+import DaggerCloak from "./daggerCloak";
+import DaggerThrow from "./daggerThrow";
+import DodgeRoll from "./dodgeRoll";
 
 export default {
 	Defense,
@@ -26,4 +29,7 @@ export default {
 	Bane,
 	Poison,
 	BladeDance,
+	DaggerCloak,
+	DaggerThrow,
+	DodgeRoll,
 }

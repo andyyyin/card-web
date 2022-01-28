@@ -1,10 +1,10 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from "../enum";
-import Weak from "../state/weak";
+import Shiv from "./shiv";
 
-export default class BackFlip extends BaseCard {
+export default class DaggerCloak extends BaseCard {
 
-	name = '后空翻'
+	name = '飞刀斗篷'
 
 	baseValue = 5
 
@@ -19,7 +19,7 @@ export default class BackFlip extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
-		await fn.drawCard(2)
+		await fn.createCard(Shiv)
 	}
 
 }
