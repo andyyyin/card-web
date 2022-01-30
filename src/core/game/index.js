@@ -3,6 +3,7 @@ import AIMap from '../ai'
 import Neutralize from "../cards/neutralize";
 import DaggerCloak from "../cards/daggerCloak";
 import DodgeRoll from "../cards/dodgeRoll";
+import FlyingKnee from "../cards/flyingKnee";
 
 const cards = [
 	new Cards.Neutralize(),
@@ -18,10 +19,12 @@ const cards = [
 	new Cards.DaggerCloak(),
 	new Cards.DaggerThrow(),
 	new Cards.DodgeRoll(),
-	new Cards.DodgeRoll(),
-	new Cards.DodgeRoll(),
-	new Cards.DodgeRoll(),
-	new Cards.DodgeRoll(),
+	new Cards.FlyingKnee(),
+	new Cards.Outmaneuver(),
+	new Cards.Outmaneuver(),
+	new Cards.Outmaneuver(),
+	new Cards.Outmaneuver(),
+	new Cards.Outmaneuver(),
 ]
 
 const aiQueue = [

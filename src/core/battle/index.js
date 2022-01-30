@@ -61,8 +61,12 @@ export default (state, refs) => {
 	}
 
 	fn.cost = (num) => {
+		if (num > state.powerCur) return
 		state.powerCur -= num
 		console.log('power change -' + num)
+	}
+	fn.gainPower = (num = 1) => {
+		state.powerCur += num
 	}
 	fn.dropCard = async (id) => {
 		let index, card

@@ -14,6 +14,9 @@ import BladeDance from "./bladeDance";
 import DaggerCloak from "./daggerCloak";
 import DaggerThrow from "./daggerThrow";
 import DodgeRoll from "./dodgeRoll";
+import Deflect from "./deflect";
+import FlyingKnee from "./flyingKnee";
+import Outmaneuver from "./outmaneuver";
 
 export default {
 	Defense,
@@ -32,4 +35,7 @@ export default {
 	DaggerCloak,
 	DaggerThrow,
 	DodgeRoll,
+	Deflect,
+	FlyingKnee,
+	Outmaneuver,
 }
