@@ -149,13 +149,16 @@ export default (state, refs) => {
 
 	fn.getTurnNum = () => state.turnNum
 
-	fn.dropRandomHandCard = async (filter) => {
+	fn.dropRandomHandCard = async (count = 1, filter) => {
 		let handCards = [...state.handCards]
 		if (filter && typeof filter === 'function') handCards = handCards.filter(filter)
 		if (!handCards.length) return
-		let toBeDropped = AT.getRandomOne(handCards)
-		fn.pushLog('丢弃：' + toBeDropped.name)
-		await fn.dropCard(toBeDropped.id)
+		let toBeDropped = AT.getRandomCount(handCards, count)
+		for (let card of toBeDropped) {
+			fn.pushLog('丢弃：' + card.name)
+			await fn.dropCard(card.id)
+		}
+		state.turnStat.dropCard += count
 	}
 
 	fn.raiseRandomCard = (filter) => {
@@ -175,16 +178,17 @@ export default (state, refs) => {
 		state.selector.onConfirm = onConfirm
 	}
 
-	fn.dropSelectCard = async (count) => {
+	fn.dropSelectCard = async (count = 1, filter) => {
 		if (!state.handCards.length) return
 		await new Promise(resolve => {
 			fn.handCardsSelector({
-				title: `选择${count || 1}张卡丢弃`,
+				title: `选择${count}张卡丢弃`,
 				count,
 				onConfirm: async (idList) => {
 					for (let id of idList) {
 						await fn.dropCard(id)
 					}
+					state.turnStat.dropCard += count
 					resolve()
 				}
 			})
@@ -208,8 +212,11 @@ export default (state, refs) => {
 		await fn.pushCardToHand(card)
 	}
 
+	fn.getDroppedCountOfTurn = () => state.turnStat.dropCard
+
 	const updateRelationValueShow = () => {
 		state.handCards.map(card => {
+			card.checkCombo(fn)
 			if (card.type === CARD_BASE_TYPE.ATTACK && card.baseValue) {
 				let fixedValue = card.baseValue
 				fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
@@ -219,7 +226,6 @@ export default (state, refs) => {
 			if (card.type === CARD_BASE_TYPE.SKILL && card.baseValue) {
 				card.fixedValue = stateDefenseFix(card.baseValue, state.hero.stateList)
 			}
-			card.checkCombo(fn)
 		})
 		if (state.enemy.action.intention === INTENTION.ATTACK && state.enemy.action.value) {
 			let fixedValue = state.enemy.action.value

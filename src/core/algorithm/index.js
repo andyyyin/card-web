@@ -7,6 +7,7 @@ const stateAttrFixProcess = (value, stateList, attrName) => {
 		multi *= (state[attrName].multi || 1)
 	})
 	let fixed = (value + add) * multi
+	if (fixed <= 0) return 0
 	return fixed >= value ? Math.ceil(fixed) : Math.floor(fixed)
 }
 

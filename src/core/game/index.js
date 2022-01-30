@@ -1,9 +1,5 @@
 import Cards from '../cards'
 import AIMap from '../ai'
-import Neutralize from "../cards/neutralize";
-import DaggerCloak from "../cards/daggerCloak";
-import DodgeRoll from "../cards/dodgeRoll";
-import FlyingKnee from "../cards/flyingKnee";
 
 const cards = [
 	new Cards.Neutralize(),
@@ -21,17 +17,24 @@ const cards = [
 	new Cards.DodgeRoll(),
 	new Cards.FlyingKnee(),
 	new Cards.Outmaneuver(),
-	new Cards.Outmaneuver(),
-	new Cards.Outmaneuver(),
-	new Cards.Outmaneuver(),
-	new Cards.Outmaneuver(),
+	new Cards.PiercingWail(),
+	new Cards.PoisonedStab(),
+	new Cards.Prepared(),
+	new Cards.QuickSlash(),
+	new Cards.SneakyStrike(),
+	new Cards.SuckerPunch(),
+	new Cards.Accuracy(),
+	new Cards.Accuracy(),
+	new Cards.Accuracy(),
+	new Cards.Accuracy(),
+	new Cards.Accuracy(),
 ]
 
 const aiQueue = [
-	AIMap.Wolf,
-	AIMap.Ninja,
 	AIMap.Mage,
 	AIMap.Monster1,
+	AIMap.Ninja,
+	AIMap.Wolf,
 ]
 
 const getCards = () => cards

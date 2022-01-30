@@ -6,7 +6,7 @@
 				<div class="action-name" v-show="e_act.name">{{e_act.name}}</div>
 				<div class="action-value">
 					<span :class="{up: e_act.fixedValue > e_act.value, down: e_act.fixedValue < e_act.value}">
-						{{e_act.fixedValue || e_act.value}}
+						{{e_act.fixedValue}}
 					</span>
 					<span>{{e_act.time && ('×' + e_act.time)}}</span>
 				</div>
@@ -169,6 +169,13 @@ const state = reactive({
 	usedStack: [],
 	prepareCardId: null,
 	logs: [],
+	turnStat: {
+		dropCard: 0,
+		launchAttack: 0,
+		reset: function () {
+			this.dropCard = this.launchAttack = 0
+		}
+	}
 })
 const filteredEnemyStateList = computed(() => state.enemy.stateList.filter(s => s.active))
 const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => s.active))
@@ -217,6 +224,7 @@ const startNewTurn = async () => {
 
 	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
 
+	state.turnStat.reset()
 	state.locked = false
 }
 

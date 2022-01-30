@@ -1,5 +1,6 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from '../enum'
+import Accuracy from "../state/accuracy";
 
 export default class Shiv extends BaseCard {
 
@@ -15,6 +16,11 @@ export default class Shiv extends BaseCard {
 
 	constructor() {
 		super();
+	}
+
+	checkCombo(fn) {
+		let accuracy = fn.heroFindState(Accuracy)
+		this.baseValue = 4 + (accuracy && accuracy.level * 4) || 0
 	}
 
 	async onLaunch(fn) {

@@ -23,6 +23,9 @@ export default class BaseState {
 	onSuperposition (param) {
 		if ((!param || typeof param === 'number') && this.level) {
 			this.level += (param || 1)
+			if (this.level === 0) {
+				this.removeSelf()
+			}
 		}
 	}
 }

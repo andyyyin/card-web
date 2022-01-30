@@ -17,6 +17,14 @@ import DodgeRoll from "./dodgeRoll";
 import Deflect from "./deflect";
 import FlyingKnee from "./flyingKnee";
 import Outmaneuver from "./outmaneuver";
+import PiercingWail from "./piercingWail";
+import PoisonedStab from "./poisonedStab";
+import Prepared from "./prepared";
+import QuickSlash from "./quickSlash";
+import Slice from "./slice";
+import SneakyStrike from "./sneakyStrike";
+import SuckerPunch from "./suckerPunch";
+import Accuracy from "./accuracy";
 
 export default {
 	Defense,
@@ -38,4 +46,12 @@ export default {
 	Deflect,
 	FlyingKnee,
 	Outmaneuver,
+	PiercingWail,
+	PoisonedStab,
+	Prepared,
+	QuickSlash,
+	Slice,
+	SneakyStrike,
+	SuckerPunch,
+	Accuracy,
 }
