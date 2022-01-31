@@ -6,6 +6,7 @@ export default class BaseState {
 	level
 
 	constructor(props) {
+		this.level = props || 1
 	}
 
 	removeSelf () {
@@ -22,10 +23,14 @@ export default class BaseState {
 
 	onSuperposition (param) {
 		if ((!param || typeof param === 'number') && this.level) {
-			this.level += (param || 1)
-			if (this.level === 0) {
-				this.removeSelf()
-			}
+			this.levelChange(param || 1)
+		}
+	}
+
+	levelChange (value) {
+		this.level += value
+		if (this.level === 0) {
+			this.removeSelf()
 		}
 	}
 }

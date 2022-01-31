@@ -12,14 +12,8 @@ export default class Weak extends BaseState{
 		return {multi: 0.75}
 	}
 
-	constructor(level) {
-		super(level);
-		this.level = level || 1
-	}
-
 	async onHostEndTurn (fn) {
-		this.level -= 1
-		if (this.level <= 0) this.removeSelf(fn)
+		this.levelChange(-1)
 	}
 
 }

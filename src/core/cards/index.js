@@ -25,6 +25,9 @@ import Slice from "./slice";
 import SneakyStrike from "./sneakyStrike";
 import SuckerPunch from "./suckerPunch";
 import Accuracy from "./accuracy";
+import AllOutAttack from "./allOutAttack";
+import BackStab from "./backStab";
+import Blur from "./blur";
 
 export default {
 	Defense,
@@ -54,4 +57,7 @@ export default {
 	SneakyStrike,
 	SuckerPunch,
 	Accuracy,
+	AllOutAttack,
+	BackStab,
+	Blur,
 }

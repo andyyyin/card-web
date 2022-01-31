@@ -12,9 +12,4 @@ export default class Strength extends BaseState{
 		return {add: this.level}
 	}
 
-	constructor(level) {
-		super(level);
-		this.level = level || 1
-	}
-
 }

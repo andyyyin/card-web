@@ -8,11 +8,6 @@ export default class NextTurnBlock extends BaseState{
 
 	level = 1
 
-	constructor(level) {
-		super(level);
-		this.level = level || 1
-	}
-
 	async onHostStartTurn (fn) {
 		fn.gainPower(this.level)
 		this.removeSelf()

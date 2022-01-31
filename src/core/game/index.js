@@ -1,5 +1,8 @@
 import Cards from '../cards'
 import AIMap from '../ai'
+import AllOutAttack from "../cards/allOutAttack";
+import BackStab from "../cards/backStab";
+import Blur from "../cards/blur";
 
 const cards = [
 	new Cards.Neutralize(),
@@ -24,10 +27,13 @@ const cards = [
 	new Cards.SneakyStrike(),
 	new Cards.SuckerPunch(),
 	new Cards.Accuracy(),
-	new Cards.Accuracy(),
-	new Cards.Accuracy(),
-	new Cards.Accuracy(),
-	new Cards.Accuracy(),
+	new Cards.AllOutAttack(),
+	new Cards.BackStab(),
+	new Cards.Blur(),
+	new Cards.Blur(),
+	new Cards.Blur(),
+	new Cards.Blur(),
+	new Cards.Blur(),
 ]
 
 const aiQueue = [

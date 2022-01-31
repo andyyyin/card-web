@@ -81,16 +81,25 @@ export default (state, refs) => {
 		}
 
 	}
-	fn.drawCard = async (count) => {
+	fn.drawCard = async (count, filter) => {
 		if (state.drawStack.length > 0) {
-			let card = state.drawStack.shift()
+
+			let card
+			if (filter) {
+				let tIndex = state.drawStack.findIndex(filter)
+				if (tIndex === -1) return
+				card = state.drawStack.splice(tIndex, 1)[0]
+			} else {
+				card = state.drawStack.shift()
+			}
+
 			if (await fn.pushCardToHand(card)) {
 				console.log('draw card', card.id, card.name)
 				// todo 抽到直接丢弃不触发抽牌效果？？待定
 				await card.onDraw(fn)
 			}
 			if (count > 1) {
-				await fn.drawCard(count - 1)
+				await fn.drawCard(count - 1, filter)
 			} else {
 				// 等所有卡抽完了一起更新
 				updateRelationValueShow()

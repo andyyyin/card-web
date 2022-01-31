@@ -10,11 +10,6 @@ export default class NextTurnBlock extends BaseState{
 
 	value = 4
 
-	constructor(level) {
-		super(level);
-		this.level = level || 1
-	}
-
 	async onHostStartTurn (fn) {
 		fn.heroChangeDefense(this.value * this.level)
 		this.removeSelf()

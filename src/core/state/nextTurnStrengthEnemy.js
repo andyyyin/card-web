@@ -9,11 +9,6 @@ export default class NextTurnStrengthEnemy extends BaseState{
 
 	level = 1
 
-	constructor(level) {
-		super(level);
-		this.level = level || 1
-	}
-
 	async onHostEndTurn (fn) {
 		fn.enemyPushState(Strength, this.level)
 		this.removeSelf()

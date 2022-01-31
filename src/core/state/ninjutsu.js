@@ -17,15 +17,7 @@ export default class Ninjutsu extends BaseState{
 	}
 
 	onGetDamage () {
-		if (this.level > 0) this.level--
-		if (this.level <= 0) {
-			this.removeSelf()
-		}
-	}
-
-	constructor(level) {
-		super(level);
-		this.level = level || 1
+		this.levelChange(-1)
 	}
 
 	async onOpponentEndTurn () {

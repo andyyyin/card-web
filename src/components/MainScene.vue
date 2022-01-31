@@ -91,6 +91,7 @@ import BaseActor from "../core/actor/base";
 import G from "../core/game/index"
 import anime from "../anime";
 import battleFunctionsInit from "../core/battle"
+import AT from "../core/function/arrayTools";
 
 const refs = {
 	dropStack: null,
@@ -216,7 +217,9 @@ const startNewTurn = async () => {
 
 	state.turnNum++
 	console.log('turn start')
-	state.hero.defense = 0
+	if (!state.hero.stateList.some(s => s.keepBlock)) {
+		state.hero.defense = 0
+	}
 	state.powerCur = state.powerBase
 	await fn.drawCard(5)
 
@@ -287,7 +290,9 @@ const createEnemy = async () => {
 
 const startBattle = async () => {
 	if (await createEnemy()) {
-		state.dropStack.push(...G.getCards())
+		state.drawStack.push(...AT.shuffleArray(G.getCards()))
+		await fn.drawCard(10, card => card.innate)
+
 		// 主角初始化
 		state.hero.defense = 0
 		state.hero.stateList.splice(0, state.hero.stateList.length)
