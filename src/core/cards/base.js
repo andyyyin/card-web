@@ -8,7 +8,10 @@ export default class BaseCard {
 	costFixInTurn = 0;
 	costFixInBattle = 0;
 
-	get cost () { return this.baseCost + this.costFixInBattle + this.costFixInTurn }
+	get cost () {
+		let result = this.baseCost + this.costFixInBattle + this.costFixInTurn
+		return result > 0 ? result : 0
+	}
 
 	name
 	baseValue;
@@ -52,8 +55,14 @@ export default class BaseCard {
 }
 
 BaseCard.prototype.setCostFixInTurn = function (value) {
+	this.costFixInTurn = value
+}
+BaseCard.prototype.addCostFixInTurn = function (value) {
 	this.costFixInTurn += value
 }
 BaseCard.prototype.setCostFixInBattle = function (value) {
+	this.costFixInBattle = value
+}
+BaseCard.prototype.addCostFixInBattle = function (value) {
 	this.costFixInBattle += value
 }

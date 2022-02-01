@@ -36,6 +36,11 @@ import Concentrate from "./concentrate";
 import CripplingCloud from "./cripplingCloud";
 import Dash from "./dash";
 import Distraction from "./distraction";
+import EndlessAgony from "./endlessAgony";
+import EscapePlan from "./escapePlan";
+import Eviscerate from "./eviscerate";
+import Expertise from "./expertise";
+import Finisher from "./finisher";
 
 export default {
 	Defense,
@@ -76,4 +81,9 @@ export default {
 	CripplingCloud,
 	Dash,
 	Distraction,
+	EndlessAgony,
+	EscapePlan,
+	Eviscerate,
+	Expertise,
+	Finisher,
 }

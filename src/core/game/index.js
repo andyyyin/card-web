@@ -11,6 +11,11 @@ import Concentrate from "../cards/concentrate";
 import CripplingCloud from "../cards/cripplingCloud";
 import Dash from "../cards/dash";
 import Distraction from "../cards/distraction";
+import EndlessAgony from "../cards/endlessAgony";
+import EscapePlan from "../cards/escapePlan";
+import Eviscerate from "../cards/eviscerate";
+import Expertise from "../cards/expertise";
+import Finisher from "../cards/finisher";
 
 const cards = [
 	// new Cards.Neutralize(),
@@ -19,7 +24,7 @@ const cards = [
 	// new Cards.StrengthUp(),
 	// new Cards.BackFlip(),
 	// new Cards.Acrobatics(),
-	// new Cards.Survivor(),
+	new Cards.Survivor(),
 	// new Cards.Poison(),
 	// new Cards.BladeDance(),
 	// new Cards.Bane(),
@@ -30,14 +35,14 @@ const cards = [
 	// new Cards.Outmaneuver(),
 	// new Cards.PiercingWail(),
 	// new Cards.PoisonedStab(),
-	// new Cards.Prepared(),
+	new Cards.Prepared(),
 	// new Cards.QuickSlash(),
 	new Cards.SneakyStrike(),
 	new Cards.SuckerPunch(),
-	new Cards.Accuracy(),
-	new Cards.AllOutAttack(),
-	new Cards.BackStab(),
-	new Cards.Blur(),
+	// new Cards.Accuracy(),
+	// new Cards.AllOutAttack(),
+	// new Cards.BackStab(),
+	// new Cards.Blur(),
 	new Cards.CalculatedGamble(),
 	new Cards.Caltrops(),
 	new Cards.Catalyst(),
@@ -46,10 +51,15 @@ const cards = [
 	new Cards.CripplingCloud(),
 	new Cards.Dash(),
 	new Cards.Distraction(),
-	new Cards.Distraction(),
-	new Cards.Distraction(),
-	new Cards.Distraction(),
-	new Cards.Distraction(),
+	new Cards.EndlessAgony(),
+	new Cards.EscapePlan(),
+	new Cards.Eviscerate(),
+	new Cards.Expertise(),
+	new Cards.Finisher(),
+	new Cards.Finisher(),
+	new Cards.Finisher(),
+	new Cards.Finisher(),
+	new Cards.Finisher(),
 ]
 
 const aiQueue = [

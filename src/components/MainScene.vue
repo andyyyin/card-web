@@ -216,6 +216,7 @@ const startNewTurn = async () => {
 	state.locked = true
 
 	state.turnNum++
+	state.turnStat.reset()
 	console.log('turn start')
 	if (!state.hero.stateList.some(s => s.keepBlock)) {
 		state.hero.defense = 0
@@ -227,7 +228,6 @@ const startNewTurn = async () => {
 
 	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
 
-	state.turnStat.reset()
 	state.locked = false
 }
 
@@ -269,10 +269,13 @@ const endTheTurn = async () => {
 const onWin = async () => {
 	console.log('hero win')
 	for (let c of state.handCards) await c.onLeaveFromHand(fn)
+	for (let c of G.getCards()) {
+		await c.onTurnEnd(fn)
+		await c.onBattleEnd(fn)
+	}
 	state.handCards.splice(0, state.handCards.length)
 	state.drawStack.splice(0, state.drawStack.length)
 	state.dropStack.splice(0, state.dropStack.length)
-	for (let c of G.getCards()) await c.onBattleEnd(fn)
 
 	await Dialog.alert({message: 'WIN'})
 	// todo

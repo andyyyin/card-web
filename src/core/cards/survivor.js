@@ -1,7 +1,7 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from "../enum";
 
-export default class survivor extends BaseCard {
+export default class Survivor extends BaseCard {
 
 	name = '幸存'
 

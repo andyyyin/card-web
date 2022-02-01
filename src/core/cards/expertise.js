@@ -1,11 +1,11 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from '../enum'
 
-export default class Prepared extends BaseCard {
+export default class Expertise extends BaseCard {
 
-	baseCost = 0
+	baseCost = 1
 
-	name = '准备'
+	name = '专业技术'
 
 	static type = CARD_BASE_TYPE.SKILL
 
@@ -17,8 +17,8 @@ export default class Prepared extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
-		await fn.drawCard()
-		await fn.dropSelectCard()
+		let drawCount = 6 - fn.numberOfHandCards()
+		await fn.drawCard(drawCount)
 	}
 
 }

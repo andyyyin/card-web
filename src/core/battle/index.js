@@ -87,35 +87,35 @@ export default (state, refs) => {
 		}
 
 	}
-	fn.drawCard = async (count, filter) => {
-		if (state.drawStack.length > 0) {
+	fn.drawCard = async (count = 1, filter) => {
+		const drawList = []
+		while (count > 0) {
+			if (state.drawStack.length > 0) {
 
-			let card
-			if (filter) {
-				let tIndex = state.drawStack.findIndex(filter)
-				if (tIndex === -1) return
-				card = state.drawStack.splice(tIndex, 1)[0]
-			} else {
-				card = state.drawStack.shift()
-			}
+				let card
+				if (filter) {
+					let tIndex = state.drawStack.findIndex(filter)
+					if (tIndex === -1) break
+					card = state.drawStack.splice(tIndex, 1)[0]
+				} else {
+					card = state.drawStack.shift()
+				}
 
-			if (await fn.pushCardToHand(card)) {
-				console.log('draw card', card.id, card.name)
-				// todo 抽到直接丢弃不触发抽牌效果？？待定
-				await card.onDraw(fn)
+				if (await fn.pushCardToHand(card)) {
+					console.log('draw card', card.id, card.name)
+					// todo 抽到直接丢弃不触发抽牌效果？？待定
+					await card.onDraw(fn)
+				}
+				drawList.push(card)
+				count--
+			} else if (state.dropStack.length > 0) {
+				let cardSGroup = state.dropStack.splice(0, state.dropStack.length)
+				state.drawStack.push(...AT.shuffleArray(cardSGroup))
+				console.log('shuffle')
 			}
-			if (count > 1) {
-				await fn.drawCard(count - 1, filter)
-			} else {
-				// 等所有卡抽完了一起更新
-				updateRelationValueShow()
-			}
-		} else if (state.dropStack.length > 0) {
-			let cardSGroup = state.dropStack.splice(0, state.dropStack.length)
-			state.drawStack.push(...AT.shuffleArray(cardSGroup))
-			console.log('shuffle')
-			await fn.drawCard(count)
 		}
+		updateRelationValueShow()
+		return drawList
 	}
 	fn.pushCardToHand = async (card) => {
 		state.handCards.push(card)
@@ -145,11 +145,15 @@ export default (state, refs) => {
 		} else {
 			await fn.dropCard(card.id)
 		}
+		if (card.type === CARD_BASE_TYPE.ATTACK) {
+			state.turnStat.launchAttack++
+		}
 		for (let s of state.hero.stateList) await s.onLaunchCard(fn, card)
 		for (let s of state.enemy.stateList) await s.onLaunchCard(fn, card)
 		updateRelationValueShow()
 
 		await card.afterLaunch(fn)
+		updateRelationValueShow()
 	}
 	fn.numberOfHandCards = () => state.handCards.length
 
@@ -192,7 +196,7 @@ export default (state, refs) => {
 		if (filter && typeof filter === 'function') handCards = handCards.filter(filter)
 		if (!handCards.length) return
 		let toBeRaised = AT.getRandomOne(handCards)
-		toBeRaised.setCostFixInTurn(1)
+		toBeRaised.addCostFixInTurn(1)
 	}
 
 	fn.handCardsSelector = ({title, onConfirm, count, onSkip}) => {
@@ -249,6 +253,7 @@ export default (state, refs) => {
 	}
 
 	fn.getDroppedCountOfTurn = () => state.turnStat.dropCard
+	fn.getLaunchAttCardCountOfTurn = () => state.turnStat.launchAttack
 
 	const updateRelationValueShow = () => {
 		state.handCards.map(card => {
