@@ -7,7 +7,7 @@ export default class Defense extends BaseCard {
 
 	baseValue = 5
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
 	constructor() {
 		super();

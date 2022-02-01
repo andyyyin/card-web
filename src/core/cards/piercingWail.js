@@ -8,7 +8,7 @@ export default class PiercingWail extends BaseCard {
 
 	name = '尖啸'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
 	constructor() {
 		super();

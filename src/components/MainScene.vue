@@ -231,12 +231,16 @@ const startNewTurn = async () => {
 	state.locked = false
 }
 
+const getActiveCards = () => [...state.handCards, ...state.dropStack, ...state.drawStack]
+
 const endTheTurn = async () => {
 	console.log('turn end')
 	state.locked = true
 
 	/* 玩家回合结束 */
-	for (let c of state.handCards) await c.onHandEndTurn(fn)
+	for (let c of state.handCards) await c.onHandTurnEnd(fn)
+	for (let c of getActiveCards()) await c.onTurnEnd(fn)
+
 	/* 消耗掉有[虚无]属性的卡牌 */
 	let toBeExhaust = state.handCards.filter(c => c.ethereal)
 	for (let c of toBeExhaust)  await fn.exhaustCard(c.id)
@@ -268,6 +272,7 @@ const onWin = async () => {
 	state.handCards.splice(0, state.handCards.length)
 	state.drawStack.splice(0, state.drawStack.length)
 	state.dropStack.splice(0, state.dropStack.length)
+	for (let c of G.getCards()) await c.onBattleEnd(fn)
 
 	await Dialog.alert({message: 'WIN'})
 	// todo

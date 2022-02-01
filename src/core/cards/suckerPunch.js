@@ -10,7 +10,7 @@ export default class SuckerPunch extends BaseCard {
 
 	baseValue = 7
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

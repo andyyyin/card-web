@@ -7,7 +7,7 @@ export default class survivor extends BaseCard {
 
 	baseValue = 8
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
 	constructor() {
 		super();

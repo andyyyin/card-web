@@ -5,7 +5,7 @@ export default class Burn extends BaseCard {
 
 	name = '燃烧'
 
-	type = CARD_BASE_TYPE.STATE
+	static type = CARD_BASE_TYPE.STATE
 
 	baseValue = 2
 
@@ -17,7 +17,7 @@ export default class Burn extends BaseCard {
 		super();
 	}
 
-	async onHandEndTurn (fn) {
+	async onHandTurnEnd (fn) {
 		fn.pureStrikeHero(this.baseValue)
 	}
 }

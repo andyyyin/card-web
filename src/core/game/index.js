@@ -7,6 +7,10 @@ import CalculatedGamble from "../cards/CalculatedGamble";
 import Caltrops from "../cards/caltrops";
 import Catalyst from "../cards/catalyst";
 import Choke from "../cards/choke";
+import Concentrate from "../cards/concentrate";
+import CripplingCloud from "../cards/cripplingCloud";
+import Dash from "../cards/dash";
+import Distraction from "../cards/distraction";
 
 const cards = [
 	// new Cards.Neutralize(),
@@ -38,10 +42,14 @@ const cards = [
 	new Cards.Caltrops(),
 	new Cards.Catalyst(),
 	new Cards.Choke(),
-	new Cards.Choke(),
-	new Cards.Choke(),
-	new Cards.Choke(),
-	new Cards.Choke(),
+	new Cards.Concentrate(),
+	new Cards.CripplingCloud(),
+	new Cards.Dash(),
+	new Cards.Distraction(),
+	new Cards.Distraction(),
+	new Cards.Distraction(),
+	new Cards.Distraction(),
+	new Cards.Distraction(),
 ]
 
 const aiQueue = [

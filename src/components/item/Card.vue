@@ -8,7 +8,8 @@
 				 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
 				{{card.fixedValue || card.baseValue}}
 			</div>
-			<div class="card-cost" v-if="!card.unplayable" :class="{fixed: card.fixedCost !== undefined}">
+			<div class="card-cost" v-if="!card.unplayable"
+				 :class="{fixedUp: card.cost > card.baseCost, fixedDown: card.cost < card.baseCost}">
 				{{card.cost}}
 			</div>
 		</div>

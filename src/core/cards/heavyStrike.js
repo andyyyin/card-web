@@ -11,7 +11,7 @@ export default class HeavyStrike extends BaseCard {
 
 	baseValue = 8
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

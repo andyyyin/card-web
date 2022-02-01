@@ -13,14 +13,14 @@
 		</div>
 		<div class="button-group row">
 			<div v-if="onSkip" class="button skip grow" @click="skip">跳过</div>
-			<div v-show="readyList.length >= limit[0]" class="button confirm grow" @click="confirm">确认</div>
+			<div v-show="isReady" class="button confirm grow" @click="confirm">确认</div>
 		</div>
 	</van-popup>
 </template>
 
 <script setup>
 import Card from './Card.vue'
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 const props = defineProps({
 	show: Boolean,
@@ -34,6 +34,11 @@ const props = defineProps({
 const emit = defineEmits(['update:show'])
 
 const readyList = ref([])
+
+const isReady = computed(() => {
+	let min = props.limit[0] < props.cards.length ? props.limit[0] : props.cards.length
+	return readyList.value.length >= min
+})
 
 const clickCard = (id) => {
 	let eIndex, limitMax = props.limit[1] || props.limit[0]
@@ -49,6 +54,7 @@ const clickCard = (id) => {
 const confirm = () => {
 	let [min, max] = props.limit
 	if (!max) max = min
+	if (min > props.cards.length) min = props.cards.length
 	if (readyList.value.length < min || readyList.value.length > max) return
 	props.onConfirm([...readyList.value])
 	readyList.value = []

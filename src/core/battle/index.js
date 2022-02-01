@@ -3,6 +3,7 @@ import AT from "../function/arrayTools";
 import {CARD_BASE_TYPE, INTENTION} from "../enum";
 import logFn from "./log"
 import animFn from "./anim"
+import CardsLib from '../cards'
 import {waitFor} from "../function/common";
 
 export default (state, refs) => {
@@ -168,14 +169,16 @@ export default (state, refs) => {
 	fn.getTurnNum = () => state.turnNum
 
 	fn.dropHandCards = async (filter) => {
+		if (!state.handCards.length) return
 		let tobeDropped = filter ? state.handCards.filter(filter) : [...state.handCards]
 		for (let card of tobeDropped) await fn.dropCard(card.id)
 	}
 	fn.dropRandomHandCard = async (count = 1, filter) => {
+		if (!state.handCards.length) return
 		let handCards = [...state.handCards]
 		if (filter && typeof filter === 'function') handCards = handCards.filter(filter)
 		if (!handCards.length) return
-		let toBeDropped = AT.getRandomCount(handCards, count)
+		let toBeDropped = AT.getRandomByCount(handCards, count)
 		for (let card of toBeDropped) {
 			fn.pushLog('丢弃：' + card.name)
 			await fn.dropCard(card.id)
@@ -184,11 +187,12 @@ export default (state, refs) => {
 	}
 
 	fn.raiseRandomCard = (filter) => {
+		if (!state.handCards.length) return
 		let handCards = [...state.handCards]
 		if (filter && typeof filter === 'function') handCards = handCards.filter(filter)
 		if (!handCards.length) return
 		let toBeRaised = AT.getRandomOne(handCards)
-		toBeRaised.tempFixCost(1)
+		toBeRaised.setCostFixInTurn(1)
 	}
 
 	fn.handCardsSelector = ({title, onConfirm, count, onSkip}) => {
@@ -232,6 +236,16 @@ export default (state, refs) => {
 		const card = new Card()
 		console.log('创建临时卡牌：' + card.name)
 		await fn.pushCardToHand(card)
+		return card
+	}
+	fn.createRandomCard = async (count = 1, filter) => {
+		let list = filter ? Object.values(CardsLib).filter(filter) : Object.values(CardsLib)
+		let tobeCreated = AT.getRandomByCount(list, count)
+		let createdList = []
+		for (let Card of tobeCreated) {
+			createdList.push(await fn.createCard(Card))
+		}
+		return createdList
 	}
 
 	fn.getDroppedCountOfTurn = () => state.turnStat.dropCard

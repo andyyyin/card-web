@@ -1,11 +1,14 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from '../enum'
+import Accuracy from "../state/accuracy";
 
-export default class DaggerThrow extends BaseCard {
+export default class Dash extends BaseCard {
 
-	name = '投掷匕首'
+	baseCost = 2
 
-	baseValue = 9
+	name = '猛冲'
+
+	baseValue = 10
 
 	static type = CARD_BASE_TYPE.ATTACK
 
@@ -15,11 +18,7 @@ export default class DaggerThrow extends BaseCard {
 
 	async onLaunch(fn) {
 		await fn.strikeEnemy(this.baseValue)
-	}
-
-	async afterLaunch(fn) {
-		await fn.drawCard()
-		await fn.dropSelectCard()
+		await fn.heroChangeDefense(this.baseValue)
 	}
 
 }

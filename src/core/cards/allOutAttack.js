@@ -7,7 +7,7 @@ export default class AllOutAttack extends BaseCard {
 
 	baseValue = 12
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

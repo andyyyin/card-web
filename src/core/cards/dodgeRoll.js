@@ -8,7 +8,7 @@ export default class DodgeRoll extends BaseCard {
 
 	baseValue = 4
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
 	constructor() {
 		super();

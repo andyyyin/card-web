@@ -9,7 +9,7 @@ export default class CalculatedGamble extends BaseCard {
 
 	name = '孤注一掷'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
 	exhaust = true
 
@@ -23,7 +23,8 @@ export default class CalculatedGamble extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
-		await fn.drawCard(_handCardNumberCache)
+		let drawCount = _handCardNumberCache - 1
+		drawCount > 0 && await fn.drawCard(drawCount)
 	}
 
 }

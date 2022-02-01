@@ -32,6 +32,10 @@ import CalculatedGamble from "./calculatedGamble";
 import Caltrops from "./caltrops";
 import Catalyst from "./catalyst";
 import Choke from "./choke";
+import Concentrate from "./concentrate";
+import CripplingCloud from "./cripplingCloud";
+import Dash from "./dash";
+import Distraction from "./distraction";
 
 export default {
 	Defense,
@@ -68,4 +72,8 @@ export default {
 	Caltrops,
 	Catalyst,
 	Choke,
+	Concentrate,
+	CripplingCloud,
+	Dash,
+	Distraction,
 }

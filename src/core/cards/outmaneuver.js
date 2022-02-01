@@ -6,7 +6,7 @@ export default class Outmaneuver extends BaseCard {
 
 	name = '深谋远虑'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
 	constructor() {
 		super();

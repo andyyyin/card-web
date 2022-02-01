@@ -8,7 +8,7 @@ export default class Bane extends BaseCard {
 
 	baseValue = 7
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

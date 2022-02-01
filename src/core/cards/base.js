@@ -5,9 +5,10 @@ let _idCache = 1000
 export default class BaseCard {
 
 	baseCost = 1;
-	fixedCost;
+	costFixInTurn = 0;
+	costFixInBattle = 0;
 
-	get cost () { return this.fixedCost === undefined ? this.baseCost : this.fixedCost }
+	get cost () { return this.baseCost + this.costFixInBattle + this.costFixInTurn }
 
 	name
 	baseValue;
@@ -19,6 +20,7 @@ export default class BaseCard {
 	constructor() {
 		this.id = ++_idCache
 		console.log('id', this.id)
+		this.type = this.constructor.type
 	}
 
 	get typeClassName () {
@@ -32,10 +34,15 @@ export default class BaseCard {
 	}
 
 	async onDraw () {}
-	async onHandEndTurn () {}
+	async onHandTurnEnd () {}
 
-	async onLeaveFromHand () {
-		this.fixedCost = undefined
+	async onLeaveFromHand () {}
+
+	async onTurnEnd() {
+		this.costFixInTurn = 0
+	}
+	async onBattleEnd() {
+		this.costFixInBattle = 0
 	}
 
 	async onLaunch (fn) {}
@@ -44,6 +51,9 @@ export default class BaseCard {
 	checkCombo (fn) {}
 }
 
-BaseCard.prototype.tempFixCost = function (value) {
-	this.fixedCost = this.cost + 1
+BaseCard.prototype.setCostFixInTurn = function (value) {
+	this.costFixInTurn += value
+}
+BaseCard.prototype.setCostFixInBattle = function (value) {
+	this.costFixInBattle += value
 }

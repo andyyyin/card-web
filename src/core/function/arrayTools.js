@@ -21,7 +21,7 @@ const shuffleArray = (array, count) => {
 	return count ? array.slice(array.length - count, array.length) : array;
 }
 
-const getRandomCount = (array, count) => {
+const getRandomByCount = (array, count) => {
 	if (!array || !array.length) return
 	if (array.length <= count) return [...array]
 	return [...shuffleArray(array, count)]
@@ -58,6 +58,6 @@ const getRandomOneWeighted = (array) => {
 export default {
 	shuffleArray,
 	getRandomOne,
-	getRandomCount,
+	getRandomByCount,
 	getRandomOneWeighted,
 }

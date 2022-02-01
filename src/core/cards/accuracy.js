@@ -8,7 +8,7 @@ export default class Accuracy extends BaseCard {
 
 	baseValue = 1
 
-	type = CARD_BASE_TYPE.ABILITY
+	static type = CARD_BASE_TYPE.ABILITY
 
 	constructor() {
 		super();

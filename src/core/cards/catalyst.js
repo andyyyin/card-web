@@ -6,7 +6,7 @@ export default class Catalyst extends BaseCard {
 
 	name = '催化剂'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
 	constructor() {
 		super();
@@ -14,7 +14,7 @@ export default class Catalyst extends BaseCard {
 
 	async onLaunch(fn) {
 		let poisoned = fn.enemyFindState(Poisoned)
-		poisoned.levelChange(poisoned.level)
+		poisoned && poisoned.levelChange(poisoned.level)
 	}
 
 }

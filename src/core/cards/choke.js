@@ -10,7 +10,7 @@ export default class Choke extends BaseCard {
 
 	baseValue = 12
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();
