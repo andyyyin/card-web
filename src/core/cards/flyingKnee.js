@@ -15,7 +15,7 @@ export default class FlyingKnee extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
+		await fn.strikeEnemy(this.baseValue)
 		fn.heroPushState(NextTurnBlock)
 	}
 

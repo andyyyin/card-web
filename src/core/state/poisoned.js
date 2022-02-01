@@ -6,8 +6,6 @@ export default class Poisoned extends BaseState{
 
 	icon = 'poisoned'
 
-	level = 1
-
 	async onOpponentEndTurn (fn) {
 		fn.hostChangeHp(this, -this.level)
 		this.levelChange(-1)

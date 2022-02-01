@@ -6,8 +6,6 @@ export default class NextTurnBlock extends BaseState{
 
 	icon = 'rhombus-brown'
 
-	level = 1
-
 	async onHostStartTurn (fn) {
 		fn.gainPower(this.level)
 		this.removeSelf()

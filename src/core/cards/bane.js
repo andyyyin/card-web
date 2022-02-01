@@ -19,9 +19,9 @@ export default class Bane extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
+		await fn.strikeEnemy(this.baseValue)
 		if (fn.enemyFindState(Poisoned)) {
-			fn.strikeEnemy(this.baseValue)
+			await fn.strikeEnemy(this.baseValue)
 		}
 	}
 

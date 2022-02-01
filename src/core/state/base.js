@@ -13,13 +13,15 @@ export default class BaseState {
 		this.active = 0
 	}
 
-	onGetDamage () {}
+	onGetStrike () {}
 
 	async onHostEndTurn () {}
 
 	async onHostStartTurn () {}
 
 	async onOpponentEndTurn () {}
+
+	async onLaunchCard () {}
 
 	onSuperposition (param) {
 		if ((!param || typeof param === 'number') && this.level) {

@@ -1,14 +1,14 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from "../enum";
-import Weak from "../state/weak";
+import ChokeState from '../state/choke'
 
-export default class Neutralize extends BaseCard {
+export default class Choke extends BaseCard {
 
-	baseCost = 0
+	baseCost = 2
 
-	name = '中和'
+	name = '锁喉'
 
-	baseValue = 3
+	baseValue = 12
 
 	type = CARD_BASE_TYPE.ATTACK
 
@@ -18,7 +18,10 @@ export default class Neutralize extends BaseCard {
 
 	async onLaunch(fn) {
 		await fn.strikeEnemy(this.baseValue)
-		fn.enemyPushState(Weak, 1)
+	}
+
+	async afterLaunch(fn) {
+		fn.enemyPushState(ChokeState)
 	}
 
 }

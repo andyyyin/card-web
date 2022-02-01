@@ -6,8 +6,6 @@ export default class Agility extends BaseState{
 
 	icon = 'agility'
 
-	level = 1
-
 	get defenseFix () {
 		return {add: this.level}
 	}

@@ -6,8 +6,6 @@ export default class Ninjutsu extends BaseState{
 
 	icon = 'ninjutsu'
 
-	level = 3
-
 	get getDamageFix () {
 		if (this.level > 0) {
 			return {multi: 0.5}
@@ -16,7 +14,7 @@ export default class Ninjutsu extends BaseState{
 		}
 	}
 
-	onGetDamage () {
+	async onGetStrike () {
 		this.levelChange(-1)
 	}
 

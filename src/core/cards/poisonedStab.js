@@ -15,7 +15,7 @@ export default class PoisonedStab extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
+		await fn.strikeEnemy(this.baseValue)
 		fn.enemyPushState(Poisoned, 4)
 	}
 

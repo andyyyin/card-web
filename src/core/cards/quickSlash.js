@@ -15,7 +15,7 @@ export default class QuickSlash extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
+		await fn.strikeEnemy(this.baseValue)
 		await fn.drawCard()
 	}
 

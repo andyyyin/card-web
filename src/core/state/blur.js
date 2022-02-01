@@ -6,8 +6,6 @@ export default class Blur extends BaseState{
 
 	icon = 'blur'
 
-	level = 1
-
 	keepBlock = true
 
 	async onHostStartTurn (fn) {

@@ -6,8 +6,6 @@ export default class NextTurnBlock extends BaseState{
 
 	icon = 'shield-brown'
 
-	level = 1
-
 	value = 4
 
 	async onHostStartTurn (fn) {

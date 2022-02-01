@@ -14,7 +14,7 @@ export default class DaggerThrow extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
+		await fn.strikeEnemy(this.baseValue)
 	}
 
 	async afterLaunch(fn) {

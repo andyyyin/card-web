@@ -7,8 +7,6 @@ export default class Accuracy extends BaseState{
 
 	icon = 'accuracy'
 
-	level = 1
-
 	/* 相关逻辑在shiv卡牌数据里判断 */
 
 }

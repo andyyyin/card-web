@@ -20,7 +20,7 @@ export default class BackStab extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
+		await fn.strikeEnemy(this.baseValue)
 	}
 
 }

@@ -21,7 +21,7 @@ export default class SneakyStrike extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
+		await fn.strikeEnemy(this.baseValue)
 		if (fn.getDroppedCountOfTurn() > 0) {
 			fn.gainPower(2)
 		}

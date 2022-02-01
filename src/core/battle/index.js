@@ -18,11 +18,11 @@ export default (state, refs) => {
 		const fixedValue = stateDefenseFix(value, state.hero.stateList)
 		state.hero.changeDefense(fixedValue)
 	}
-	fn.strikeHero = (value) => {
+	fn.strikeHero = async (value) => {
 		let fixedValue = value
 		fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
-		state.hero.stateList.map(state => state.onGetDamage())
+		for (let s of state.hero.stateList) await s.onGetStrike(fn)
 		return state.hero.getStrike(fixedValue)
 	}
 	fn.pureStrikeHero = (value) => {
@@ -38,15 +38,20 @@ export default (state, refs) => {
 		const fixedValue = stateDefenseFix(value, state.enemy.stateList)
 		state.enemy.changeDefense(fixedValue)
 	}
-	fn.strikeEnemy = (value) => {
+	fn.strikeEnemy = async (value) => {
 		let fixedValue = value
 		fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.enemy.stateList)
-		state.enemy.stateList.map(state => state.onGetDamage())
+		for (let s of state.enemy.stateList) await s.onGetStrike(fn)
 		return state.enemy.getStrike(fixedValue)
 	}
 	fn.pureStrikeEnemy = (value) => {
 		return state.enemy.getStrike(value)
+	}
+
+	fn.StrikeOpponent = async (exState, value) => {
+		if (state.hero.stateList.indexOf(exState) > -1) await fn.strikeEnemy(value)
+		if (state.enemy.stateList.indexOf(exState) > -1) await fn.strikeHero(value)
 	}
 
 	fn.getHeroState = () => [...state.hero.stateList.filter(s => state.active)]
@@ -139,9 +144,13 @@ export default (state, refs) => {
 		} else {
 			await fn.dropCard(card.id)
 		}
-		await card.afterLaunch(fn)
+		for (let s of state.hero.stateList) await s.onLaunchCard(fn, card)
+		for (let s of state.enemy.stateList) await s.onLaunchCard(fn, card)
 		updateRelationValueShow()
+
+		await card.afterLaunch(fn)
 	}
+	fn.numberOfHandCards = () => state.handCards.length
 
 	fn.exhaustCard = async (id) => {
 		let index, card
@@ -158,6 +167,10 @@ export default (state, refs) => {
 
 	fn.getTurnNum = () => state.turnNum
 
+	fn.dropHandCards = async (filter) => {
+		let tobeDropped = filter ? state.handCards.filter(filter) : [...state.handCards]
+		for (let card of tobeDropped) await fn.dropCard(card.id)
+	}
 	fn.dropRandomHandCard = async (count = 1, filter) => {
 		let handCards = [...state.handCards]
 		if (filter && typeof filter === 'function') handCards = handCards.filter(filter)

@@ -6,8 +6,6 @@ export default class Strength extends BaseState{
 
 	icon = 'strength'
 
-	level = 1
-
 	get damageFix () {
 		return {add: this.level}
 	}

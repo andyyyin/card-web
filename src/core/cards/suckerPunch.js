@@ -17,7 +17,7 @@ export default class SuckerPunch extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
+		await fn.strikeEnemy(this.baseValue)
 		fn.enemyPushState(Weak)
 	}
 

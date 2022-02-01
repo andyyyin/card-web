@@ -28,6 +28,10 @@ import Accuracy from "./accuracy";
 import AllOutAttack from "./allOutAttack";
 import BackStab from "./backStab";
 import Blur from "./blur";
+import CalculatedGamble from "./calculatedGamble";
+import Caltrops from "./caltrops";
+import Catalyst from "./catalyst";
+import Choke from "./choke";
 
 export default {
 	Defense,
@@ -60,4 +64,8 @@ export default {
 	AllOutAttack,
 	BackStab,
 	Blur,
+	CalculatedGamble,
+	Caltrops,
+	Catalyst,
+	Choke,
 }

@@ -3,37 +3,45 @@ import AIMap from '../ai'
 import AllOutAttack from "../cards/allOutAttack";
 import BackStab from "../cards/backStab";
 import Blur from "../cards/blur";
+import CalculatedGamble from "../cards/CalculatedGamble";
+import Caltrops from "../cards/caltrops";
+import Catalyst from "../cards/catalyst";
+import Choke from "../cards/choke";
 
 const cards = [
-	new Cards.Neutralize(),
-	new Cards.HeavyStrike(),
-	new Cards.TripleStrike(),
-	new Cards.StrengthUp(),
-	new Cards.BackFlip(),
-	new Cards.Acrobatics(),
-	new Cards.Survivor(),
-	new Cards.Poison(),
-	new Cards.BladeDance(),
-	new Cards.Bane(),
-	new Cards.DaggerCloak(),
-	new Cards.DaggerThrow(),
-	new Cards.DodgeRoll(),
-	new Cards.FlyingKnee(),
-	new Cards.Outmaneuver(),
-	new Cards.PiercingWail(),
-	new Cards.PoisonedStab(),
-	new Cards.Prepared(),
-	new Cards.QuickSlash(),
+	// new Cards.Neutralize(),
+	// new Cards.HeavyStrike(),
+	// new Cards.TripleStrike(),
+	// new Cards.StrengthUp(),
+	// new Cards.BackFlip(),
+	// new Cards.Acrobatics(),
+	// new Cards.Survivor(),
+	// new Cards.Poison(),
+	// new Cards.BladeDance(),
+	// new Cards.Bane(),
+	// new Cards.DaggerCloak(),
+	// new Cards.DaggerThrow(),
+	// new Cards.DodgeRoll(),
+	// new Cards.FlyingKnee(),
+	// new Cards.Outmaneuver(),
+	// new Cards.PiercingWail(),
+	// new Cards.PoisonedStab(),
+	// new Cards.Prepared(),
+	// new Cards.QuickSlash(),
 	new Cards.SneakyStrike(),
 	new Cards.SuckerPunch(),
 	new Cards.Accuracy(),
 	new Cards.AllOutAttack(),
 	new Cards.BackStab(),
 	new Cards.Blur(),
-	new Cards.Blur(),
-	new Cards.Blur(),
-	new Cards.Blur(),
-	new Cards.Blur(),
+	new Cards.CalculatedGamble(),
+	new Cards.Caltrops(),
+	new Cards.Catalyst(),
+	new Cards.Choke(),
+	new Cards.Choke(),
+	new Cards.Choke(),
+	new Cards.Choke(),
+	new Cards.Choke(),
 ]
 
 const aiQueue = [
