@@ -55,7 +55,7 @@ export default class BaseCard {
 	async onLaunch (fn) {}
 	async afterLaunch (fn) {}
 
-	updateRelDisplay (fn) {}
+	updateRel (fn) {}
 }
 
 BaseCard.prototype.setCostFixInTurn = function (value) {

@@ -18,9 +18,9 @@ export default class Shiv extends BaseCard {
 		super();
 	}
 
-	updateRelDisplay(fn) {
+	updateRel(fn) {
 		let accuracy = fn.heroFindState(Accuracy)
-		this.baseValue = 4 + (accuracy && accuracy.level * 4) || 0
+		this.baseValue = 4 + ((accuracy && accuracy.level) || 0) * 4
 	}
 
 	async onLaunch(fn) {

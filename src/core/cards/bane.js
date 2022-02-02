@@ -16,7 +16,7 @@ export default class Bane extends BaseCard {
 		super();
 	}
 
-	updateRelDisplay(fn) {
+	updateRel(fn) {
 		this.comboFlag = !!fn.enemyFindState(Poisoned)
 		this.attackTime = this.comboFlag && 2
 	}

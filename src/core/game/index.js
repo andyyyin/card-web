@@ -1,21 +1,5 @@
 import Cards from '../cards'
 import AIMap from '../ai'
-import AllOutAttack from "../cards/allOutAttack";
-import BackStab from "../cards/backStab";
-import Blur from "../cards/blur";
-import CalculatedGamble from "../cards/CalculatedGamble";
-import Caltrops from "../cards/caltrops";
-import Catalyst from "../cards/catalyst";
-import Choke from "../cards/choke";
-import Concentrate from "../cards/concentrate";
-import CripplingCloud from "../cards/cripplingCloud";
-import Dash from "../cards/dash";
-import Distraction from "../cards/distraction";
-import EndlessAgony from "../cards/endlessAgony";
-import EscapePlan from "../cards/escapePlan";
-import Eviscerate from "../cards/eviscerate";
-import Expertise from "../cards/expertise";
-import Finisher from "../cards/finisher";
 
 const cards = [
 	// new Cards.Neutralize(),
@@ -24,7 +8,7 @@ const cards = [
 	// new Cards.StrengthUp(),
 	// new Cards.BackFlip(),
 	// new Cards.Acrobatics(),
-	new Cards.Survivor(),
+	// new Cards.Survivor(),
 	// new Cards.Poison(),
 	// new Cards.BladeDance(),
 	// new Cards.Bane(),
@@ -35,10 +19,10 @@ const cards = [
 	// new Cards.Outmaneuver(),
 	// new Cards.PiercingWail(),
 	// new Cards.PoisonedStab(),
-	new Cards.Prepared(),
+	// new Cards.Prepared(),
 	// new Cards.QuickSlash(),
-	new Cards.SneakyStrike(),
-	new Cards.SuckerPunch(),
+	// new Cards.SneakyStrike(),
+	// new Cards.SuckerPunch(),
 	// new Cards.Accuracy(),
 	// new Cards.AllOutAttack(),
 	// new Cards.BackStab(),
@@ -56,17 +40,24 @@ const cards = [
 	new Cards.Eviscerate(),
 	new Cards.Expertise(),
 	new Cards.Finisher(),
-	new Cards.Finisher(),
-	new Cards.Finisher(),
-	new Cards.Finisher(),
-	new Cards.Finisher(),
+	new Cards.Flechettes(),
+	new Cards.Footwork(),
+	new Cards.HeelHook(),
+	new Cards.InfiniteBlades(),
+	new Cards.LegSweep(),
+	new Cards.MasterfulStab(),
+	new Cards.NoxiousFumes(),
+	new Cards.NoxiousFumes(),
+	new Cards.NoxiousFumes(),
+	new Cards.NoxiousFumes(),
+	new Cards.NoxiousFumes(),
 ]
 
 const aiQueue = [
 	AIMap.Mage,
+	AIMap.Wolf,
 	AIMap.Monster1,
 	AIMap.Ninja,
-	AIMap.Wolf,
 ]
 
 const getCards = () => cards

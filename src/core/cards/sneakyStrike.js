@@ -18,7 +18,7 @@ export default class SneakyStrike extends BaseCard {
 		super();
 	}
 
-	updateRelDisplay(fn) {
+	updateRel(fn) {
 		this.comboFlag = fn.getDroppedCountOfTurn() > 0
 	}
 

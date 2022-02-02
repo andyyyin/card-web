@@ -20,7 +20,7 @@ export default class Eviscerate extends BaseCard {
 		super();
 	}
 
-	updateRelDisplay(fn) {
+	updateRel(fn) {
 		let count = fn.getDroppedCountOfTurn()
 		let addNum = count - this.dropCountCache
 		this.dropCountCache = count

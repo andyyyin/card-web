@@ -176,6 +176,12 @@ const state = reactive({
 		reset: function () {
 			this.dropCard = this.launchAttack = 0
 		}
+	},
+	battleStat: {
+		loseHpCount: 0,
+		reset: function () {
+			this.loseHpCount = 0
+		}
 	}
 })
 const filteredEnemyStateList = computed(() => state.enemy.stateList.filter(s => s.active))
@@ -304,6 +310,8 @@ const startBattle = async () => {
 		// 主角初始化
 		state.hero.defense = 0
 		state.hero.stateList.splice(0, state.hero.stateList.length)
+		state.battleStat.reset()
+
 		console.log('new battle begin')
 		state.turnNum = 0
 		state.enemy.ai.onDebut(fn)

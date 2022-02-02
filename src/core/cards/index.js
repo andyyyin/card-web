@@ -41,6 +41,13 @@ import EscapePlan from "./escapePlan";
 import Eviscerate from "./eviscerate";
 import Expertise from "./expertise";
 import Finisher from "./finisher";
+import Flechettes from "./flechettes";
+import Footwork from "./footwork";
+import HeelHook from "./heelHook";
+import InfiniteBlades from "./infiniteBlades";
+import LegSweep from "./legSweep";
+import MasterfulStab from "./masterfulStab";
+import NoxiousFumes from "./noxiousFumes";
 
 export default {
 	Defense,
@@ -86,4 +93,11 @@ export default {
 	Eviscerate,
 	Expertise,
 	Finisher,
+	Flechettes,
+	Footwork,
+	HeelHook,
+	InfiniteBlades,
+	LegSweep,
+	MasterfulStab,
+	NoxiousFumes,
 }

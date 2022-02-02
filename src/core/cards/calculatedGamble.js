@@ -20,7 +20,7 @@ export default class CalculatedGamble extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		_handCardNumberCache = fn.numberOfHandCards()
+		_handCardNumberCache = fn.getNumberOfHandCards()
 		await fn.dropHandCards(card => card.id !== this.id)
 	}
 

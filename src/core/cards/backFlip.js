@@ -1,6 +1,5 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from "../enum";
-import Weak from "../state/weak";
 
 export default class BackFlip extends BaseCard {
 

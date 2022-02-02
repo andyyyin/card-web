@@ -2,6 +2,7 @@ import {stateDamageFix, stateDefenseFix, stateGetDamageFix} from "../algorithm";
 import AT from "../function/arrayTools";
 import {CARD_BASE_TYPE, INTENTION} from "../enum";
 import logFn from "./log"
+import statFn from "./stat"
 import animFn from "./anim"
 import CardsLib from '../cards'
 import {waitFor} from "../function/common";
@@ -10,7 +11,10 @@ export default (state, refs) => {
 
 	const fn = {}
 
-	fn.heroChangeHp = state.hero.changeHp.bind(state.hero)
+	fn.heroChangeHp = (value) => {
+		if (value < 0) state.battleStat.loseHpCount++
+		state.hero.changeHp(value)
+	}
 	fn.heroPushState = (...params) => {
 		state.hero.pushState(...params)
 		// updateRelationValueShow()
@@ -24,10 +28,14 @@ export default (state, refs) => {
 		fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
 		for (let s of state.hero.stateList) await s.onGetStrike(fn)
-		return state.hero.getStrike(fixedValue)
+		let damage = state.hero.getStrike(fixedValue)
+		if (damage > 0) state.battleStat.loseHpCount++
+		return damage
 	}
 	fn.pureStrikeHero = (value) => {
-		return state.hero.getStrike(value)
+		let damage = state.hero.getStrike(value)
+		if (damage > 0) state.battleStat.loseHpCount++
+		return damage
 	}
 
 	fn.enemyChangeHp = state.enemy.changeHp.bind(state.enemy)
@@ -155,7 +163,6 @@ export default (state, refs) => {
 		await card.afterLaunch(fn)
 		updateRelationValueShow()
 	}
-	fn.numberOfHandCards = () => state.handCards.length
 
 	fn.exhaustCard = async (id) => {
 		let index, card
@@ -169,8 +176,6 @@ export default (state, refs) => {
 	fn.addCardIntoDrop = (card, positionType) => addCardIntoStack(card, state.dropStack, positionType)
 	fn.addCardIntoDraw = (card, positionType) => addCardIntoStack(card, state.drawStack, positionType)
 	fn.addCardIntoHand = (card, positionType) => addCardIntoStack(card, state.handCards, positionType)
-
-	fn.getTurnNum = () => state.turnNum
 
 	fn.dropHandCards = async (filter) => {
 		if (!state.handCards.length) return
@@ -252,12 +257,9 @@ export default (state, refs) => {
 		return createdList
 	}
 
-	fn.getDroppedCountOfTurn = () => state.turnStat.dropCard
-	fn.getLaunchAttCardCountOfTurn = () => state.turnStat.launchAttack
-
 	const updateRelationValueShow = () => {
 		state.handCards.map(card => {
-			card.updateRelDisplay(fn)
+			card.updateRel(fn)
 			if (card.type === CARD_BASE_TYPE.ATTACK && card.baseValue) {
 				let fixedValue = card.baseValue
 				fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
@@ -287,6 +289,7 @@ export default (state, refs) => {
 	}
 
 	logFn(fn, state, refs)
+	statFn(fn, state, refs)
 	animFn(fn, state, refs)
 
 	return fn

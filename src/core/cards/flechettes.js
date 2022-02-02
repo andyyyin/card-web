@@ -1,29 +1,30 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from "../enum";
 
-export default class Finisher extends BaseCard {
+export default class Flechettes extends BaseCard {
 
-	name = '终结技'
+	baseCost = 1
 
-	baseValue = 6
+	name = '暗器'
+
+	baseValue = 4
 
 	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '本回合每打出一张攻击牌，发动一次攻击'
+	desc = '手牌中每有一张技能牌，发动一次攻击'
 
 	constructor() {
 		super();
 	}
 
 	updateRel(fn) {
-		let count = fn.getLaunchAttCardCountOfTurn()
+		let count = fn.getNumberOfHandSklCards()
 		this.comboFlag = count > 0
 		this.attackTime = count
 	}
 
 	async onLaunch(fn) {
-		let count = fn.getLaunchAttCardCountOfTurn()
-		for (let i = 0; i < count; i++) {
+		for (let i = 0; i < this.attackTime; i++) {
 			await fn.strikeEnemy(this.baseValue)
 		}
 	}
