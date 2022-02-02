@@ -8,6 +8,8 @@ export default class BladeDance extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '制造3张小刀到手牌'
+
 	constructor() {
 		super();
 	}

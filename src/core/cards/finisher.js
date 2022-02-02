@@ -9,12 +9,16 @@ export default class Finisher extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '本回合每打出一张攻击牌，发动一次攻击'
+
 	constructor() {
 		super();
 	}
 
-	checkCombo(fn) {
-		this.comboFlag = fn.getLaunchAttCardCountOfTurn() > 0
+	updateRelDisplay(fn) {
+		let count = fn.getLaunchAttCardCountOfTurn()
+		this.comboFlag = count > 0
+		this.attackTime = count
 	}
 
 	async onLaunch(fn) {

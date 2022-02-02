@@ -8,8 +8,11 @@ export default class Eviscerate extends BaseCard {
 	name = '掏空'
 
 	baseValue = 7
+	attackTime = 3
 
 	static type = CARD_BASE_TYPE.ATTACK
+
+	desc = '在当前回合每丢弃一张牌，此牌的消费下降1点'
 
 	dropCountCache = 0
 
@@ -17,7 +20,7 @@ export default class Eviscerate extends BaseCard {
 		super();
 	}
 
-	checkCombo(fn) {
+	updateRelDisplay(fn) {
 		let count = fn.getDroppedCountOfTurn()
 		let addNum = count - this.dropCountCache
 		this.dropCountCache = count

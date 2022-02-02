@@ -10,6 +10,8 @@ export default class DaggerCloak extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '制造1张小刀到手牌'
+
 	constructor() {
 		super();
 	}

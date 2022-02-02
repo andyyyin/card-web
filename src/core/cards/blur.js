@@ -10,6 +10,8 @@ export default class Blur extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '下回合保留护甲值'
+
 	constructor() {
 		super();
 	}

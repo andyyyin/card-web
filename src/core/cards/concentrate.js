@@ -9,6 +9,8 @@ export default class Concentrate extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '获得2点能量，丢弃3张牌'
+
 	constructor() {
 		super();
 	}

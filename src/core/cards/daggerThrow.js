@@ -9,6 +9,8 @@ export default class DaggerThrow extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '抽一张牌，丢弃一张牌'
+
 	constructor() {
 		super();
 	}

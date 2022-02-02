@@ -6,16 +6,16 @@ export default class Poison extends BaseCard {
 
 	name = '毒药'
 
-	stateValue = 5
-
 	static type = CARD_BASE_TYPE.SKILL
+
+	desc = '造成5点中毒'
 
 	constructor() {
 		super();
 	}
 
 	async onLaunch(fn) {
-		fn.enemyPushState(Poisoned, this.stateValue)
+		fn.enemyPushState(Poisoned, 5)
 	}
 
 }

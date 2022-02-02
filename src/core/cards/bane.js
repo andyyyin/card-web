@@ -10,12 +10,15 @@ export default class Bane extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '如果敌人有中毒状态，则发动两次攻击'
+
 	constructor() {
 		super();
 	}
 
-	checkCombo(fn) {
+	updateRelDisplay(fn) {
 		this.comboFlag = !!fn.enemyFindState(Poisoned)
+		this.attackTime = this.comboFlag && 2
 	}
 
 	async onLaunch(fn) {

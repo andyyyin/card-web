@@ -8,6 +8,8 @@ export default class Acrobatics extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '抽3张牌，丢弃1张牌'
+
 	constructor() {
 		super();
 	}

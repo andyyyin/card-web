@@ -10,6 +10,8 @@ export default class PiercingWail extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '本回合敌人失去6点力量'
+
 	constructor() {
 		super();
 	}

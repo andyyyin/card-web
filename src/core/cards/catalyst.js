@@ -8,6 +8,8 @@ export default class Catalyst extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '使敌人的中毒状态等级翻倍'
+
 	constructor() {
 		super();
 	}

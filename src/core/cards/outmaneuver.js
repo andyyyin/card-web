@@ -1,6 +1,6 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from '../enum'
-import NextTurnBlock from "../state/nextTurnPower";
+import NextTurnPower from "../state/nextTurnPower";
 
 export default class Outmaneuver extends BaseCard {
 
@@ -8,12 +8,14 @@ export default class Outmaneuver extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '下回合获得2点能量'
+
 	constructor() {
 		super();
 	}
 
 	async onLaunch(fn) {
-		fn.heroPushState(NextTurnBlock, 2)
+		fn.heroPushState(NextTurnPower, 2)
 	}
 
 }

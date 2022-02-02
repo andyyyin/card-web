@@ -12,6 +12,8 @@ export default class Dash extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '获得10点护甲'
+
 	constructor() {
 		super();
 	}

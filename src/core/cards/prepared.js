@@ -9,6 +9,8 @@ export default class Prepared extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '抽一张牌，丢弃一张牌'
+
 	constructor() {
 		super();
 	}

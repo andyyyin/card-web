@@ -12,11 +12,13 @@ export default class SneakyStrike extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '本回合如果丢弃过牌，则获得两点能量'
+
 	constructor() {
 		super();
 	}
 
-	checkCombo(fn) {
+	updateRelDisplay(fn) {
 		this.comboFlag = fn.getDroppedCountOfTurn() > 0
 	}
 

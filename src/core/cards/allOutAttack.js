@@ -9,6 +9,8 @@ export default class AllOutAttack extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '随机丢弃1张牌'
+
 	constructor() {
 		super();
 	}

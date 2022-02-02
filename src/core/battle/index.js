@@ -257,7 +257,7 @@ export default (state, refs) => {
 
 	const updateRelationValueShow = () => {
 		state.handCards.map(card => {
-			card.checkCombo(fn)
+			card.updateRelDisplay(fn)
 			if (card.type === CARD_BASE_TYPE.ATTACK && card.baseValue) {
 				let fixedValue = card.baseValue
 				fixedValue = stateDamageFix(fixedValue, state.hero.stateList)

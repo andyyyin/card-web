@@ -7,6 +7,8 @@ export default class Distraction extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '制造1张随机技能牌，制造出的牌在本回合0消费'
+
 	constructor() {
 		super();
 	}

@@ -1,6 +1,6 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from '../enum'
-import NextTurnBlock from "../state/nextTurnPower";
+import NextTurnPower from "../state/nextTurnPower";
 
 export default class FlyingKnee extends BaseCard {
 
@@ -10,13 +10,15 @@ export default class FlyingKnee extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '下回合开始时获得1点能量'
+
 	constructor() {
 		super();
 	}
 
 	async onLaunch(fn) {
 		await fn.strikeEnemy(this.baseValue)
-		fn.heroPushState(NextTurnBlock)
+		fn.heroPushState(NextTurnPower)
 	}
 
 }

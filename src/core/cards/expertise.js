@@ -9,6 +9,8 @@ export default class Expertise extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '抽牌直到手牌有6张牌'
+
 	constructor() {
 		super();
 	}

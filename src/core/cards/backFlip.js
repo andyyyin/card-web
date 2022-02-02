@@ -10,6 +10,8 @@ export default class BackFlip extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '抽两张牌'
+
 	constructor() {
 		super();
 	}

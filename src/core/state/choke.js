@@ -6,6 +6,10 @@ export default class Choke extends BaseState{
 
 	icon = 'hang'
 
+	async onOpponentEndTurn() {
+		this.removeSelf()
+	}
+
 	async onLaunchCard (fn) {
 		fn.strikeEnemy(this.level * 3)
 	}

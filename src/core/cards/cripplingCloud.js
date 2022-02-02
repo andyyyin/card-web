@@ -13,6 +13,8 @@ export default class CripplingCloud extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '造成5级中毒，3级虚弱'
+
 	constructor() {
 		super();
 	}

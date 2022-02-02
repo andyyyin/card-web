@@ -9,6 +9,8 @@ export default class Survivor extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '丢弃1张牌'
+
 	constructor() {
 		super();
 	}

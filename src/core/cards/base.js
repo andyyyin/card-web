@@ -16,9 +16,13 @@ export default class BaseCard {
 	name
 	baseValue;
 
+	attackTime;
+
 	type;
 
 	comboFlag;
+
+	desc;
 
 	constructor() {
 		this.id = ++_idCache
@@ -51,7 +55,7 @@ export default class BaseCard {
 	async onLaunch (fn) {}
 	async afterLaunch (fn) {}
 
-	checkCombo (fn) {}
+	updateRelDisplay (fn) {}
 }
 
 BaseCard.prototype.setCostFixInTurn = function (value) {

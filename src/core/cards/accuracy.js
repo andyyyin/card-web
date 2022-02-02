@@ -6,9 +6,9 @@ export default class Accuracy extends BaseCard {
 
 	name = '精准'
 
-	baseValue = 1
-
 	static type = CARD_BASE_TYPE.ABILITY
+
+	desc = '小刀攻击力+4'
 
 	constructor() {
 		super();

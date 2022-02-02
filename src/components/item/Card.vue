@@ -1,16 +1,15 @@
 <template>
 	<div class="card-container">
 		<div class="card-display" @click.stop="onClickCard" :class="cardClassNames">
-			<div class="name">{{card.name}}</div>
-			<div class="value" v-if="card.stateValue">{{card.stateValue}}</div>
-			<div class="value" v-if="card.baseValue && isStatic">{{card.baseValue}}</div>
-			<div class="value" v-if="card.baseValue && !isStatic"
-				 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
-				{{card.fixedValue || card.baseValue}}
-			</div>
 			<div class="card-cost" v-if="!card.unplayable"
 				 :class="{fixedUp: card.cost > card.baseCost, fixedDown: card.cost < card.baseCost}">
 				{{card.cost}}
+			</div>
+			<div class="name">{{card.name}}</div>
+			<div class="desc">{{card.desc}}</div>
+			<div class="value" v-if="!isStatic"
+				 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
+				{{card.fixedValue || card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}
 			</div>
 		</div>
 	</div>

@@ -18,7 +18,7 @@ export default class Shiv extends BaseCard {
 		super();
 	}
 
-	checkCombo(fn) {
+	updateRelDisplay(fn) {
 		let accuracy = fn.heroFindState(Accuracy)
 		this.baseValue = 4 + (accuracy && accuracy.level * 4) || 0
 	}

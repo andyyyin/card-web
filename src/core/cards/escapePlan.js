@@ -7,9 +7,9 @@ export default class EscapePlan extends BaseCard {
 
 	name = '逃跑计划'
 
-	baseValue = 3
-
 	static type = CARD_BASE_TYPE.SKILL
+
+	desc = '抽一张牌，如果抽到的牌时技能牌，获得3点护甲'
 
 	constructor() {
 		super();
@@ -18,7 +18,7 @@ export default class EscapePlan extends BaseCard {
 	async afterLaunch(fn) {
 		let drawn = (await fn.drawCard())[0]
 		if (drawn.type === CARD_BASE_TYPE.SKILL) {
-			fn.heroChangeDefense(this.baseValue)
+			fn.heroChangeDefense(3)
 		}
 	}
 

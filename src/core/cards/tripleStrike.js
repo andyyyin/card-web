@@ -6,6 +6,7 @@ export default class TripleStrike extends BaseCard {
 	name = '三连击'
 
 	baseValue = 3
+	attackTime = 3
 
 	static type = CARD_BASE_TYPE.ATTACK
 

@@ -2,7 +2,7 @@ import BaseState from "./base";
 
 export default class Caltrops extends BaseState{
 
-	name = '铁蒺藜'
+	name = '蒺藜'
 
 	icon = 'caltrops'
 

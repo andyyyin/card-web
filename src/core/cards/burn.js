@@ -7,6 +7,8 @@ export default class Burn extends BaseCard {
 
 	static type = CARD_BASE_TYPE.STATE
 
+	desc = '在手牌中结束回合对自身造成攻击'
+
 	baseValue = 2
 
 	unplayable = true

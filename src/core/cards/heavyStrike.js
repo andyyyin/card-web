@@ -13,6 +13,8 @@ export default class HeavyStrike extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '造成1点虚弱和1点破绽'
+
 	constructor() {
 		super();
 	}

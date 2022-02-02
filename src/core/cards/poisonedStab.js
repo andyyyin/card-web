@@ -10,13 +10,15 @@ export default class PoisonedStab extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '造成3点中毒'
+
 	constructor() {
 		super();
 	}
 
 	async onLaunch(fn) {
 		await fn.strikeEnemy(this.baseValue)
-		fn.enemyPushState(Poisoned, 4)
+		fn.enemyPushState(Poisoned, 3)
 	}
 
 }

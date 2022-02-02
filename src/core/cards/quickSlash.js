@@ -10,6 +10,8 @@ export default class QuickSlash extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
+	desc = '抽一张牌'
+
 	constructor() {
 		super();
 	}

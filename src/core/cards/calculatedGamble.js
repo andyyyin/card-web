@@ -11,6 +11,8 @@ export default class CalculatedGamble extends BaseCard {
 
 	static type = CARD_BASE_TYPE.SKILL
 
+	desc = '丢弃所有手牌，然后抽相同数量的牌'
+
 	exhaust = true
 
 	constructor() {
