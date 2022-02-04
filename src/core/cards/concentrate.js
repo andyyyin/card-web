@@ -20,6 +20,7 @@ export default class Concentrate extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.dropSelectCard(3)
 	}
 

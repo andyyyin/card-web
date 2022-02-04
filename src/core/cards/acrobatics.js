@@ -15,6 +15,7 @@ export default class Acrobatics extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.drawCard(3)
 		await fn.dropSelectCard()
 	}

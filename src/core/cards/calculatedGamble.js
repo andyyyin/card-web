@@ -21,10 +21,11 @@ export default class CalculatedGamble extends BaseCard {
 
 	async onLaunch(fn) {
 		_handCardNumberCache = fn.getNumberOfHandCards()
-		await fn.dropHandCards(card => card.id !== this.id)
+		await fn.dropFilteredHandCards(card => card.id !== this.id)
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		let drawCount = _handCardNumberCache - 1
 		drawCount > 0 && await fn.drawCard(drawCount)
 	}

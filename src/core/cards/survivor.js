@@ -20,6 +20,7 @@ export default class Survivor extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.dropSelectCard()
 	}
 

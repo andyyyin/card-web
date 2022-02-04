@@ -25,6 +25,7 @@ export default class HeelHook extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		if (this.comboFlag) {
 			fn.gainPower()
 			await fn.drawCard()

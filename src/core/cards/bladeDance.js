@@ -17,6 +17,7 @@ export default class BladeDance extends BaseCard {
 	async onLaunch(fn) {}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.createCard(Shiv)
 		await fn.createCard(Shiv)
 		await fn.createCard(Shiv)

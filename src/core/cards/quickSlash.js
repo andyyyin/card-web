@@ -21,6 +21,7 @@ export default class QuickSlash extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.drawCard()
 	}
 

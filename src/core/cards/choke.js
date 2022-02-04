@@ -23,6 +23,7 @@ export default class Choke extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		fn.enemyPushState(ChokeState)
 	}
 

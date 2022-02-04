@@ -16,6 +16,7 @@ export default class EscapePlan extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		let drawn = (await fn.drawCard())[0]
 		if (drawn.type === CARD_BASE_TYPE.SKILL) {
 			fn.heroChangeDefense(3)

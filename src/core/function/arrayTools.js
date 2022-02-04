@@ -54,10 +54,17 @@ const getRandomOneWeighted = (array) => {
 	return result
 }
 
+const randomInsert = (array, item) => {
+	if (!array) return
+	let index = Math.floor(Math.random() * array.length)
+	array.splice(index, 0, item)
+	return array
+}
 
 export default {
 	shuffleArray,
 	getRandomOne,
 	getRandomByCount,
 	getRandomOneWeighted,
+	randomInsert,
 }

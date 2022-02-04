@@ -20,6 +20,7 @@ export default class BackFlip extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.drawCard(2)
 	}
 

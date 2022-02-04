@@ -48,6 +48,11 @@ import InfiniteBlades from "./infiniteBlades";
 import LegSweep from "./legSweep";
 import MasterfulStab from "./masterfulStab";
 import NoxiousFumes from "./noxiousFumes";
+import Predator from "./predator";
+import Reflex from "./reflex";
+import RiddleWithHoles from "./riddleWithHoles";
+import Setup from "./setup";
+import Skewer from "./skewer";
 
 export default {
 	Defense,
@@ -100,4 +105,9 @@ export default {
 	LegSweep,
 	MasterfulStab,
 	NoxiousFumes,
+	Predator,
+	Reflex,
+	RiddleWithHoles,
+	Setup,
+	Skewer,
 }

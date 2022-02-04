@@ -1,5 +1,10 @@
 import Cards from '../cards'
 import AIMap from '../ai'
+import Predator from "../cards/predator";
+import Reflex from "../cards/reflex";
+import RiddleWithHoles from "../cards/riddleWithHoles";
+import Setup from "../cards/setup";
+import Skewer from "../cards/skewer";
 
 const cards = [
 	// new Cards.Neutralize(),
@@ -27,30 +32,35 @@ const cards = [
 	// new Cards.AllOutAttack(),
 	// new Cards.BackStab(),
 	// new Cards.Blur(),
-	new Cards.CalculatedGamble(),
-	new Cards.Caltrops(),
-	new Cards.Catalyst(),
-	new Cards.Choke(),
-	new Cards.Concentrate(),
-	new Cards.CripplingCloud(),
-	new Cards.Dash(),
-	new Cards.Distraction(),
-	new Cards.EndlessAgony(),
-	new Cards.EscapePlan(),
-	new Cards.Eviscerate(),
-	new Cards.Expertise(),
-	new Cards.Finisher(),
-	new Cards.Flechettes(),
-	new Cards.Footwork(),
+	// new Cards.CalculatedGamble(),
+	// new Cards.Caltrops(),
+	// new Cards.Catalyst(),
+	// new Cards.Choke(),
+	// new Cards.Concentrate(),
+	// new Cards.CripplingCloud(),
+	// new Cards.Dash(),
+	// new Cards.Distraction(),
+	// new Cards.EndlessAgony(),
+	// new Cards.EscapePlan(),
+	// new Cards.Eviscerate(),
+	// new Cards.Expertise(),
+	// new Cards.Finisher(),
+	// new Cards.Flechettes(),
+	// new Cards.Footwork(),
 	new Cards.HeelHook(),
 	new Cards.InfiniteBlades(),
 	new Cards.LegSweep(),
 	new Cards.MasterfulStab(),
 	new Cards.NoxiousFumes(),
-	new Cards.NoxiousFumes(),
-	new Cards.NoxiousFumes(),
-	new Cards.NoxiousFumes(),
-	new Cards.NoxiousFumes(),
+	new Cards.Predator(),
+	new Cards.Reflex(),
+	new Cards.RiddleWithHoles(),
+	new Cards.Setup(),
+	new Cards.Skewer(),
+	new Cards.Skewer(),
+	new Cards.Skewer(),
+	new Cards.Skewer(),
+	new Cards.Skewer(),
 ]
 
 const aiQueue = [

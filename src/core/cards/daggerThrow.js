@@ -20,6 +20,7 @@ export default class DaggerThrow extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.drawCard()
 		await fn.dropSelectCard()
 	}

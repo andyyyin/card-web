@@ -21,6 +21,7 @@ export default class DaggerCloak extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.createCard(Shiv)
 	}
 

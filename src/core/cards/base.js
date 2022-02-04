@@ -7,9 +7,12 @@ export default class BaseCard {
 	baseCost = 1;
 	costFixInTurn = 0;
 	costFixInBattle = 0;
+	costFixBeforeLaunch = 0;
+
+	xCost
 
 	get cost () {
-		let result = this.baseCost + this.costFixInBattle + this.costFixInTurn
+		let result = this.baseCost + this.costFixInBattle + this.costFixInTurn + this.costFixBeforeLaunch
 		return result > 0 ? result : 0
 	}
 
@@ -40,7 +43,8 @@ export default class BaseCard {
 		return '#999999'
 	}
 
-	async onDraw () {}
+	async onDraw (fn) {}
+	async onDrop (fn) {}
 	async onHandTurnEnd () {}
 
 	async onLeaveFromHand () {}
@@ -53,7 +57,9 @@ export default class BaseCard {
 	}
 
 	async onLaunch (fn) {}
-	async afterLaunch (fn) {}
+	async afterLaunch (fn) {
+		this.costFixBeforeLaunch = 0
+	}
 
 	updateRel (fn) {}
 }
@@ -69,4 +75,10 @@ BaseCard.prototype.setCostFixInBattle = function (value) {
 }
 BaseCard.prototype.addCostFixInBattle = function (value) {
 	this.costFixInBattle += value
+}
+BaseCard.prototype.setCostFixBeforeLaunch = function (value) {
+	this.costFixBeforeLaunch = value
+}
+BaseCard.prototype.addCostFixBeforeLaunch = function (value) {
+	this.costFixBeforeLaunch += value
 }

@@ -19,6 +19,7 @@ export default class Prepared extends BaseCard {
 	}
 
 	async afterLaunch(fn) {
+		await super.afterLaunch(fn)
 		await fn.drawCard()
 		await fn.dropSelectCard()
 	}
