@@ -5,6 +5,9 @@ import Reflex from "../cards/reflex";
 import RiddleWithHoles from "../cards/riddleWithHoles";
 import Setup from "../cards/setup";
 import Skewer from "../cards/skewer";
+import Tactician from "../cards/tactician";
+import Terror from "../cards/terror";
+import WellLaidPlans from "../cards/wellLaidPlans";
 
 const cards = [
 	// new Cards.Neutralize(),
@@ -24,7 +27,10 @@ const cards = [
 	// new Cards.Outmaneuver(),
 	// new Cards.PiercingWail(),
 	// new Cards.PoisonedStab(),
-	// new Cards.Prepared(),
+	new Cards.Prepared(),
+	new Cards.Prepared(),
+	new Cards.Prepared(),
+	new Cards.Prepared(),
 	// new Cards.QuickSlash(),
 	// new Cards.SneakyStrike(),
 	// new Cards.SuckerPunch(),
@@ -57,10 +63,12 @@ const cards = [
 	new Cards.RiddleWithHoles(),
 	new Cards.Setup(),
 	new Cards.Skewer(),
-	new Cards.Skewer(),
-	new Cards.Skewer(),
-	new Cards.Skewer(),
-	new Cards.Skewer(),
+	new Cards.Tactician(),
+	new Cards.Terror(),
+	new Cards.WellLaidPlans(),
+	new Cards.WellLaidPlans(),
+	new Cards.WellLaidPlans(),
+	new Cards.WellLaidPlans(),
 ]
 
 const aiQueue = [

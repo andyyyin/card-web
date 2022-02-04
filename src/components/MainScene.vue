@@ -247,17 +247,18 @@ const endTheTurn = async () => {
 	for (let c of state.handCards) await c.onHandTurnEnd(fn)
 	for (let c of getActiveCards()) await c.onTurnEnd(fn)
 
-	/* 消耗掉有[虚无]属性的卡牌 */
-	let toBeExhaust = state.handCards.filter(c => c.ethereal)
-	for (let c of toBeExhaust)  await fn.exhaustCard(c.id)
-
-	let toBeDropped = state.handCards.splice(0, state.handCards.length)
-	for (let c of toBeDropped) await c.onLeaveFromHand(fn)
-	state.dropStack.push(...toBeDropped)
-
 	for (let s of state.hero.stateList) s.active && await s.onHostEndTurn(fn)
 	for (let s of state.enemy.stateList) s.active && await s.onOpponentEndTurn(fn)
 	state.hero.filterState()
+
+	/* 处理卡牌 */
+	let retained = state.handCards.filter(c => c.isRetain)
+	let toBeExhaust = state.handCards.filter(c => c.ethereal)
+	let toBeDropped = state.handCards.filter(c => (!c.isRetain && !c.ethereal))
+
+	for (let c of retained) await c.onRetain(fn)
+	await fn.exhaustCard(toBeExhaust)
+	await fn.dropCard(toBeDropped)
 
 	/* ai行动 */
 	state.enemy.defense = 0

@@ -61,10 +61,22 @@ const randomInsert = (array, item) => {
 	return array
 }
 
+const extractArray = (array, filter) => {
+	if (!array || !array.length) return []
+	let tempList = array.splice(0, array.length)
+	if (!filter) return tempList
+	let result = []
+	for (let item of tempList) {
+		filter(item) ? result.push(item) : array.push(item)
+	}
+	return result
+}
+
 export default {
 	shuffleArray,
 	getRandomOne,
 	getRandomByCount,
 	getRandomOneWeighted,
 	randomInsert,
+	extractArray,
 }

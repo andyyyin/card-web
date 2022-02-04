@@ -17,15 +17,21 @@ export default class BaseCard {
 	}
 
 	name
-	baseValue;
+	type;
 
+	baseValue;
 	attackTime;
 
-	type;
+	desc;
 
 	comboFlag;
 
-	desc;
+	unplayable
+	retain
+	tempRetain
+	get isRetain () {
+		return this.retain || this.tempRetain
+	}
 
 	constructor() {
 		this.id = ++_idCache
@@ -61,6 +67,10 @@ export default class BaseCard {
 		this.costFixBeforeLaunch = 0
 	}
 
+	async onRetain (fn) {
+		this.tempRetain = false
+	}
+
 	updateRel (fn) {}
 }
 
@@ -81,4 +91,7 @@ BaseCard.prototype.setCostFixBeforeLaunch = function (value) {
 }
 BaseCard.prototype.addCostFixBeforeLaunch = function (value) {
 	this.costFixBeforeLaunch += value
+}
+BaseCard.prototype.retainOnce = function () {
+	this.tempRetain = true
 }

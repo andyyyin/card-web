@@ -85,21 +85,19 @@ export default (state, refs) => {
 	fn.getCurPower = () => state.powerCur
 
 	fn.dropCard = async (param) => {
-		const idList = Array.isArray(param) ? [...param] : [param]
-		let id
-		while ((id = idList.pop()) !== undefined) {
-			let index, card
-			if (((index = state.handCards.findIndex(c => c.id === id)) > -1)) {
-				[card] = state.handCards.splice(index, 1);
-				console.log('drop card', card.id, card.name)
-				state.dropStack.push(card)
-				await card.onLeaveFromHand(fn)
-			} else if (((index = state.drawStack.findIndex(c => c.id === id)) > -1)) {
-				[card] = state.drawStack.splice(index, 1);
-				if (card) state.dropStack.push(card)
-			}
-		}
+		let idList = handleCardParam(param)
+		let cardList = idList.map(id => drawOutACard(id))
+		state.dropStack.push(...cardList)
+		for (let card of cardList) await card.onLeaveFromHand(fn)
+		return cardList
 	}
+
+	fn.dropCardWithEvent = async (param) => {
+		let cardList = await fn.dropCard(param)
+		for (let card of cardList) await card.onDrop(fn) // 等所有卡牌丢弃完成再触发效果
+		state.turnStat.dropCard += cardList.length
+	}
+
 	fn.drawCard = async (count = 1, filter) => {
 		const drawList = []
 		while (count > 0) {
@@ -114,7 +112,7 @@ export default (state, refs) => {
 					card = state.drawStack.pop()
 				}
 
-				if (await fn.pushCardToHand(card)) {
+				if (await pushCardToHand(card)) {
 					console.log('draw card', card.id, card.name)
 					// todo 抽到直接丢弃不触发抽牌效果？？待定
 					await card.onDraw(fn)
@@ -129,15 +127,6 @@ export default (state, refs) => {
 		}
 		updateRelationValueShow()
 		return drawList
-	}
-	fn.pushCardToHand = async (card) => {
-		state.handCards.push(card)
-		await waitFor(250)
-		if (state.handCards.length > 10) {
-			await fn.dropCard(card.id)
-			return false
-		}
-		return true
 	}
 	fn.launchCard = async (id) => {
 		if (state.prepareCardId === id) state.prepareCardId = null
@@ -170,13 +159,11 @@ export default (state, refs) => {
 		updateRelationValueShow()
 	}
 
-	fn.exhaustCard = async (id) => {
-		let index, card
-		if (((index = state.handCards.findIndex(c => c.id === id)) === -1)) return
-		card = state.handCards[index]
-		state.handCards.splice(index, 1)
-		await card.onLeaveFromHand(fn)
-		state.exhaustedStack.push(card)
+	fn.exhaustCard = async (param) => {
+		let idList = handleCardParam(param)
+		let cardList = idList.map(id => drawOutACard(id))
+		state.exhaustedStack.push(...cardList)
+		for (let card of cardList) await card.onLeaveFromHand(fn)
 	}
 
 	fn.addCardIntoDrop = (card, positionType) => addCardIntoStack(card, state.dropStack, positionType)
@@ -185,39 +172,18 @@ export default (state, refs) => {
 
 	fn.dropFilteredHandCards = async (filter) => {
 		let tobeDropped = getFilteredHandCards(filter)
-		for (let card of tobeDropped) {
-			await fn.dropCard(card.id)
-		}
-		for (let card of tobeDropped) { // 等所有卡牌丢弃完成再触发效果
-			await card.onDrop(fn)
-		}
-		state.turnStat.dropCard += tobeDropped.length
+		await fn.dropCardWithEvent(tobeDropped)
 	}
 	fn.dropRandomHandCard = async (count = 1, filter) => {
-		let toBeDropped = getRandomHandCards(count, filter)
-		for (let card of toBeDropped) {
-			fn.pushLog('丢弃：' + card.name)
-			await fn.dropCard(card.id)
-		}
-		for (let card of toBeDropped) { // 等所有卡牌丢弃完成再触发效果
-			await card.onDrop(fn)
-		}
-		state.turnStat.dropCard += count
+		let tobeDropped = getRandomHandCards(count, filter)
+		await fn.dropCardWithEvent(tobeDropped)
 	}
 
 	fn.dropSelectCard = async (count = 1, filter) => {
 		if (!state.handCards.length) return
 		let title = `选择${count}张卡丢弃`
 		let idList = await fn.handCardsSelector(filter, {title, count})
-		let cardList = []
-		for (let id of idList) {
-			cardList.push(state.handCards.find(c => c.id === id))
-			await fn.dropCard(id)
-		}
-		for (let card of cardList) { // 等所有卡牌丢弃完成再触发效果
-			await card.onDrop(fn)
-		}
-		state.turnStat.dropCard += count
+		await fn.dropCardWithEvent(idList)
 	}
 
 	fn.raiseCostRandomCard = (count, filter) => {
@@ -227,17 +193,17 @@ export default (state, refs) => {
 		}
 	}
 
-	fn.handCardsSelector = (filter, options) => {
+	fn.handCardsSelector = async (filter, options) => {
 		let cards = getFilteredHandCards(filter)
-		return fn.cardsSelector(cards, options)
+		return await fn.cardsSelector(cards, options)
 	}
 
-	fn.cardsSelector = (cards, {title, count, skip} = {}) => {
+	fn.cardsSelector = (cards, {title, count, skip, limit} = {}) => {
 		if (!cards || !cards.length) return Promise.resolve()
 		return new Promise(resolve => {
 			state.selector.show = true
 			state.selector.title = title || '选择一张卡牌'
-			state.selector.limit = [count || 1]
+			state.selector.limit = limit || [count || 1]
 			state.selector.cards = cards
 			state.selector.onSkip = skip && (() => {
 				resolve()
@@ -277,7 +243,7 @@ export default (state, refs) => {
 	fn.createCard = async (Card) => {
 		const card = new Card()
 		console.log('创建临时卡牌：' + card.name)
-		await fn.pushCardToHand(card)
+		await pushCardToHand(card)
 		return card
 	}
 	fn.createRandomCard = async (count = 1, filter) => {
@@ -290,6 +256,22 @@ export default (state, refs) => {
 		return createdList
 	}
 
+	fn.retainHandCards = (idList) => {
+		for (let id of idList) {
+			let card = state.handCards.find(c => c.id === id)
+			card.retainOnce()
+		}
+	}
+
+	const pushCardToHand = async (card) => {
+		state.handCards.push(card)
+		await waitFor(250)
+		if (state.handCards.length > 10) {
+			await fn.dropCard(card.id)
+			return false
+		}
+		return true
+	}
 	const getFilteredHandCards = (filter) => {
 		if (!state.handCards.length) return []
 		let cardList = [...state.handCards]
@@ -344,6 +326,11 @@ export default (state, refs) => {
 			card = state.drawStack.splice(tIndex, 1)[0]
 		}
 		return card
+	}
+
+	const handleCardParam = (param) => {
+		let list = Array.isArray(param) ? param : [param]
+		return list.map(item => typeof item === 'number' ? item : item.id)
 	}
 
 	logFn(fn, state, refs)

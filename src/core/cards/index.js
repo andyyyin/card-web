@@ -53,6 +53,9 @@ import Reflex from "./reflex";
 import RiddleWithHoles from "./riddleWithHoles";
 import Setup from "./setup";
 import Skewer from "./skewer";
+import Tactician from "./tactician";
+import Terror from "./terror";
+import WellLaidPlans from "./wellLaidPlans";
 
 export default {
 	Defense,
@@ -110,4 +113,7 @@ export default {
 	RiddleWithHoles,
 	Setup,
 	Skewer,
+	Tactician,
+	Terror,
+	WellLaidPlans,
 }
