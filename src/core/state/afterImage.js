@@ -2,13 +2,13 @@ import BaseState from "./base";
 
 export default class AThousandCuts extends BaseState{
 
-	name = '凌迟'
+	name = '余像'
 
-	icon = 'wound'
+	icon = 'shieldEchoes'
 
 	async onLaunchCard(fn) {
 		await super.onLaunchCard(fn);
-		fn.pureStrikeEnemy(this.level)
+		fn.heroChangeDefense(this.level)
 	}
 
 }

@@ -23,7 +23,7 @@ export default class MasterfulStab extends BaseCard {
 		let count = fn.getBattleLoseHpCount()
 		let newCount = count - this.comboCountCache
 		this.comboCountCache = count
-		this.addCostFixInBattle(newCount)
+		this.addCostFixOfBattle(newCount)
 	}
 
 	async onLaunch(fn) {

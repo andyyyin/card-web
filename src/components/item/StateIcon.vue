@@ -1,6 +1,6 @@
 <template>
 	<div class="state-icon" :style="style">
-		<div class="level">{{level}}</div>
+		<div v-if="level" class="level">{{level}}</div>
 	</div>
 </template>
 

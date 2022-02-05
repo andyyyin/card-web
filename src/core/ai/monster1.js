@@ -20,7 +20,7 @@ export default class Monster1 extends BaseAI{
 	]
 
 	async stableDefense (fn) {
-		this.commonDefense(fn)
+		await this.commonDefense(fn)
 		fn.enemyPushState(Agility, 2)
 	}
 

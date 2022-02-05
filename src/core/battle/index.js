@@ -6,6 +6,7 @@ import statFn from "./stat"
 import animFn from "./anim"
 import CardsLib from '../cards'
 import {waitFor} from "../function/common";
+import BlockDraw from "../state/blockDraw";
 
 export default (state, refs) => {
 
@@ -30,6 +31,7 @@ export default (state, refs) => {
 		for (let s of state.hero.stateList) await s.onGetStrike(fn)
 		let damage = state.hero.getStrike(fixedValue)
 		if (damage > 0) state.battleStat.loseHpCount++
+		for (let s of state.enemy.stateList) await s.onHostLaunchAttack(fn, damage)
 		return damage
 	}
 	fn.pureStrikeHero = (value) => {
@@ -52,7 +54,9 @@ export default (state, refs) => {
 		fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.enemy.stateList)
 		for (let s of state.enemy.stateList) await s.onGetStrike(fn)
-		return state.enemy.getStrike(fixedValue)
+		let damage = state.enemy.getStrike(fixedValue)
+		for (let s of state.hero.stateList) await s.onHostLaunchAttack(fn, damage)
+		return damage
 	}
 	fn.pureStrikeEnemy = (value) => {
 		return state.enemy.getStrike(value)
@@ -63,8 +67,14 @@ export default (state, refs) => {
 		if (state.enemy.stateList.indexOf(exState) > -1) await fn.strikeHero(value)
 	}
 
-	fn.getHeroState = () => [...state.hero.stateList.filter(s => state.active)]
-	fn.getEnemyState = () => [...state.enemy.stateList.filter(s => state.active)]
+	fn.opponentPushState = async (exState, State, value) => {
+		if (state.hero.stateList.indexOf(exState) > -1) await fn.enemyPushState(State, value)
+		if (state.enemy.stateList.indexOf(exState) > -1) await fn.heroPushState(State, value)
+	}
+	fn.hostPushState = async (exState, State, value) => {
+		if (state.hero.stateList.indexOf(exState) > -1) await fn.heroPushState(State, value)
+		if (state.enemy.stateList.indexOf(exState) > -1) await fn.enemyPushState(State, value)
+	}
 
 	fn.heroFindState = (State) => state.hero.findState(State)
 	fn.enemyFindState = (State) => state.enemy.findState(State)
@@ -82,10 +92,9 @@ export default (state, refs) => {
 	fn.gainPower = (num = 1) => {
 		state.powerCur += num
 	}
-	fn.getCurPower = () => state.powerCur
 
 	fn.dropCard = async (param) => {
-		let idList = handleCardParam(param)
+		let idList = handleCardParamToId(param)
 		let cardList = idList.map(id => drawOutACard(id))
 		state.dropStack.push(...cardList)
 		for (let card of cardList) await card.onLeaveFromHand(fn)
@@ -99,6 +108,10 @@ export default (state, refs) => {
 	}
 
 	fn.drawCard = async (count = 1, filter) => {
+		if (fn.heroFindState(BlockDraw)) {
+			console.log('已阻止抽牌')
+			return []
+		}
 		const drawList = []
 		while (count > 0) {
 			if (state.drawStack.length > 0) {
@@ -157,10 +170,16 @@ export default (state, refs) => {
 
 		await card.afterLaunch(fn)
 		updateRelationValueShow()
+
+		while (card.extraLaunchCount > 0) {
+			await card.onLaunch(fn)
+			await card.afterLaunch(fn)
+			card.extraLaunchCount--
+		}
 	}
 
 	fn.exhaustCard = async (param) => {
-		let idList = handleCardParam(param)
+		let idList = handleCardParamToId(param)
 		let cardList = idList.map(id => drawOutACard(id))
 		state.exhaustedStack.push(...cardList)
 		for (let card of cardList) await card.onLeaveFromHand(fn)
@@ -168,7 +187,6 @@ export default (state, refs) => {
 
 	fn.addCardIntoDrop = (card, positionType) => addCardIntoStack(card, state.dropStack, positionType)
 	fn.addCardIntoDraw = (card, positionType) => addCardIntoStack(card, state.drawStack, positionType)
-	fn.addCardIntoHand = (card, positionType) => addCardIntoStack(card, state.handCards, positionType)
 
 	fn.dropFilteredHandCards = async (filter) => {
 		let tobeDropped = getFilteredHandCards(filter)
@@ -189,7 +207,13 @@ export default (state, refs) => {
 	fn.raiseCostRandomCard = (count, filter) => {
 		let toBeRaised = getRandomHandCards(count, filter)
 		for (let card of toBeRaised) {
-			card.addCostFixInTurn(1)
+			card.addCostFixOfTurn(1)
+		}
+	}
+
+	fn.freeAllHandCardsThisTurn = () => {
+		for (let card of state.handCards) {
+			card.addCostFixOfTurn(-card.cost)
 		}
 	}
 
@@ -263,6 +287,15 @@ export default (state, refs) => {
 		}
 	}
 
+	fn.copyCard = async (param) => {
+		let cardList = handleCardParamToCard(param)
+		for (let card of cardList) {
+			let copy = new card.constructor()
+			Object.assign(copy, card)
+			await pushCardToHand(card)
+		}
+	}
+
 	const pushCardToHand = async (card) => {
 		state.handCards.push(card)
 		await waitFor(250)
@@ -328,9 +361,21 @@ export default (state, refs) => {
 		return card
 	}
 
-	const handleCardParam = (param) => {
+	const findCardById = (id) => {
+		let result = state.handCards.find(c => c.id === id)
+		if (!result) result = state.dropStack.find(c => c.id === id)
+		if (!result) result = state.drawStack.find(c => c.id === id)
+		return result
+	}
+
+	const handleCardParamToId = (param) => {
 		let list = Array.isArray(param) ? param : [param]
 		return list.map(item => typeof item === 'number' ? item : item.id)
+	}
+
+	const handleCardParamToCard = (param) => {
+		let list = Array.isArray(param) ? param : [param]
+		return list.map(item => typeof item === 'number' ? findCardById(item) : item)
 	}
 
 	logFn(fn, state, refs)

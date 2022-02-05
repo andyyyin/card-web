@@ -1,6 +1,6 @@
 import BaseState from "./base";
 
-export default class NextTurnBlock extends BaseState{
+export default class NextTurnPower extends BaseState{
 
 	name = '下回合能量'
 

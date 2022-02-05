@@ -230,9 +230,9 @@ const startNewTurn = async () => {
 	state.powerCur = state.powerBase
 	await fn.drawCard(5)
 
-	fn.enemyPrepareAction()
-
 	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
+
+	fn.enemyPrepareAction()
 
 	state.locked = false
 }

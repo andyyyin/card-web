@@ -15,7 +15,7 @@ export default class Distraction extends BaseCard {
 
 	async onLaunch(fn) {
 		let createdList = await fn.createRandomCard(1, Card => Card.type === CARD_BASE_TYPE.SKILL)
-		for (let c of createdList) c.setCostFixInTurn(-c.baseCost)
+		for (let c of createdList) c.setCostFixOfTurn(-c.baseCost)
 	}
 
 }

@@ -57,6 +57,17 @@ import Tactician from "./tactician";
 import Terror from "./terror";
 import WellLaidPlans from "./wellLaidPlans";
 import AThousandCuts from "./aThousandCuts";
+import Adrenaline from "./adrenaline";
+import AfterImage from "./afterImage";
+import BulletTime from "./bulletTime";
+import Burst from "./burst";
+import Doppelganger from "./doppelganger";
+import Envenom from "./envenom";
+import GlassKnife from "./glassKnife";
+import GrandFinale from "./grandFinale";
+import Malaise from "./malaise";
+import Nightmare from "./nightmare";
+import PhantasmalKiller from "./phantasmalKiller";
 
 export default {
 	Defense,
@@ -118,4 +129,15 @@ export default {
 	Terror,
 	WellLaidPlans,
 	AThousandCuts,
+	Adrenaline,
+	AfterImage,
+	BulletTime,
+	Burst,
+	Doppelganger,
+	Envenom,
+	GlassKnife,
+	GrandFinale,
+	Malaise,
+	Nightmare,
+	PhantasmalKiller,
 }

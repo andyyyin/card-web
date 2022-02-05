@@ -5,14 +5,14 @@ let _idCache = 1000
 export default class BaseCard {
 
 	baseCost = 1;
-	costFixInTurn = 0;
-	costFixInBattle = 0;
+	costFixOfTurn = 0;
+	costFixOfBattle = 0;
 	costFixBeforeLaunch = 0;
 
 	xCost
 
 	get cost () {
-		let result = this.baseCost + this.costFixInBattle + this.costFixInTurn + this.costFixBeforeLaunch
+		let result = this.baseCost + this.costFixOfBattle + this.costFixOfTurn + this.costFixBeforeLaunch
 		return result > 0 ? result : 0
 	}
 
@@ -32,6 +32,8 @@ export default class BaseCard {
 	get isRetain () {
 		return this.retain || this.tempRetain
 	}
+
+	extraLaunchCount = 0
 
 	constructor() {
 		this.id = ++_idCache
@@ -56,10 +58,10 @@ export default class BaseCard {
 	async onLeaveFromHand () {}
 
 	async onTurnEnd() {
-		this.costFixInTurn = 0
+		this.costFixOfTurn = 0
 	}
 	async onBattleEnd() {
-		this.costFixInBattle = 0
+		this.costFixOfBattle = 0
 	}
 
 	async onLaunch (fn) {}
@@ -74,17 +76,17 @@ export default class BaseCard {
 	updateRel (fn) {}
 }
 
-BaseCard.prototype.setCostFixInTurn = function (value) {
-	this.costFixInTurn = value
+BaseCard.prototype.setCostFixOfTurn = function (value) {
+	this.costFixOfTurn = value
 }
-BaseCard.prototype.addCostFixInTurn = function (value) {
-	this.costFixInTurn += value
+BaseCard.prototype.addCostFixOfTurn = function (value) {
+	this.costFixOfTurn += value
 }
-BaseCard.prototype.setCostFixInBattle = function (value) {
-	this.costFixInBattle = value
+BaseCard.prototype.setCostFixOfBattle = function (value) {
+	this.costFixOfBattle = value
 }
-BaseCard.prototype.addCostFixInBattle = function (value) {
-	this.costFixInBattle += value
+BaseCard.prototype.addCostFixOfBattle = function (value) {
+	this.costFixOfBattle += value
 }
 BaseCard.prototype.setCostFixBeforeLaunch = function (value) {
 	this.costFixBeforeLaunch = value

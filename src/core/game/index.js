@@ -1,22 +1,20 @@
 import Cards from '../cards'
 import AIMap from '../ai'
-import Predator from "../cards/predator";
-import Reflex from "../cards/reflex";
-import RiddleWithHoles from "../cards/riddleWithHoles";
-import Setup from "../cards/setup";
-import Skewer from "../cards/skewer";
-import Tactician from "../cards/tactician";
-import Terror from "../cards/terror";
-import WellLaidPlans from "../cards/wellLaidPlans";
-import AThousandCuts from "../cards/aThousandCuts";
+import Doppelganger from "../cards/doppelganger";
+import Envenom from "../cards/envenom";
+import GlassKnife from "../cards/glassKnife";
+import GrandFinale from "../cards/grandFinale";
+import Malaise from "../cards/malaise";
+import Nightmare from "../cards/nightmare";
+import PhantasmalKiller from "../cards/phantasmalKiller";
 
 const cards = [
-	// new Cards.Neutralize(),
-	// new Cards.HeavyStrike(),
-	// new Cards.TripleStrike(),
-	// new Cards.StrengthUp(),
-	// new Cards.BackFlip(),
-	// new Cards.Acrobatics(),
+	new Cards.Neutralize(),
+	new Cards.HeavyStrike(),
+	new Cards.TripleStrike(),
+	new Cards.StrengthUp(),
+	new Cards.BackFlip(),
+	new Cards.Acrobatics(),
 	// new Cards.Survivor(),
 	// new Cards.Poison(),
 	// new Cards.BladeDance(),
@@ -28,10 +26,7 @@ const cards = [
 	// new Cards.Outmaneuver(),
 	// new Cards.PiercingWail(),
 	// new Cards.PoisonedStab(),
-	new Cards.Prepared(),
-	new Cards.Prepared(),
-	new Cards.Prepared(),
-	new Cards.Prepared(),
+	// new Cards.Prepared(),
 	// new Cards.QuickSlash(),
 	// new Cards.SneakyStrike(),
 	// new Cards.SuckerPunch(),
@@ -54,31 +49,42 @@ const cards = [
 	// new Cards.Finisher(),
 	// new Cards.Flechettes(),
 	// new Cards.Footwork(),
-	new Cards.HeelHook(),
-	new Cards.InfiniteBlades(),
-	new Cards.LegSweep(),
-	new Cards.MasterfulStab(),
-	new Cards.NoxiousFumes(),
-	new Cards.Predator(),
-	new Cards.Reflex(),
-	new Cards.RiddleWithHoles(),
-	new Cards.Setup(),
-	new Cards.Skewer(),
+	// new Cards.HeelHook(),
+	// new Cards.InfiniteBlades(),
+	// new Cards.LegSweep(),
+	// new Cards.MasterfulStab(),
+	// new Cards.NoxiousFumes(),
+	// new Cards.Predator(),
+	// new Cards.Reflex(),
+	// new Cards.RiddleWithHoles(),
+	// new Cards.Setup(),
+	// new Cards.Skewer(),
 	new Cards.Tactician(),
 	new Cards.Terror(),
 	new Cards.WellLaidPlans(),
 	new Cards.AThousandCuts(),
-	new Cards.AThousandCuts(),
-	new Cards.AThousandCuts(),
-	new Cards.AThousandCuts(),
-	new Cards.AThousandCuts(),
+	new Cards.Adrenaline(),
+	new Cards.AfterImage(),
+	new Cards.BulletTime(),
+	new Cards.Burst(),
+	new Cards.Doppelganger(),
+	new Cards.Envenom(),
+	new Cards.GlassKnife(),
+	new Cards.GrandFinale(),
+	new Cards.Malaise(),
+	new Cards.Nightmare(),
+	new Cards.PhantasmalKiller(),
+	new Cards.PhantasmalKiller(),
+	new Cards.PhantasmalKiller(),
+	new Cards.PhantasmalKiller(),
+	new Cards.PhantasmalKiller(),
 ]
 
 const aiQueue = [
 	AIMap.Mage,
 	AIMap.Wolf,
-	AIMap.Monster1,
 	AIMap.Ninja,
+	AIMap.Monster1,
 ]
 
 const getCards = () => cards

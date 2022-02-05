@@ -23,6 +23,8 @@ export default class BaseState {
 
 	async onLaunchCard () {}
 
+	async onHostLaunchAttack () {}
+
 	onSuperposition (param) {
 		if ((!param || typeof param === 'number') && this.level) {
 			this.levelChange(param || 1)

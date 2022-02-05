@@ -20,7 +20,7 @@ export default class Expertise extends BaseCard {
 
 	async afterLaunch(fn) {
 		await super.afterLaunch(fn)
-		let drawCount = 6 - fn.getNumberOfHandCards()
+		let drawCount = 6 - fn.getLengthOfHandCards()
 		await fn.drawCard(drawCount)
 	}
 

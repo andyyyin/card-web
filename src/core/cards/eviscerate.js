@@ -24,7 +24,7 @@ export default class Eviscerate extends BaseCard {
 		let count = fn.getDroppedCountOfTurn()
 		let addNum = count - this.dropCountCache
 		this.dropCountCache = count
-		this.addCostFixInTurn(-addNum)
+		this.addCostFixOfTurn(-addNum)
 	}
 
 	async onTurnEnd() {
