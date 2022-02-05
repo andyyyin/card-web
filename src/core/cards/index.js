@@ -2,7 +2,7 @@ import Defense from "./defense";
 import StrengthUp from "./strengthUp";
 import Strike from "./strike";
 import TripleStrike from "./tripleStrike";
-import HeavyStrike from "./heavyStrike";
+import Bash from "./bash";
 import Burn from "./burn";
 import Survivor from "./survivor";
 import Neutralize from "./neutralize";
@@ -68,12 +68,15 @@ import GrandFinale from "./grandFinale";
 import Malaise from "./malaise";
 import Nightmare from "./nightmare";
 import PhantasmalKiller from "./phantasmalKiller";
+import StormOfSteel from "./stormOfSteel";
+import ToolsOfTheTrade from "./toolsOfTheTrade";
+import Unload from "./unload";
 
 export default {
 	Defense,
 	StrengthUp,
 	Strike,
-	HeavyStrike,
+	Bash,
 	TripleStrike,
 	Burn,
 	Survivor,
@@ -140,4 +143,7 @@ export default {
 	Malaise,
 	Nightmare,
 	PhantasmalKiller,
+	StormOfSteel,
+	ToolsOfTheTrade,
+	Unload,
 }

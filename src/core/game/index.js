@@ -1,16 +1,9 @@
 import Cards from '../cards'
 import AIMap from '../ai'
-import Doppelganger from "../cards/doppelganger";
-import Envenom from "../cards/envenom";
-import GlassKnife from "../cards/glassKnife";
-import GrandFinale from "../cards/grandFinale";
-import Malaise from "../cards/malaise";
-import Nightmare from "../cards/nightmare";
-import PhantasmalKiller from "../cards/phantasmalKiller";
 
 const cards = [
 	new Cards.Neutralize(),
-	new Cards.HeavyStrike(),
+	new Cards.Bash(),
 	new Cards.TripleStrike(),
 	new Cards.StrengthUp(),
 	new Cards.BackFlip(),
@@ -74,10 +67,11 @@ const cards = [
 	new Cards.Malaise(),
 	new Cards.Nightmare(),
 	new Cards.PhantasmalKiller(),
-	new Cards.PhantasmalKiller(),
-	new Cards.PhantasmalKiller(),
-	new Cards.PhantasmalKiller(),
-	new Cards.PhantasmalKiller(),
+	new Cards.StormOfSteel(),
+	new Cards.ToolsOfTheTrade(),
+	new Cards.Unload(),
+	new Cards.Unload(),
+	new Cards.Unload(),
 ]
 
 const aiQueue = [

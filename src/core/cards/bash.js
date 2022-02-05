@@ -3,7 +3,7 @@ import {CARD_BASE_TYPE} from "../enum";
 import Weak from "../state/weak";
 import Fracture from "../state/fracture";
 
-export default class HeavyStrike extends BaseCard {
+export default class Bash extends BaseCard {
 
 	baseCost = 2
 
@@ -13,7 +13,7 @@ export default class HeavyStrike extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '造成1点虚弱和1点破绽'
+	desc = '造成2点破绽'
 
 	constructor() {
 		super();
@@ -21,8 +21,7 @@ export default class HeavyStrike extends BaseCard {
 
 	async onLaunch(fn) {
 		await fn.strikeEnemy(this.baseValue)
-		fn.enemyPushState(Weak, 1)
-		fn.enemyPushState(Fracture, 1)
+		fn.enemyPushState(Fracture, 2)
 	}
 
 }

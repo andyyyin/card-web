@@ -8,14 +8,14 @@ export default class StrengthUp extends BaseCard {
 
 	static type = CARD_BASE_TYPE.ABILITY
 
-	desc = '获得1点力量'
+	desc = '获得2点力量'
 
 	constructor() {
 		super();
 	}
 
 	async onLaunch(fn) {
-		fn.heroPushState(Strength, 1)
+		fn.heroPushState(Strength, 2)
 	}
 
 }
