@@ -8,6 +8,7 @@ import Skewer from "../cards/skewer";
 import Tactician from "../cards/tactician";
 import Terror from "../cards/terror";
 import WellLaidPlans from "../cards/wellLaidPlans";
+import AThousandCuts from "../cards/aThousandCuts";
 
 const cards = [
 	// new Cards.Neutralize(),
@@ -66,9 +67,11 @@ const cards = [
 	new Cards.Tactician(),
 	new Cards.Terror(),
 	new Cards.WellLaidPlans(),
-	new Cards.WellLaidPlans(),
-	new Cards.WellLaidPlans(),
-	new Cards.WellLaidPlans(),
+	new Cards.AThousandCuts(),
+	new Cards.AThousandCuts(),
+	new Cards.AThousandCuts(),
+	new Cards.AThousandCuts(),
+	new Cards.AThousandCuts(),
 ]
 
 const aiQueue = [

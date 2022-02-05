@@ -15,7 +15,7 @@ export default class NoxiousFumes extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.heroPushState(NoxiousFumesState, 1)
+		fn.enemyPushState(NoxiousFumesState, 1)
 	}
 
 }

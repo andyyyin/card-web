@@ -56,6 +56,7 @@ import Skewer from "./skewer";
 import Tactician from "./tactician";
 import Terror from "./terror";
 import WellLaidPlans from "./wellLaidPlans";
+import AThousandCuts from "./aThousandCuts";
 
 export default {
 	Defense,
@@ -116,4 +117,5 @@ export default {
 	Tactician,
 	Terror,
 	WellLaidPlans,
+	AThousandCuts,
 }
