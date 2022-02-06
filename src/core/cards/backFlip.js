@@ -7,7 +7,7 @@ export default class BackFlip extends BaseCard {
 
 	baseValue = 5
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '抽两张牌'
 

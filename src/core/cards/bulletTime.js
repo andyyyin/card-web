@@ -8,7 +8,7 @@ export default class BulletTime extends BaseCard {
 
 	name = '子弹时间'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '本回合不能再抽牌，本回合所有手牌费用降为0'
 

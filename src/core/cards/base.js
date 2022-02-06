@@ -4,6 +4,17 @@ let _idCache = 1000
 
 export default class BaseCard {
 
+	constructor() {
+		this.id = ++_idCache
+		console.log('id', this.id)
+		this.type = this.constructor.type
+		this.baseCost = this.constructor.baseCost || 1
+		this.desc = this.constructor.desc
+		this.unplayable = this.constructor.unplayable
+		this.retain = this.constructor.retain
+		this.exhaust = this.constructor.exhaust
+	}
+
 	baseCost = 1;
 	costFixOfTurn = 0;
 	costFixOfBattle = 0;
@@ -34,12 +45,6 @@ export default class BaseCard {
 	}
 
 	extraLaunchCount = 0
-
-	constructor() {
-		this.id = ++_idCache
-		console.log('id', this.id)
-		this.type = this.constructor.type
-	}
 
 	get typeClassName () {
 		switch (this.type) {

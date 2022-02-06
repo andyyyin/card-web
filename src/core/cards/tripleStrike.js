@@ -8,7 +8,7 @@ export default class TripleStrike extends BaseCard {
 	baseValue = 3
 	attackTime = 3
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

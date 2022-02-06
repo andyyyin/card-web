@@ -86,7 +86,7 @@ import { Dialog } from 'vant';
 import BattlerView from './BattlerView.vue'
 import Card from './item/Card.vue'
 import Selector from './item/Selector.vue'
-import {CARD_BASE_TYPE, INTENTION} from "../core/enum";
+import {INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
 import G from "../core/game/index"
 import anime from "../anime";
@@ -285,8 +285,28 @@ const onWin = async () => {
 	state.dropStack.splice(0, state.dropStack.length)
 
 	await Dialog.alert({message: 'WIN'})
+
+	await cardsSelector()
 	// todo
 	await startBattle()
+}
+
+const cardsSelector = () => {
+	let options = G.getRandomCardsFromLib(3)
+	return new Promise(resolve => {
+		state.selector.show = true
+		state.selector.title = '选择一张卡牌加入牌组'
+		state.selector.limit = [1]
+		state.selector.cards = options
+		state.selector.onSkip = () => {
+			resolve()
+		}
+		state.selector.onConfirm = ([id]) => {
+			let cardSample = options.find(c => c.id === id)
+			G.addCardToGroup(cardSample)
+			resolve()
+		}
+	})
 }
 
 const createEnemy = async () => {

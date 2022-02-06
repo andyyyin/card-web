@@ -6,7 +6,7 @@ export default class PhantasmalKiller extends BaseCard {
 
 	name = '幻影杀手'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '下一回合所有攻击伤害翻倍'
 

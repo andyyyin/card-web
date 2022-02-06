@@ -8,7 +8,7 @@ export default class PoisonedStab extends BaseCard {
 
 	baseValue = 6
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '造成3点中毒'
 

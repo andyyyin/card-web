@@ -10,7 +10,7 @@ export default class SuckerPunch extends BaseCard {
 
 	baseValue = 7
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '造成1点虚弱'
 

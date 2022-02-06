@@ -5,7 +5,7 @@ export default class Reflex extends BaseCard {
 
 	name = '本能反应'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '如果此牌被丢弃，抽2张牌'
 

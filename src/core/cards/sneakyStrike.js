@@ -10,7 +10,7 @@ export default class SneakyStrike extends BaseCard {
 
 	baseValue = 12
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '本回合如果丢弃过牌，则获得两点能量'
 

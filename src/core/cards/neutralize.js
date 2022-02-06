@@ -10,7 +10,7 @@ export default class Neutralize extends BaseCard {
 
 	baseValue = 3
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '造成1点虚弱'
 

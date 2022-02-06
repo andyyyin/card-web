@@ -7,7 +7,7 @@ export default class DaggerThrow extends BaseCard {
 
 	baseValue = 9
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '抽一张牌，丢弃一张牌'
 

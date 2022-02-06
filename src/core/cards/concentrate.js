@@ -7,7 +7,7 @@ export default class Concentrate extends BaseCard {
 
 	name = '聚精会神'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '获得2点能量，丢弃3张牌'
 

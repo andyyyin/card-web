@@ -9,7 +9,7 @@ export default class GlassKnife extends BaseCard {
 	baseValue = 8
 	attackTime = 2
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '每次打出这张卡，其在本场战斗基础伤害-2'
 

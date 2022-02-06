@@ -1,13 +1,28 @@
 import Cards from '../cards'
 import AIMap from '../ai'
+import AT from "../function/arrayTools";
 
-const cards = [
+const CardsLib = Object.values(Cards).map(Card => new Card())
+
+const cardsGroup = [
 	new Cards.Neutralize(),
-	new Cards.Bash(),
-	new Cards.TripleStrike(),
-	new Cards.StrengthUp(),
-	new Cards.BackFlip(),
-	new Cards.Acrobatics(),
+	new Cards.Strike(),
+	new Cards.Strike(),
+	new Cards.Strike(),
+	new Cards.Strike(),
+	new Cards.Strike(),
+	new Cards.Defense(),
+	new Cards.Defense(),
+	new Cards.Defense(),
+	new Cards.Defense(),
+	new Cards.Defense(),
+	new Cards.Survivor(),
+	// new Cards.Neutralize(),
+	// new Cards.Bash(),
+	// new Cards.TripleStrike(),
+	// new Cards.StrengthUp(),
+	// new Cards.BackFlip(),
+	// new Cards.Acrobatics(),
 	// new Cards.Survivor(),
 	// new Cards.Poison(),
 	// new Cards.BladeDance(),
@@ -52,26 +67,24 @@ const cards = [
 	// new Cards.RiddleWithHoles(),
 	// new Cards.Setup(),
 	// new Cards.Skewer(),
-	new Cards.Tactician(),
-	new Cards.Terror(),
-	new Cards.WellLaidPlans(),
-	new Cards.AThousandCuts(),
-	new Cards.Adrenaline(),
-	new Cards.AfterImage(),
-	new Cards.BulletTime(),
-	new Cards.Burst(),
-	new Cards.Doppelganger(),
-	new Cards.Envenom(),
-	new Cards.GlassKnife(),
-	new Cards.GrandFinale(),
-	new Cards.Malaise(),
-	new Cards.Nightmare(),
-	new Cards.PhantasmalKiller(),
-	new Cards.StormOfSteel(),
-	new Cards.ToolsOfTheTrade(),
-	new Cards.Unload(),
-	new Cards.Unload(),
-	new Cards.Unload(),
+	// new Cards.Tactician(),
+	// new Cards.Terror(),
+	// new Cards.WellLaidPlans(),
+	// new Cards.AThousandCuts(),
+	// new Cards.Adrenaline(),
+	// new Cards.AfterImage(),
+	// new Cards.BulletTime(),
+	// new Cards.Burst(),
+	// new Cards.Doppelganger(),
+	// new Cards.Envenom(),
+	// new Cards.GlassKnife(),
+	// new Cards.GrandFinale(),
+	// new Cards.Malaise(),
+	// new Cards.Nightmare(),
+	// new Cards.PhantasmalKiller(),
+	// new Cards.StormOfSteel(),
+	// new Cards.ToolsOfTheTrade(),
+	// new Cards.Unload(),
 ]
 
 const aiQueue = [
@@ -81,18 +94,30 @@ const aiQueue = [
 	AIMap.Monster1,
 ]
 
-const getCards = () => cards
+const getCards = () => cardsGroup
+
+const addCardToGroup = (Card) => {
+	const constructor = typeof Card === 'function' ? Card : Card.constructor
+	cardsGroup.push(new constructor())
+}
 
 const getNextEnemy = async () => {
 	return aiQueue.pop()
 }
 
 const install = (extendCallback) => {
-	extendCallback({cards, aiQueue})
+	extendCallback({cardsGroup, aiQueue})
+}
+
+const getRandomCardsFromLib = (count, filter) => {
+	let list = filter ? CardsLib.filter(filter) : CardsLib
+	return AT.getRandomByCount(list, count)
 }
 
 export default {
 	getCards,
 	getNextEnemy,
-	install
+	install,
+	addCardToGroup,
+	getRandomCardsFromLib,
 }

@@ -9,7 +9,7 @@ export default class Malaise extends BaseCard {
 
 	name = '萎靡'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '敌人失去x点力量，造成x点虚弱'
 

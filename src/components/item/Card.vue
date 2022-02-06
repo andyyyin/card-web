@@ -14,6 +14,7 @@
 				 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
 				{{card.fixedValue || card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}
 			</div>
+			<div class="value" v-if="isStatic">{{card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}</div>
 		</div>
 	</div>
 </template>

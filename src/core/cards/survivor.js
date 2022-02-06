@@ -7,7 +7,7 @@ export default class Survivor extends BaseCard {
 
 	baseValue = 8
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '丢弃1张牌'
 

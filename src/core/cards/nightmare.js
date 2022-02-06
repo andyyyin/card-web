@@ -7,7 +7,7 @@ export default class Nightmare extends BaseCard {
 
 	name = '梦魇'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '选择一张手牌，将三张此牌的复制放入手牌'
 

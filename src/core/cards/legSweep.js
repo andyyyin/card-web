@@ -10,7 +10,7 @@ export default class LegSweep extends BaseCard {
 
 	baseValue = 11
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '造成2点虚弱'
 

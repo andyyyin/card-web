@@ -8,7 +8,7 @@ export default class FlyingKnee extends BaseCard {
 
 	baseValue = 8
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '下回合开始时获得1点能量'
 

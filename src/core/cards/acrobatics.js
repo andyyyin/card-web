@@ -6,7 +6,7 @@ export default class Acrobatics extends BaseCard {
 
 	name = '杂技'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '抽3张牌，丢弃1张牌'
 

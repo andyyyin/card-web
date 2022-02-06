@@ -6,7 +6,7 @@ export default class Footwork extends BaseCard {
 
 	name = '腾挪'
 
-	static type = CARD_BASE_TYPE.ABILITY
+	type = CARD_BASE_TYPE.ABILITY
 
 	desc = '获得1点敏捷'
 

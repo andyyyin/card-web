@@ -6,7 +6,7 @@ export default class Catalyst extends BaseCard {
 
 	name = '催化剂'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '使敌人的中毒状态等级翻倍'
 

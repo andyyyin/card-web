@@ -7,7 +7,7 @@ export default class Strike extends BaseCard {
 
 	baseValue = 6
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

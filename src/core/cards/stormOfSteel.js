@@ -6,7 +6,7 @@ export default class StormOfSteel extends BaseCard {
 
 	name = '钢铁风暴'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '丢弃所有手牌，每丢弃一张牌，添加1张小刀到手牌'
 

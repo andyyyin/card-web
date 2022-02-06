@@ -10,7 +10,7 @@ export default class Choke extends BaseCard {
 
 	baseValue = 12
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '本回合后续每发动一张卡牌，对敌人发动3点攻击'
 

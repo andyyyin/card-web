@@ -7,7 +7,7 @@ export default class Finisher extends BaseCard {
 
 	baseValue = 6
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '本回合每打出一张攻击牌，发动一次攻击'
 

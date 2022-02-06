@@ -6,7 +6,7 @@ export default class InfiniteBlades extends BaseCard {
 
 	name = '无尽刀刃'
 
-	static type = CARD_BASE_TYPE.ABILITY
+	type = CARD_BASE_TYPE.ABILITY
 
 	desc = '每回合开始时，制造一张小刀到手牌'
 

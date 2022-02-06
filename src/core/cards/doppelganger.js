@@ -9,7 +9,7 @@ export default class Doppelganger extends BaseCard {
 
 	name = '双重人格'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '下回合获得x点能量，多抽x张牌'
 

@@ -7,7 +7,7 @@ export default class EscapePlan extends BaseCard {
 
 	name = '逃跑计划'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '抽一张牌，如果抽到的牌时技能牌，获得3点护甲'
 

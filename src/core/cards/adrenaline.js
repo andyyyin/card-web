@@ -7,7 +7,7 @@ export default class Adrenaline extends BaseCard {
 
 	name = '肾上腺素'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '获得1点能量，抽两张牌'
 

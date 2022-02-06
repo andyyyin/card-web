@@ -9,7 +9,7 @@ export default class MasterfulStab extends BaseCard {
 
 	baseValue = 12
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '每当你失去hp，此卡在本场战斗上涨1点消费'
 

@@ -7,7 +7,7 @@ export default class Prepared extends BaseCard {
 
 	name = '准备'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '抽一张牌，丢弃一张牌'
 

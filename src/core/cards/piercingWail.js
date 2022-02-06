@@ -7,7 +7,7 @@ export default class PiercingWail extends BaseCard {
 
 	name = '尖啸'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '本回合敌人失去6点力量'
 

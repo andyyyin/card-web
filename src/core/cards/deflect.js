@@ -9,7 +9,7 @@ export default class Deflect extends BaseCard {
 
 	baseValue = 4
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	constructor() {
 		super();

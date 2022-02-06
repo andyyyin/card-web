@@ -10,7 +10,7 @@ export default class Predator extends BaseCard {
 
 	baseValue = 15
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '下回合多抽两张牌'
 

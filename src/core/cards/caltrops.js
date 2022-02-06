@@ -8,7 +8,7 @@ export default class Caltrops extends BaseCard {
 
 	baseValue = 1
 
-	static type = CARD_BASE_TYPE.ABILITY
+	type = CARD_BASE_TYPE.ABILITY
 
 	desc = '添加3级蒺藜：受到攻击时对攻击者造成反伤'
 

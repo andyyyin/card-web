@@ -6,7 +6,7 @@ export default class Terror extends BaseCard {
 
 	name = '恐吓'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '造成99级破绽'
 

@@ -11,7 +11,7 @@ export default class CripplingCloud extends BaseCard {
 
 	stateValue = 5
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '造成5级中毒，3级虚弱'
 

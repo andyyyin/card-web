@@ -6,7 +6,7 @@ export default class Setup extends BaseCard {
 
 	name = '安装'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '选择一张手牌放到抽牌堆顶部，在下次打出之前0消费'
 

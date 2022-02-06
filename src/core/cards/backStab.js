@@ -13,7 +13,7 @@ export default class BackStab extends BaseCard {
 
 	innate = true
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

@@ -10,7 +10,7 @@ export default class RiddleWithHoles extends BaseCard {
 	baseValue = 3
 	attackTime = 5
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

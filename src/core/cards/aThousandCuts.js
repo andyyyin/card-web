@@ -6,7 +6,7 @@ export default class AThousandCuts extends BaseCard {
 
 	name = '凌迟'
 
-	static type = CARD_BASE_TYPE.ABILITY
+	type = CARD_BASE_TYPE.ABILITY
 
 	desc = '每当你打出一张牌，对敌人发动1点攻击'
 

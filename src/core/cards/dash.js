@@ -10,7 +10,7 @@ export default class Dash extends BaseCard {
 
 	baseValue = 10
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '获得10点护甲'
 

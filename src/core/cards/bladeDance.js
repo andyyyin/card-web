@@ -6,7 +6,7 @@ export default class BladeDance extends BaseCard {
 
 	name = '刀刃之舞'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '制造3张小刀到手牌'
 

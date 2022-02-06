@@ -10,7 +10,7 @@ export default class Shiv extends BaseCard {
 
 	baseValue = 4
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	exhaust = true
 

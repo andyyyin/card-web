@@ -10,7 +10,7 @@ export default class Eviscerate extends BaseCard {
 	baseValue = 7
 	attackTime = 3
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '在当前回合每丢弃一张牌，此牌的消费下降1点'
 

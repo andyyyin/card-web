@@ -10,7 +10,7 @@ export default class Skewer extends BaseCard {
 
 	baseValue = 7
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '发动攻击X次'
 

@@ -8,7 +8,7 @@ export default class Envenom extends BaseCard {
 
 	name = '涂毒'
 
-	static type = CARD_BASE_TYPE.ABILITY
+	type = CARD_BASE_TYPE.ABILITY
 
 	desc = '每当你对敌人造成未格挡的伤害，对其造成1级中毒'
 

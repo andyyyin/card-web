@@ -6,7 +6,7 @@ export default class Poison extends BaseCard {
 
 	name = '毒药'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '造成5点中毒'
 

@@ -6,7 +6,7 @@ export default class NoxiousFumes extends BaseCard {
 
 	name = '剧毒空气'
 
-	static type = CARD_BASE_TYPE.ABILITY
+	type = CARD_BASE_TYPE.ABILITY
 
 	desc = '在每回合开始时，对敌人造成2点中毒'
 

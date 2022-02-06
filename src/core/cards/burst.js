@@ -6,7 +6,7 @@ export default class Burst extends BaseCard {
 
 	name = '爆发'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '本回合下一次打出的技能牌将会打出两次'
 

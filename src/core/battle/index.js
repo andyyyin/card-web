@@ -4,7 +4,7 @@ import {CARD_BASE_TYPE, INTENTION} from "../enum";
 import logFn from "./log"
 import statFn from "./stat"
 import animFn from "./anim"
-import CardsLib from '../cards'
+import G from '../game'
 import {waitFor} from "../function/common";
 import BlockDraw from "../state/blockDraw";
 
@@ -271,11 +271,10 @@ export default (state, refs) => {
 		return card
 	}
 	fn.createRandomCard = async (count = 1, filter) => {
-		let list = filter ? Object.values(CardsLib).filter(filter) : Object.values(CardsLib)
-		let tobeCreated = AT.getRandomByCount(list, count)
+		let tobeCreated = G.getRandomCardsFromLib(count, filter)
 		let createdList = []
-		for (let Card of tobeCreated) {
-			createdList.push(await fn.createCard(Card))
+		for (let cardSample of tobeCreated) {
+			createdList.push(await fn.createCard(cardSample.constructor))
 		}
 		return createdList
 	}

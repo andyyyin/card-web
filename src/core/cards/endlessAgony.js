@@ -9,7 +9,7 @@ export default class EndlessAgony extends BaseCard {
 
 	baseValue = 4
 
-	static type = CARD_BASE_TYPE.ATTACK
+	type = CARD_BASE_TYPE.ATTACK
 
 	desc = '每次抽到这张牌，制造1张此牌的复制'
 

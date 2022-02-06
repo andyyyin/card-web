@@ -9,7 +9,7 @@ export default class CalculatedGamble extends BaseCard {
 
 	name = '孤注一掷'
 
-	static type = CARD_BASE_TYPE.SKILL
+	type = CARD_BASE_TYPE.SKILL
 
 	desc = '丢弃所有手牌，然后抽相同数量的牌'
 
