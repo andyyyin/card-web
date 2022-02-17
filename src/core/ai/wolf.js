@@ -2,6 +2,7 @@ import {INTENTION} from "../enum";
 import AT from '../function/arrayTools'
 import Agility from "../state/agility";
 import BaseAI from "./base";
+import {waitFor} from "../function/common";
 
 export default class Wolf extends BaseAI{
 
@@ -27,9 +28,9 @@ export default class Wolf extends BaseAI{
 	}
 
 	async multiAttack (fn) {
-		fn.strikeHero(7)
-		fn.strikeHero(7)
-		fn.strikeHero(7)
+		await fn.strikeHero(7)
+		await fn.strikeHero(7)
+		await fn.strikeHero(7)
 	}
 
 }

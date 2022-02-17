@@ -10,6 +10,8 @@ export default class Terror extends BaseCard {
 
 	desc = '造成99级破绽'
 
+	exhaust = true
+
 	constructor() {
 		super();
 	}

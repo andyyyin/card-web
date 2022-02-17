@@ -23,7 +23,12 @@
 		Edit
 		<code>components/HelloWorld.vue</code> to test hot module replacement.
 	</p>
-	<button type="button" @click="startGame">start the game</button>
+	<div style="margin-top: 25px;">
+		<button type="button" @click="startGame">START THE GAME</button>
+	</div>
+	<div style="margin-top: 25px;">
+		<button type="button" @click="testPage">GO TEST</button>
+	</div>
 </template>
 
 <script setup>
@@ -37,6 +42,10 @@ defineProps({
 const router = useRouter();
 const startGame = () => {
 	router.push('/main')
+}
+
+const testPage = () => {
+	router.push('/test')
 }
 
 const count = ref(0)

@@ -12,54 +12,64 @@ export default (state, refs) => {
 
 	const fn = {}
 
-	fn.heroChangeHp = (value) => {
-		if (value < 0) state.battleStat.loseHpCount++
+	fn.heroChangeHp = async (value) => {
+		if (value < 0) {
+			state.battleStat.loseHpCount++
+			await fn.anim.getAttack(true)
+		}
 		state.hero.changeHp(value)
 	}
 	fn.heroPushState = (...params) => {
 		state.hero.pushState(...params)
-		// updateRelationValueShow()
 	}
 	fn.heroChangeDefense = (value) => {
 		const fixedValue = stateDefenseFix(value, state.hero.stateList)
 		state.hero.changeDefense(fixedValue)
 	}
 	fn.strikeHero = async (value) => {
+		await fn.anim.enemyPower()
 		let fixedValue = value
 		fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
+		const damage = await fn.pureStrikeHero(fixedValue)
 		for (let s of state.hero.stateList) await s.onGetStrike(fn)
-		let damage = state.hero.getStrike(fixedValue)
-		if (damage > 0) state.battleStat.loseHpCount++
 		for (let s of state.enemy.stateList) await s.onHostLaunchAttack(fn, damage)
 		return damage
 	}
-	fn.pureStrikeHero = (value) => {
+	fn.pureStrikeHero = async (value) => {
 		let damage = state.hero.getStrike(value)
+		await fn.anim.getAttack(damage > 0, damage < value)
 		if (damage > 0) state.battleStat.loseHpCount++
 		return damage
 	}
 
-	fn.enemyChangeHp = state.enemy.changeHp.bind(state.enemy)
+	fn.enemyChangeHp = async (value) => {
+		if (value < 0) {
+			await fn.anim.enemyGetAttack(true)
+		}
+		state.enemy.changeHp(value)
+	}
 	fn.enemyPushState = (...params) => {
 		state.enemy.pushState(...params)
-		// updateRelationValueShow()
 	}
 	fn.enemyChangeDefense = (value) => {
 		const fixedValue = stateDefenseFix(value, state.enemy.stateList)
 		state.enemy.changeDefense(fixedValue)
 	}
 	fn.strikeEnemy = async (value) => {
+		await fn.anim.attack()
 		let fixedValue = value
 		fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.enemy.stateList)
+		let damage = await fn.pureStrikeEnemy(fixedValue)
 		for (let s of state.enemy.stateList) await s.onGetStrike(fn)
-		let damage = state.enemy.getStrike(fixedValue)
 		for (let s of state.hero.stateList) await s.onHostLaunchAttack(fn, damage)
 		return damage
 	}
-	fn.pureStrikeEnemy = (value) => {
-		return state.enemy.getStrike(value)
+	fn.pureStrikeEnemy = async (value) => {
+		let damage = state.enemy.getStrike(value)
+		await fn.anim.enemyGetAttack(damage > 0, damage < value)
+		return damage
 	}
 
 	fn.StrikeOpponent = async (exState, value) => {
@@ -79,9 +89,9 @@ export default (state, refs) => {
 	fn.heroFindState = (State) => state.hero.findState(State)
 	fn.enemyFindState = (State) => state.enemy.findState(State)
 
-	fn.hostChangeHp = (exState, value) => {
-		if (state.hero.stateList.indexOf(exState) > -1) fn.heroChangeHp(value)
-		if (state.enemy.stateList.indexOf(exState) > -1) fn.enemyChangeHp(value)
+	fn.hostChangeHp = async (exState, value) => {
+		if (state.hero.stateList.indexOf(exState) > -1) await fn.heroChangeHp(value)
+		if (state.enemy.stateList.indexOf(exState) > -1) await fn.enemyChangeHp(value)
 	}
 
 	fn.cost = (num) => {
@@ -142,6 +152,7 @@ export default (state, refs) => {
 		return drawList
 	}
 	fn.launchCard = async (id) => {
+		state.locked = true
 		if (state.prepareCardId === id) state.prepareCardId = null
 		let index, card
 		if (((index = state.handCards.findIndex(c => c.id === id)) > -1)) {
@@ -176,6 +187,7 @@ export default (state, refs) => {
 			await card.afterLaunch(fn)
 			card.extraLaunchCount--
 		}
+		state.locked = false
 	}
 
 	fn.exhaustCard = async (param) => {
@@ -380,6 +392,8 @@ export default (state, refs) => {
 	logFn(fn, state, refs)
 	statFn(fn, state, refs)
 	animFn(fn, state, refs)
+
+	console.log(fn.anim);
 
 	return fn
 }

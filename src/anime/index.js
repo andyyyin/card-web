@@ -81,15 +81,15 @@ export const flatten = (el) => {
 	}).finished
 }
 
-export const moveBack = (element) => {
+export const moveBack = (element, option = {}) => {
 	return anime({
 		targets: element,
 		translateX: 0,
 		translateY: 0,
 		scale: 1,
 		opacity: 1,
-		easing: 'easeInQuint',
-		duration: 300,
+		easing: option.easing || 'easeInQuint',
+		duration: option.duration || 300,
 	}).finished
 }
 
@@ -102,6 +102,25 @@ export const glint = (element) => {
 	}).finished;
 }
 
+export const flash = (element, option = {}) => {
+	return anime({
+		targets: element,
+		opacity: [.4, .8, 0],
+		easing: option.easing || 'easeInQuint',
+		duration: option.duration || 300,
+	}).finished;
+}
+
+export const spread = (element, option = {}) => {
+	return anime({
+		targets: element,
+		height: option.targetSize || 1000,
+		width: option.targetSize || 1000,
+		easing: option.easing || 'linear',
+		duration: option.duration || 200,
+	}).finished;
+}
+
 export default {
 	moveToTarget,
 	cardsPositionToTarget,
@@ -109,4 +128,6 @@ export default {
 	recoverToHeight,
 	flatten,
 	glint,
+	flash,
+	spread,
 }

@@ -19,7 +19,10 @@ const cardsGroup = [
 	new Cards.Survivor(),
 	// new Cards.Neutralize(),
 	// new Cards.Bash(),
-	// new Cards.TripleStrike(),
+	new Cards.TripleStrike(),
+	new Cards.TripleStrike(),
+	new Cards.TripleStrike(),
+	new Cards.TripleStrike(),
 	// new Cards.StrengthUp(),
 	// new Cards.BackFlip(),
 	// new Cards.Acrobatics(),
@@ -68,7 +71,7 @@ const cardsGroup = [
 	// new Cards.Setup(),
 	// new Cards.Skewer(),
 	// new Cards.Tactician(),
-	// new Cards.Terror(),
+	new Cards.Terror(),
 	// new Cards.WellLaidPlans(),
 	// new Cards.AThousandCuts(),
 	// new Cards.Adrenaline(),
@@ -89,9 +92,9 @@ const cardsGroup = [
 
 const aiQueue = [
 	AIMap.Mage,
-	AIMap.Wolf,
 	AIMap.Ninja,
 	AIMap.Monster1,
+	AIMap.Wolf,
 ]
 
 const getCards = () => cardsGroup

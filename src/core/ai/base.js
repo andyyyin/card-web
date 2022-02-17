@@ -2,6 +2,7 @@ import {INTENTION} from "../enum";
 import AT from '../function/arrayTools'
 import Weak from "../state/weak";
 import {stateDefenseFix} from "../algorithm";
+import {waitFor} from "../function/common";
 
 export default class BaseAI {
 
@@ -34,7 +35,7 @@ export default class BaseAI {
 		let value = this.baseDamage
 		fn.pushLog({text: '攻击，威力=' + value})
 		// console.log('ai act attack', value)
-		fn.strikeHero(value)
+		await fn.strikeHero(value)
 	}
 
 	async commonDefense (fn) {

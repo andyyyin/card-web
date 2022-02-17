@@ -40,8 +40,10 @@
 
 .state-section{
 	padding: 0 6px;
+	position: relative;
 	.progress-container{
-		margin: 12px 0;
+		padding: 12px 0;
+		position: relative;
 	}
 }
 
@@ -239,6 +241,7 @@
 	color: #fff;
 	font-weight: 600;
 	border-radius: 6px;
+	position: relative;
 	&.active{
 		background-color: darkgrey;
 	}
@@ -279,4 +282,15 @@
 			}
 		}
 	}
+}
+
+.anim-cover-mask{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #000;
+	opacity: 0;
 }

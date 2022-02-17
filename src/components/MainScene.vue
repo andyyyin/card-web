@@ -13,9 +13,11 @@
 			</div>
 			<div class="progress-container grow">
 				<van-progress :percentage="state.enemy.hp * 100 / state.enemy.mhp" stroke-width="8" :pivot-text="state.enemy.hp + '/' + state.enemy.mhp" color="#ee0a24"/>
+				<div class="anim-cover-mask" :ref="el => { if (el) refs.animEl.enemyHpMask = el }"></div>
 			</div>
 			<div class="defense-display-container" :class="{active: state.enemy.defense}">
 				{{state.enemy.defense || ''}}
+				<div class="anim-cover-mask" :ref="el => { if (el) refs.animEl.enemyDfMask = el }"></div>
 			</div>
 		</section>
 
@@ -24,7 +26,7 @@
 			:stateShowDownList="filteredHeroStateList"
 			:img="state.enemy.ai && state.enemy.ai.img"
 			:logs="state.logs"
-			:animMaskRef="(el) => { if (el) refs.animMask = el }"
+			:setAnimEl="(el, name) => { if (el) refs.animEl[name] = el}"
 		/>
 
 		<section class="state-section row-align">
@@ -35,9 +37,11 @@
 			</div>
 			<div class="progress-container grow">
 				<van-progress :percentage="state.hero.hp * 100 / state.hero.mhp" stroke-width="8" :pivot-text="state.hero.hp + '/' + state.hero.mhp"/>
+				<div class="anim-cover-mask" :ref="el => { if (el) refs.animEl.heroHpMask = el }"></div>
 			</div>
 			<div class="defense-display-container" :class="{active: state.hero.defense}">
 				{{state.hero.defense || ''}}
+				<div class="anim-cover-mask" :ref="el => { if (el) refs.animEl.heroDfMask = el }"></div>
 			</div>
 		</section>
 
@@ -92,12 +96,22 @@ import G from "../core/game/index"
 import anime from "../anime";
 import battleFunctionsInit from "../core/battle"
 import AT from "../core/function/arrayTools";
+import {waitFor} from "../core/function/common";
 
 const refs = {
 	dropStack: null,
 	drawStack: null,
 	cardsPanel: null,
-	animMask: null,
+	battleMask: null,
+	animEl: {
+		attackMissile: null,
+		battleView: null,
+		enemyHpMask: null,
+		enemyDfMask: null,
+		heroHpMask: null,
+		heroStateMask: null,
+		enemyPower: null,
+	},
 }
 
 const cardOnLeave = (el, done) => {
@@ -223,13 +237,13 @@ const startNewTurn = async () => {
 
 	state.turnNum++
 	state.turnStat.reset()
+	state.powerCur = state.powerBase
+	await fn.drawCard(5)
+
 	console.log('turn start')
 	if (!state.hero.stateList.some(s => s.keepBlock)) {
 		state.hero.defense = 0
 	}
-	state.powerCur = state.powerBase
-	await fn.drawCard(5)
-
 	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
 
 	fn.enemyPrepareAction()

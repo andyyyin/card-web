@@ -34,8 +34,8 @@ export default class Ninja extends BaseAI{
 	}
 
 	async multiAttack (fn) {
-		fn.strikeHero(this.baseDamage)
-		fn.strikeHero(this.baseDamage)
+		await fn.strikeHero(this.baseDamage)
+		await fn.strikeHero(this.baseDamage)
 	}
 
 }
