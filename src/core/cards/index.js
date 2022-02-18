@@ -3,7 +3,6 @@ import StrengthUp from "./strengthUp";
 import Strike from "./strike";
 import TripleStrike from "./tripleStrike";
 import Bash from "./bash";
-import Burn from "./burn";
 import Survivor from "./survivor";
 import Neutralize from "./neutralize";
 import BackFlip from "./backFlip";
@@ -78,7 +77,6 @@ export default {
 	Strike,
 	Bash,
 	TripleStrike,
-	Burn,
 	Survivor,
 	Neutralize,
 	BackFlip,

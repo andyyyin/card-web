@@ -1,6 +1,6 @@
 import {INTENTION} from "../enum";
 import BaseAI from "./base";
-import Cards from '../cards'
+import Burn from '../cards/burn'
 
 export default class Mage extends BaseAI{
 
@@ -26,7 +26,7 @@ export default class Mage extends BaseAI{
 
 	async fireAttack (fn) {
 		await fn.strikeHero(this.baseDamage)
-		fn.addCardIntoDraw(new Cards.Burn())
+		fn.addCardIntoDraw(new Burn())
 	}
 
 }

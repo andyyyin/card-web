@@ -105,7 +105,8 @@ export default (state, refs) => {
 
 	fn.dropCard = async (param) => {
 		let idList = handleCardParamToId(param)
-		let cardList = idList.map(id => drawOutACard(id))
+		let cardList = idList.map(id => drawOutACard(id)).filter(c => !!c)
+		if (!cardList.length) return
 		state.dropStack.push(...cardList)
 		for (let card of cardList) await card.onLeaveFromHand(fn)
 		return cardList

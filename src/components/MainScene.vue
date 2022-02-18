@@ -142,6 +142,7 @@ const state = reactive({
 	powerBase: 3,
 	powerCur: 3,
 	turnNum: 0,
+	battleActive: false,
 	messageList: [],
 	selector: {
 		show: false,
@@ -203,8 +204,7 @@ const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => s.
 
 watchEffect(() => {
 	if (state.hero.hp <= 0) {
-		state.isGameOver = true
-		Dialog.alert({message: 'GAME OVER'}).then(() => {})
+		onFail().then()
 	} else if (state.enemy.hp <= 0) {
 		onWin().then()
 	}
@@ -288,7 +288,11 @@ const endTheTurn = async () => {
 }
 
 const onWin = async () => {
+	if (!state.battleActive) return
 	console.log('hero win')
+	state.battleActive = false
+	await Dialog.alert({message: 'WIN'})
+
 	for (let c of state.handCards) await c.onLeaveFromHand(fn)
 	for (let c of G.getCards()) {
 		await c.onTurnEnd(fn)
@@ -298,11 +302,16 @@ const onWin = async () => {
 	state.drawStack.splice(0, state.drawStack.length)
 	state.dropStack.splice(0, state.dropStack.length)
 
-	await Dialog.alert({message: 'WIN'})
-
 	await cardsSelector()
 	// todo
 	await startBattle()
+}
+
+const onFail = async () => {
+	if (!state.battleActive) return
+	state.battleActive = false
+	state.isGameOver = true
+	await Dialog.alert({message: 'GAME OVER'})
 }
 
 const cardsSelector = () => {
@@ -350,6 +359,9 @@ const startBattle = async () => {
 		console.log('new battle begin')
 		state.turnNum = 0
 		state.enemy.ai.onDebut(fn)
+
+		state.battleActive = true
+
 		await startNewTurn()
 	} else {
 		Dialog.alert({message: 'CLEARANCE'}).then(() => {
