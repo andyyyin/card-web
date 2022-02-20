@@ -2,7 +2,7 @@ import Cards from '../cards'
 import AIMap from '../ai'
 import AT from "../function/arrayTools";
 
-const CardsLib = Object.values(Cards).map(Card => new Card())
+const CardsLib = Object.values(Cards).map(Card => new Card()).filter(c => !c.isBase)
 
 const cardsGroup = [
 	new Cards.Neutralize(),

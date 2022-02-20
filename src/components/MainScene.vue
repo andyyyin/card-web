@@ -53,6 +53,7 @@
 						:key="card.id"
 						:card="card"
 						:is-prepared="state.prepareCardId === card.id"
+						:is-performing="state.performingId === card.id"
 						:is-disabled="card.cost > state.powerCur"
 						:card-launch="fn.launchCard"
 						:card-prepare="cardPrepare"
@@ -187,6 +188,7 @@ const state = reactive({
 	exhaustedStack: [],
 	usedStack: [],
 	prepareCardId: null,
+	performingId: null,
 	logs: [],
 	turnStat: {
 		dropCard: 0,
@@ -307,7 +309,7 @@ const onWin = async () => {
 
 	await cardsSelector()
 	await cardsSelector()
-	// todo
+
 	await startBattle()
 }
 
@@ -343,6 +345,7 @@ const createEnemy = async () => {
 	if (!NextEnemy) return false
 	state.enemy.ai = new NextEnemy()
 	state.enemy.hp = state.enemy.mhp = state.enemy.ai.mhp
+	state.enemy.defeated = false
 	state.enemy.reset()
 	fn.pushLog('遭遇战 - ' + (state.enemy.ai.name || state.enemy.ai.img))
 
@@ -352,6 +355,7 @@ const createEnemy = async () => {
 
 const startBattle = async () => {
 	if (await createEnemy()) {
+		state.locked = true
 		state.drawStack.push(...AT.shuffleArray(G.getCards()))
 		await fn.drawCard(10, card => card.innate)
 
@@ -366,6 +370,7 @@ const startBattle = async () => {
 
 		state.battleActive = true
 
+		state.locked = false
 		await startNewTurn()
 	} else {
 		Dialog.alert({message: 'CLEARANCE'}).then(() => {

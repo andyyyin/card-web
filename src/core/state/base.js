@@ -37,7 +37,7 @@ export default class BaseState {
 
 	levelChange (value) {
 		this.level += value
-		if (this.level === 0) {
+		if (this.level <= 0) {
 			this.removeSelf()
 		}
 	}

@@ -3,6 +3,8 @@ import {CARD_BASE_TYPE} from "../enum";
 
 export default class Defense extends BaseCard {
 
+	isBase = true
+
 	name = '防御'
 
 	baseValue = 5

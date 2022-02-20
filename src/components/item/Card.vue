@@ -10,11 +10,19 @@
 				<div class="name">{{card.name}}</div>
 			</div>
 			<div class="desc">{{card.desc}}</div>
-			<div class="value" v-if="!isStatic"
-				 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
-				{{card.fixedValue || card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}
+			<div class="bottom-row">
+				<div class="feature">
+					<div v-if="card.innate" class="icon innate">固</div>
+					<div v-if="card.exhaust" class="icon exhaust">消</div>
+					<div v-if="card.isRetain" class="icon retain">留</div>
+					<div v-if="card.ethereal" class="icon ethereal">虚</div>
+				</div>
+				<div class="value" v-if="!isStatic"
+					 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
+					{{card.fixedValue || card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}
+				</div>
+				<div class="value" v-if="isStatic">{{card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}</div>
 			</div>
-			<div class="value" v-if="isStatic">{{card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}</div>
 		</div>
 	</div>
 </template>
@@ -25,6 +33,7 @@ export default {
 		card: Object,
 		isStatic: false,
 		isPrepared: false,
+		isPerforming: false,
 		cardLaunch: Function,
 		cardPrepare: Function,
 		locked: Boolean,
@@ -34,6 +43,7 @@ export default {
 	computed: {
 		cardClassNames () {
 			let result = [this.card.typeClassName]
+			if (this.isPerforming) result.push('performing')
 			if (this.isPrepared) result.push('active')
 			if (this.isDisabled) result.push('disabled')
 			if (this.card.comboFlag) result.push('combo')

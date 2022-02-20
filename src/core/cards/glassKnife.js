@@ -18,9 +18,7 @@ export default class GlassKnife extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		for (let i = 0; i < this.attackTime; i++) {
-			await fn.strikeEnemy(this.baseValue)
-		}
+		await this.commonStrike(fn)
 		this.baseValue -= 2
 		if (this.baseValue < 0) this.baseValue = 0
 	}

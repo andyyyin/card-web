@@ -3,7 +3,7 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Slice extends BaseCard {
 
-	bassCost = 0
+	baseCost = 0
 
 	name = '切'
 

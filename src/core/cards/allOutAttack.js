@@ -18,8 +18,8 @@ export default class AllOutAttack extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
-		fn.dropRandomHandCard()
+		await this.commonStrike(fn)
+		await fn.dropRandomHandCard()
 	}
 
 }

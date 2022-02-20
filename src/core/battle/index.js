@@ -169,9 +169,11 @@ export default (state, refs) => {
 		}
 		if (!card) return
 		console.log('launch card', id, card.name)
+		state.performingId = id
 		await card.onLaunch(fn)
 		let cost = card.xCost ? fn.getCurPower() : card.cost
 		fn.cost(cost)
+		state.performingId = null
 		if (card.type === CARD_BASE_TYPE.ABILITY) {
 			state.handCards.splice(index, 1)
 			await card.onLeaveFromHand(fn)
@@ -351,7 +353,7 @@ export default (state, refs) => {
 				card.fixedValue = stateDefenseFix(card.baseValue, state.hero.stateList)
 			}
 		})
-		if (state.enemy.action.intention === INTENTION.ATTACK && state.enemy.action.value) {
+		if ([INTENTION.ATTACK, INTENTION.ATTACK_DEBUFF].includes(state.enemy.action.intention) && state.enemy.action.value) {
 			let fixedValue = state.enemy.action.value
 			fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
 			fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)

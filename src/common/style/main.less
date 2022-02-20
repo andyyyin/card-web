@@ -143,6 +143,10 @@
 		box-shadow: -1px -2px 18px 0px rgba(79,216,29,0.75);
 	}
 
+	&.performing{
+		transform: scale(1.2);
+	}
+
 	&.disabled{
 		opacity: .3;
 	}
@@ -203,20 +207,48 @@
 		opacity: .7;
 		.flex-center();
 	}
-	.value{
+
+	.bottom-row{
+
 		align-self: stretch;
 		height: 16px;
-		font-size: 14px;
-		line-height: 16px;
-		font-weight: 600;
-		.flex-center();
 		background-color: rgba(0, 0, 0, .6);
-		color: #fff;
-		&.up{
-			color: #6CB31E;
+		.row();
+
+		.feature{
+			.grow();
+			.row-align();
+			.icon{
+				font-size: 12px;
+				line-height: 10px;
+				margin-left: 4px;
+				&.innate{
+					color: antiquewhite;
+				}
+				&.exhaust{
+					color: cyan;
+				}
+				&.retain{
+					color: greenyellow;
+				}
+				&.ethereal{
+					color: gold;
+				}
+			}
 		}
-		&.down{
-			color: red;
+		.value{
+			font-size: 14px;
+			line-height: 16px;
+			font-weight: 600;
+			color: #fff;
+			min-width: 20px;
+			margin-right: 5px;
+			&.up{
+				color: #6CB31E;
+			}
+			&.down{
+				color: red;
+			}
 		}
 	}
 }

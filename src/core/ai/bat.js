@@ -17,7 +17,7 @@ export default class Bat extends BaseAI{
 
 	prepare(fn) {
 		let teamState = fn.enemyFindState(Team)
-		this.baseDamage = 5 + Math.floor(teamState.level / 2)
+		this.baseDamage = 5 + ((teamState && Math.floor(teamState.level / 2)) || 0)
 		this.actionList = [{intention: INTENTION.ATTACK_DEBUFF, run: this.paralysisAttack.bind(this), value: this.baseDamage}]
 		return super.prepare();
 	}
@@ -31,8 +31,10 @@ export default class Bat extends BaseAI{
 	}
 
 	async paralysisAttack (fn) {
-		await this.commonAttack(fn)
-		await fn.heroPushState(Paralysis)
+		let damage = await this.commonAttack(fn)
+		if (damage > 0) {
+			await fn.heroPushState(Paralysis)
+		}
 	}
 
 }

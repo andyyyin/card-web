@@ -24,9 +24,7 @@ export default class Skewer extends BaseCard {
 	}
 
 	async onLaunch(fn) {
-		for (let i = 0; i < this.attackTime; i++) {
-			await fn.strikeEnemy(this.baseValue)
-		}
+		await this.commonStrike(fn)
 	}
 
 }

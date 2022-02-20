@@ -37,7 +37,7 @@ export default class BaseAI {
 		let value = this.baseDamage
 		fn.pushLog({text: '攻击，威力=' + value})
 		// console.log('ai act attack', value)
-		await fn.strikeHero(value)
+		return await fn.strikeHero(value)
 	}
 
 	async commonDefense (fn) {

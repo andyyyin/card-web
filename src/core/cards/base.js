@@ -7,12 +7,6 @@ export default class BaseCard {
 	constructor() {
 		this.id = ++_idCache
 		console.log('id', this.id)
-		this.type = this.constructor.type
-		this.baseCost = this.constructor.baseCost || 1
-		this.desc = this.constructor.desc
-		this.unplayable = this.constructor.unplayable
-		this.retain = this.constructor.retain
-		this.exhaust = this.constructor.exhaust
 	}
 
 	baseCost = 1;
@@ -27,6 +21,8 @@ export default class BaseCard {
 		return result > 0 ? result : 0
 	}
 
+	isBase; // 是否是基础牌（基础牌不进入卡库）
+
 	name
 	type;
 
@@ -37,9 +33,12 @@ export default class BaseCard {
 
 	comboFlag;
 
-	unplayable
-	retain
-	tempRetain
+	exhaust; // 是否具有消耗属性
+	unplayable // 是否不可打出
+	retain // 是否具有保留属性
+	ethereal; // 是否具有虚无属性，当此卡在手牌中，结束回合时消耗
+	innate; // 是否具固有属性，固有属性的卡牌在战斗一开始就在手牌中
+	tempRetain // 当前回合临时保留属性
 	get isRetain () {
 		return this.retain || this.tempRetain
 	}
@@ -81,6 +80,13 @@ export default class BaseCard {
 	}
 
 	updateRel (fn) {}
+}
+
+BaseCard.prototype.commonStrike = async function (fn) {
+	let time = this.attackTime || 1
+	for (let i = 0; i < time; i++) {
+		await fn.strikeEnemy(this.baseValue, this.areaAttack)
+	}
 }
 
 BaseCard.prototype.setCostFixOfTurn = function (value) {
