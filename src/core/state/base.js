@@ -13,7 +13,7 @@ export default class BaseState {
 		this.active = 0
 	}
 
-	onGetStrike () {}
+	async onGetStrike () {}
 
 	async onHostEndTurn () {}
 
@@ -24,6 +24,10 @@ export default class BaseState {
 	async onLaunchCard () {}
 
 	async onHostLaunchAttack () {}
+
+	async onHpEmpty () {}
+
+	async finalDamageFilter (fn, damage, isThrough) { return damage }
 
 	onSuperposition (param) {
 		if ((!param || typeof param === 'number') && this.level) {

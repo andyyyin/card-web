@@ -15,8 +15,8 @@ export default class Ninja extends BaseAI{
 
 	actionList = []
 
-	prepare(e) {
-		const turnNum = e.getTurnNum()
+	prepare(fn) {
+		const turnNum = fn.getTurnNum()
 		if (turnNum % 3 === 0) {
 			this.actionList = [{intention: INTENTION.STAY, run: this.stay.bind(this)}]
 		} else if ((turnNum - 1) % 3 === 0 && turnNum > 3) {
@@ -29,7 +29,7 @@ export default class Ninja extends BaseAI{
 		return super.prepare();
 	}
 
-	onStartNewTurn (fn) {
+	async onStartNewTurn (fn) {
 		fn.enemyPushState(Ninjutsu, 3)
 	}
 

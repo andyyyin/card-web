@@ -14,8 +14,8 @@ export default class Mage extends BaseAI{
 
 	actionList = []
 
-	prepare(e) {
-		const turnNum = e.getTurnNum()
+	prepare(fn) {
+		const turnNum = fn.getTurnNum()
 		if ((turnNum - 1) % 3 === 0) {
 			this.actionList = [{intention: INTENTION.STAY, run: this.stay.bind(this)}]
 		} else {

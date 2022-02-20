@@ -70,6 +70,7 @@ import PhantasmalKiller from "./phantasmalKiller";
 import StormOfSteel from "./stormOfSteel";
 import ToolsOfTheTrade from "./toolsOfTheTrade";
 import Unload from "./unload";
+import Hysteria from "./hysteria";
 
 export default {
 	Defense,
@@ -144,4 +145,5 @@ export default {
 	StormOfSteel,
 	ToolsOfTheTrade,
 	Unload,
+	Hysteria,
 }

@@ -1,25 +1,24 @@
 import BaseCard from "./base";
 import {CARD_BASE_TYPE} from '../enum'
 
-export default class AllOutAttack extends BaseCard {
+export default class Hysteria extends BaseCard {
 
-	name = '全力一击'
+	name = '歇斯底里'
 
-	baseValue = 12
+	baseValue = 13
 
 	type = CARD_BASE_TYPE.ATTACK
 
-	desc = '随机丢弃1张牌'
-
 	areaAttack = true
+
+	exhaust = true
 
 	constructor() {
 		super();
 	}
 
 	async onLaunch(fn) {
-		fn.strikeEnemy(this.baseValue)
-		fn.dropRandomHandCard()
+		fn.strikeEnemy(this.baseValue, this.areaAttack)
 	}
 
 }

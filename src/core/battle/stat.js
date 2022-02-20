@@ -6,6 +6,16 @@ export default (fn, state) => {
 	fn.getTurnNum = () => state.turnNum
 	fn.getCurPower = () => state.powerCur
 
+	fn.getHeroHp = () => {
+		let {hp, mhp} = state.hero
+		return {hp, mhp}
+	}
+
+	fn.getEnemyHp = () => {
+		let {hp, mhp} = state.enemy
+		return {hp, mhp}
+	}
+
 	fn.getLengthOfHandCards = () => state.handCards.length
 	fn.getLengthOfDrawStack = () => state.drawStack.length
 	fn.getLengthOfDropStack = () => state.dropStack.length

@@ -7,6 +7,8 @@ export default class BaseActor {
 	mhp = 100
 	defense = 0
 
+	defeated = false
+
 	stateList = []
 
 	constructor(obj) {
@@ -27,15 +29,18 @@ BaseActor.prototype.changeDefense = function (value) {
 	console.log(this.name, 'change defense', value)
 }
 
-BaseActor.prototype.getStrike = function (value) {
+
+BaseActor.prototype.handleDefense = function (value) {
 	if (this.defense) {
 		let parry = value < this.defense ? value : this.defense
 		value -= parry
 		this.defense -= parry
 		console.log(this.name, 'parry', parry)
 	}
-	this.changeHp(-value)
 	return value
+}
+BaseActor.prototype.lose = function () {
+	this.defeated = true
 }
 
 BaseActor.prototype.filterState = function () {

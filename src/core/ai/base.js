@@ -20,9 +20,11 @@ export default class BaseAI {
 		await this.prepareAction.run(fn)
 	}
 
-	onDebut () {}
+	async onDebut () {}
 
-	onStartNewTurn () {}
+	async onStartNewTurn () {}
+
+	async afterGetDamage () {}
 
 	prepare () {
 		this.prepareAction = AT.getRandomOneWeighted(this.actionList)

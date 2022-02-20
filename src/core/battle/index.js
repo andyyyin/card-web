@@ -13,11 +13,12 @@ export default (state, refs) => {
 	const fn = {}
 
 	fn.heroChangeHp = async (value) => {
+		state.hero.changeHp(value)
 		if (value < 0) {
 			state.battleStat.loseHpCount++
 			await fn.anim.getAttack(true)
 		}
-		state.hero.changeHp(value)
+		if (state.hero.hp <= 0) state.hero.lose()
 	}
 	fn.heroPushState = (...params) => {
 		state.hero.pushState(...params)
@@ -32,22 +33,28 @@ export default (state, refs) => {
 		fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
 		const damage = await fn.pureStrikeHero(fixedValue)
-		for (let s of state.hero.stateList) await s.onGetStrike(fn)
-		for (let s of state.enemy.stateList) await s.onHostLaunchAttack(fn, damage)
+		for (let s of state.hero.stateList) s.active && await s.onGetStrike(fn)
+		for (let s of state.enemy.stateList) s.active && await s.onHostLaunchAttack(fn, damage)
 		return damage
 	}
 	fn.pureStrikeHero = async (value) => {
-		let damage = state.hero.getStrike(value)
-		await fn.anim.getAttack(damage > 0, damage < value)
-		if (damage > 0) state.battleStat.loseHpCount++
+		let damage = state.hero.handleDefense(value)
+		for (let s of state.hero.stateList) s.active && (damage = await s.finalDamageFilter(fn, damage))
+		await fn.heroChangeHp(-damage)
 		return damage
 	}
 
 	fn.enemyChangeHp = async (value) => {
+		state.enemy.changeHp(value)
 		if (value < 0) {
 			await fn.anim.enemyGetAttack(true)
 		}
-		state.enemy.changeHp(value)
+		if (state.enemy.hp <= 0) for (let s of state.enemy.stateList) s.active && await s.onHpEmpty(fn)
+		if (state.enemy.hp <= 0) {
+			state.enemy.lose()
+		} else {
+			await state.enemy.ai.afterGetDamage(fn)
+		}
 	}
 	fn.enemyPushState = (...params) => {
 		state.enemy.pushState(...params)
@@ -56,19 +63,20 @@ export default (state, refs) => {
 		const fixedValue = stateDefenseFix(value, state.enemy.stateList)
 		state.enemy.changeDefense(fixedValue)
 	}
-	fn.strikeEnemy = async (value) => {
+	fn.strikeEnemy = async (value, isThrough) => {
 		await fn.anim.attack()
 		let fixedValue = value
 		fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.enemy.stateList)
-		let damage = await fn.pureStrikeEnemy(fixedValue)
-		for (let s of state.enemy.stateList) await s.onGetStrike(fn)
-		for (let s of state.hero.stateList) await s.onHostLaunchAttack(fn, damage)
+		let damage = await fn.pureStrikeEnemy(fixedValue, isThrough)
+		for (let s of state.enemy.stateList) s.active && await s.onGetStrike(fn)
+		for (let s of state.hero.stateList) s.active && await s.onHostLaunchAttack(fn, damage)
 		return damage
 	}
-	fn.pureStrikeEnemy = async (value) => {
-		let damage = state.enemy.getStrike(value)
-		await fn.anim.enemyGetAttack(damage > 0, damage < value)
+	fn.pureStrikeEnemy = async (value, isThrough) => {
+		let damage = state.enemy.handleDefense(value)
+		for (let s of state.enemy.stateList) s.active && (damage = await s.finalDamageFilter(fn, damage, isThrough))
+		await fn.enemyChangeHp(-damage)
 		return damage
 	}
 
@@ -176,8 +184,8 @@ export default (state, refs) => {
 		if (card.type === CARD_BASE_TYPE.ATTACK) {
 			state.turnStat.launchAttack++
 		}
-		for (let s of state.hero.stateList) await s.onLaunchCard(fn, card)
-		for (let s of state.enemy.stateList) await s.onLaunchCard(fn, card)
+		for (let s of state.hero.stateList) s.active && await s.onLaunchCard(fn, card)
+		for (let s of state.enemy.stateList) s.active && await s.onLaunchCard(fn, card)
 		updateRelationValueShow()
 
 		await card.afterLaunch(fn)
@@ -266,14 +274,14 @@ export default (state, refs) => {
 		return card
 	}
 
-	fn.enemyPrepareAction = () => {
+	fn.enemyPrepareAction = async () => {
 		const actionParam = state.enemy.ai.prepare(fn)
 		state.enemy.action.intention = actionParam.intention
 		state.enemy.action.name = actionParam.name
 		state.enemy.action.value = actionParam.value
 		state.enemy.action.fixedValue = actionParam.value
 		state.enemy.action.time = actionParam.time
-		state.enemy.ai.onStartNewTurn(fn)
+		await state.enemy.ai.onStartNewTurn(fn)
 		updateRelationValueShow()
 	}
 

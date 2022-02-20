@@ -44,7 +44,9 @@ export default class BaseCard {
 		return this.retain || this.tempRetain
 	}
 
-	extraLaunchCount = 0
+	extraLaunchCount = 0 // 额外发动次数，打出此牌的时候额外打出n次
+
+	areaAttack; // 是否范围攻击，范围攻击拥有team状态敌人的时候可以击穿hp限制造成全额伤害
 
 	get typeClassName () {
 		switch (this.type) {

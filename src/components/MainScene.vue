@@ -131,6 +131,7 @@ const intentionClassName = computed(() => {
 		case INTENTION.BUFF: return 'buff'
 		case INTENTION.DEBUFF: return 'debuff'
 		case INTENTION.STAY: return 'stay'
+		case INTENTION.ATTACK_DEBUFF: return 'attack-debuff'
 		default: return state.enemy.action.intention
 	}
 })
@@ -157,6 +158,7 @@ const state = reactive({
 		hp: 100,
 		mhp: 100,
 		defense: 0,
+		defeated: false,
 		stateList: [],
 	}),
 	enemy: Object.assign(new BaseActor(), {
@@ -164,6 +166,7 @@ const state = reactive({
 		hp: 100,
 		mhp: 100,
 		defense: 0,
+		defeated: false,
 		action: {
 			intention: 0,
 			name: null,
@@ -203,9 +206,9 @@ const filteredEnemyStateList = computed(() => state.enemy.stateList.filter(s => 
 const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => s.active))
 
 watchEffect(() => {
-	if (state.hero.hp <= 0) {
+	if (state.hero.defeated) {
 		onFail().then()
-	} else if (state.enemy.hp <= 0) {
+	} else if (state.enemy.defeated) {
 		onWin().then()
 	}
 })
@@ -246,7 +249,7 @@ const startNewTurn = async () => {
 	}
 	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
 
-	fn.enemyPrepareAction()
+	await fn.enemyPrepareAction()
 
 	state.locked = false
 }
@@ -303,6 +306,7 @@ const onWin = async () => {
 	state.dropStack.splice(0, state.dropStack.length)
 
 	await cardsSelector()
+	await cardsSelector()
 	// todo
 	await startBattle()
 }
@@ -358,7 +362,7 @@ const startBattle = async () => {
 
 		console.log('new battle begin')
 		state.turnNum = 0
-		state.enemy.ai.onDebut(fn)
+		await state.enemy.ai.onDebut(fn)
 
 		state.battleActive = true
 

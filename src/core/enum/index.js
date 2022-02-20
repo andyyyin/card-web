@@ -11,4 +11,5 @@ export const INTENTION = {
 	BUFF: 3,
 	DEBUFF: 4,
 	STAY: 5,
+	ATTACK_DEBUFF: 6
 }
