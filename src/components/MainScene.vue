@@ -223,6 +223,9 @@ const onClickEndTurn = () => {
 	if (state.locked) return
 	;(async () => {
 		await endTheTurn()
+		if (!state.battleActive) return
+		await enemyTurn()
+		if (!state.battleActive) return
 		await startNewTurn()
 	})()
 }
@@ -278,6 +281,12 @@ const endTheTurn = async () => {
 	for (let c of retained) await c.onRetain(fn)
 	await fn.exhaustCard(toBeExhaust)
 	await fn.dropCard(toBeDropped)
+
+	state.locked = false
+}
+
+const enemyTurn = async () => {
+	state.locked = true
 
 	/* ai行动 */
 	state.enemy.defense = 0

@@ -6,6 +6,8 @@ export default class Weak extends BaseState{
 
 	icon = 'weak'
 
+	priority = 2
+
 	get damageFix () {
 		return {multi: 0.75}
 	}

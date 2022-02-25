@@ -4,6 +4,8 @@ export default class Agility extends BaseState{
 
 	name = '敏捷'
 
+	priority = 2
+
 	icon = 'agility'
 
 	get defenseFix () {

@@ -7,6 +7,8 @@ export default class InfiniteBlades extends BaseState{
 
 	icon = 'blades'
 
+	priority = 6
+
 	async onHostStartTurn (fn) {
 		for (let i = 0; i < this.level; i++) {
 			await fn.createCard(Shiv)

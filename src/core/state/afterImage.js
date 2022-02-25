@@ -6,6 +6,8 @@ export default class AThousandCuts extends BaseState{
 
 	icon = 'shieldEchoes'
 
+	priority = 6
+
 	async onLaunchCard(fn) {
 		await super.onLaunchCard(fn);
 		fn.heroChangeDefense(this.level)

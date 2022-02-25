@@ -6,6 +6,8 @@ export default class WellLaidPlans extends BaseState{
 
 	icon = 'cardOut'
 
+	priority = 6
+
 	async onHostEndTurn(fn) {
 		let count = this.level
 		let idList = await fn.handCardsSelector(null, {

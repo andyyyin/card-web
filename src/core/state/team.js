@@ -7,6 +7,8 @@ export default class Team extends BaseState{
 
 	icon = 'team'
 
+	priority = 10
+
 	async finalDamageFilter (fn, damage, isThrough) {
 		if (!isThrough) return damage
 		let {hp, mhp} = fn.getEnemyHp()

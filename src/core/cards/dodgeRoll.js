@@ -18,7 +18,7 @@ export default class DodgeRoll extends BaseCard {
 
 	async onLaunch(fn) {
 		fn.heroChangeDefense(this.baseValue)
-		fn.heroPushState(NextTurnBlock)
+		fn.heroPushState(NextTurnBlock, 4)
 	}
 
 }

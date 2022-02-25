@@ -5,6 +5,8 @@ export default class BaseState {
 	active = 1
 	level
 
+	priority = 1 // 显示优先级，值越大优先度越高
+
 	constructor(props) {
 		this.level = props || 1
 	}

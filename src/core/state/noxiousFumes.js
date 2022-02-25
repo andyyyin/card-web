@@ -7,6 +7,8 @@ export default class NoxiousFumes extends BaseState{
 
 	icon = 'noxiousFumes'
 
+	priority = 6
+
 	async onHostStartTurn (fn) {
 		fn.enemyPushState(Poisoned, this.level * 2)
 	}

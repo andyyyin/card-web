@@ -6,6 +6,8 @@ export default class Caltrops extends BaseState{
 
 	icon = 'caltrops'
 
+	priority = 3
+
 	async onGetStrike (fn) {
 		fn.StrikeOpponent(this, this.level)
 	}

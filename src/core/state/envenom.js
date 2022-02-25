@@ -7,6 +7,8 @@ export default class Envenom extends BaseState{
 
 	icon = 'envenom'
 
+	priority = 6
+
 	async onHostLaunchAttack(fn, damage) {
 		await super.onHostLaunchAttack(fn, damage);
 		if (damage <= 0) return

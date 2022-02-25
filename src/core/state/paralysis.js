@@ -7,6 +7,8 @@ export default class Paralysis extends BaseState{
 
 	icon = 'lightning-helix'
 
+	priority = 2
+
 	async onHostStartTurn (fn) {
 		await fn.dropRandomHandCard(this.level, c => c.type === CARD_BASE_TYPE.ATTACK)
 	}

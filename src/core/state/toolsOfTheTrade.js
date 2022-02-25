@@ -6,6 +6,8 @@ export default class ToolsOfTheTrade extends BaseState{
 
 	icon = 'trade'
 
+	priority = 6
+
 	async onHostStartTurn (fn) {
 		await fn.drawCard(this.level)
 		await fn.dropSelectCard(this.level)

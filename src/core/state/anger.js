@@ -6,6 +6,8 @@ export default class Anger extends BaseState{
 
 	name = '愤怒'
 
+	priority = 10
+
 	icon = 'anger'
 
 	async onLaunchCard (fn, card) {

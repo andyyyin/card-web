@@ -6,6 +6,8 @@ export default class Fracture extends BaseState{
 
 	icon = 'fracture'
 
+	priority = 2
+
 	get getDamageFix () {
 		return {multi: 1.5}
 	}

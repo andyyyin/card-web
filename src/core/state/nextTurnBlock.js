@@ -6,10 +6,8 @@ export default class NextTurnBlock extends BaseState{
 
 	icon = 'shield-brown'
 
-	value = 4
-
 	async onHostStartTurn (fn) {
-		fn.heroChangeDefense(this.value * this.level)
+		fn.heroChangeDefense(this.level)
 		this.removeSelf()
 	}
 

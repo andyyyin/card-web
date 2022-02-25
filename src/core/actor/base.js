@@ -45,6 +45,7 @@ BaseActor.prototype.lose = function () {
 
 BaseActor.prototype.filterState = function () {
 	let filteredList = this.stateList.filter(s => s.active)
+	filteredList.sort((a, b) => b.priority - a.priority)
 	this.stateList.splice(0, this.stateList.length, ...filteredList)
 }
 

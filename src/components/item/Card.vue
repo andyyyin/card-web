@@ -16,6 +16,7 @@
 					<div v-if="card.exhaust" class="icon exhaust">消</div>
 					<div v-if="card.isRetain" class="icon retain">留</div>
 					<div v-if="card.ethereal" class="icon ethereal">虚</div>
+					<div v-if="card.areaAttack" class="icon area-attack">扫</div>
 				</div>
 				<div class="value" v-if="!isStatic"
 					 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">

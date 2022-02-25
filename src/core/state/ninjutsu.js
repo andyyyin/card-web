@@ -6,6 +6,8 @@ export default class Ninjutsu extends BaseState{
 
 	icon = 'ninjutsu'
 
+	priority = 10
+
 	get getDamageFix () {
 		if (this.level > 0) {
 			return {multi: 0.5}

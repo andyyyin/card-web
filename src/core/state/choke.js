@@ -6,6 +6,8 @@ export default class Choke extends BaseState{
 
 	icon = 'hang'
 
+	priority = 6
+
 	async onOpponentEndTurn() {
 		this.removeSelf()
 	}
