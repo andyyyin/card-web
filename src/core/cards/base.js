@@ -5,7 +5,10 @@ let _idCache = 1000
 export default class BaseCard {
 
 	constructor() {
-		this.id = ++_idCache
+		Object.defineProperty(this, 'id', {
+			value: ++_idCache,
+			enumerable: false
+		})
 		console.log('id', this.id)
 	}
 

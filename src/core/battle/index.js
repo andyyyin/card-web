@@ -314,7 +314,7 @@ export default (state, refs) => {
 		for (let card of cardList) {
 			let copy = new card.constructor()
 			Object.assign(copy, card)
-			await pushCardToHand(card)
+			await pushCardToHand(copy)
 		}
 	}
 
