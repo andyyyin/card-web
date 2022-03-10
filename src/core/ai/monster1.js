@@ -1,5 +1,4 @@
 import {INTENTION} from "../enum";
-import AT from '../function/arrayTools'
 import Agility from "../state/agility";
 import BaseAI from "./base";
 

@@ -21,11 +21,17 @@ export default class BaseState {
 
 	async onHostStartTurn () {}
 
+	async onHeroStartTurn () {}
+
 	async onOpponentEndTurn () {}
 
 	async onLaunchCard () {}
 
 	async onHostLaunchAttack () {}
+
+	async onHeroLaunchAttack () {}
+
+	async onEnemyLaunchAttack () {}
 
 	async onHpEmpty () {}
 

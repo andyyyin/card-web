@@ -16,6 +16,11 @@
 		<section class="special-state-section down row-align">
 			<state-icon v-for="state in stateShowDownList" v-bind="state"/>
 		</section>
+
+		<section class="special-state-section right">
+			<state-icon v-for="state in stateShowRightList" v-bind="state" :size="26"/>
+		</section>
+
 		<div class="anim-cover-mask" :ref="el => props.setAnimEl(el, 'battleMask')"/>
 
 		<div class="anim-inside-container">
@@ -35,6 +40,7 @@ import anime, {flatten} from "../anime";
 const props = defineProps({
 	stateShowUpList: Array,
 	stateShowDownList: Array,
+	stateShowRightList: Array,
 	logs: Array,
 	img: String,
 	setAnimEl: Function,

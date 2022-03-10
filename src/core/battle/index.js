@@ -7,6 +7,7 @@ import animFn from "./anim"
 import G from '../game'
 import {waitFor} from "../function/common";
 import BlockDraw from "../state/blockDraw";
+import stat from "./stat";
 
 export default (state, refs) => {
 
@@ -21,7 +22,7 @@ export default (state, refs) => {
 		if (state.hero.hp <= 0) state.hero.lose()
 	}
 	fn.heroPushState = (...params) => {
-		state.hero.pushState(...params)
+		statePush(state.hero.stateList, ...params)
 	}
 	fn.heroChangeDefense = (value) => {
 		const fixedValue = stateDefenseFix(value, state.hero.stateList)
@@ -35,6 +36,7 @@ export default (state, refs) => {
 		const damage = await fn.pureStrikeHero(fixedValue)
 		for (let s of state.hero.stateList) s.active && await s.onGetStrike(fn)
 		for (let s of state.enemy.stateList) s.active && await s.onHostLaunchAttack(fn, damage)
+		for (let s of allStateList()) s.active && await s.onEnemyLaunchAttack(fn, damage)
 		return damage
 	}
 	fn.pureStrikeHero = async (value) => {
@@ -57,7 +59,7 @@ export default (state, refs) => {
 		}
 	}
 	fn.enemyPushState = (...params) => {
-		state.enemy.pushState(...params)
+		statePush(state.enemy.stateList, ...params)
 	}
 	fn.enemyChangeDefense = (value) => {
 		const fixedValue = stateDefenseFix(value, state.enemy.stateList)
@@ -71,6 +73,7 @@ export default (state, refs) => {
 		let damage = await fn.pureStrikeEnemy(fixedValue, isThrough)
 		for (let s of state.enemy.stateList) s.active && await s.onGetStrike(fn)
 		for (let s of state.hero.stateList) s.active && await s.onHostLaunchAttack(fn, damage)
+		for (let s of allStateList()) s.active && await s.onHeroLaunchAttack(fn, damage)
 		return damage
 	}
 	fn.pureStrikeEnemy = async (value, isThrough) => {
@@ -96,6 +99,15 @@ export default (state, refs) => {
 
 	fn.heroFindState = (State) => state.hero.findState(State)
 	fn.enemyFindState = (State) => state.enemy.findState(State)
+
+	fn.battlePushState = (State, param) => {
+		statePush(state.battleStateList, State, param)
+	}
+	fn.filterState = () => {
+		filterState(state.battleStateList)
+		filterState(state.hero.stateList)
+		filterState(state.enemy.stateList)
+	}
 
 	fn.hostChangeHp = async (exState, value) => {
 		if (state.hero.stateList.indexOf(exState) > -1) await fn.heroChangeHp(value)
@@ -398,6 +410,28 @@ export default (state, refs) => {
 	const handleCardParamToCard = (param) => {
 		let list = Array.isArray(param) ? param : [param]
 		return list.map(item => typeof item === 'number' ? findCardById(item) : item)
+	}
+
+	const allStateList = () => {
+		return [...state.hero.stateList, ...state.enemy.stateList, ...state.battleStateList]
+	}
+
+	const filterState = function (list) {
+		let filteredList = list.filter(s => s.active)
+		filteredList.sort((a, b) => b.priority - a.priority)
+		list.splice(0, list.length, ...filteredList)
+	}
+
+	const statePush = (list, State, param) => {
+		if (typeof State !== 'function') return
+
+		let exist = list.find(s => s.active && s instanceof State)
+		if (exist) {
+			exist.onSuperposition(param)
+		} else {
+			list.push(new State(param))
+		}
+		filterState(list)
 	}
 
 	logFn(fn, state, refs)

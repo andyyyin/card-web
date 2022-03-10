@@ -24,6 +24,7 @@
 		<battler-view
 			:stateShowUpList="filteredEnemyStateList"
 			:stateShowDownList="filteredHeroStateList"
+			:stateShowRightList="filteredBattleStateList"
 			:img="state.enemy.ai && state.enemy.ai.img"
 			:logs="state.logs"
 			:setAnimEl="(el, name) => { if (el) refs.animEl[name] = el}"
@@ -97,7 +98,7 @@ import G from "../core/game/index"
 import anime from "../anime";
 import battleFunctionsInit from "../core/battle"
 import AT from "../core/function/arrayTools";
-import {waitFor} from "../core/function/common";
+import Dark from "../core/state/dark";
 
 const refs = {
 	dropStack: null,
@@ -182,6 +183,7 @@ const state = reactive({
 		stateList: [],
 		ai: null,
 	}),
+	battleStateList: [],
 	handCards: [],
 	drawStack: [],
 	dropStack: [],
@@ -206,6 +208,7 @@ const state = reactive({
 })
 const filteredEnemyStateList = computed(() => state.enemy.stateList.filter(s => s.active))
 const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => s.active))
+const filteredBattleStateList = computed(() => state.battleStateList.filter(s => s.active))
 
 watchEffect(() => {
 	if (state.hero.defeated) {
@@ -253,6 +256,7 @@ const startNewTurn = async () => {
 		state.hero.defense = 0
 	}
 	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
+	for (let s of allStateList()) s.active && await s.onHeroStartTurn(fn)
 
 	await fn.enemyPrepareAction()
 
@@ -260,6 +264,7 @@ const startNewTurn = async () => {
 }
 
 const getActiveCards = () => [...state.handCards, ...state.dropStack, ...state.drawStack]
+const allStateList = () => [...state.hero.stateList, ...state.enemy.stateList, ...state.battleStateList]
 
 const endTheTurn = async () => {
 	console.log('turn end')
@@ -271,7 +276,7 @@ const endTheTurn = async () => {
 
 	for (let s of state.hero.stateList) s.active && await s.onHostEndTurn(fn)
 	for (let s of state.enemy.stateList) s.active && await s.onOpponentEndTurn(fn)
-	state.hero.filterState()
+	fn.filterState()
 
 	/* 处理卡牌 */
 	let retained = state.handCards.filter(c => c.isRetain)
@@ -296,7 +301,7 @@ const enemyTurn = async () => {
 	/* ai回合结束 */
 	for (let s of state.enemy.stateList) s.active && await s.onHostEndTurn(fn)
 	for (let s of state.hero.stateList) s.active && await s.onOpponentEndTurn(fn)
-	state.enemy.filterState()
+	fn.filterState()
 
 	state.locked = false
 }
@@ -378,6 +383,8 @@ const startBattle = async () => {
 		await state.enemy.ai.onDebut(fn)
 
 		state.battleActive = true
+
+		fn.battlePushState(Dark)
 
 		state.locked = false
 		await startNewTurn()

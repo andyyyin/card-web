@@ -43,27 +43,6 @@ BaseActor.prototype.lose = function () {
 	this.defeated = true
 }
 
-BaseActor.prototype.filterState = function () {
-	let filteredList = this.stateList.filter(s => s.active)
-	filteredList.sort((a, b) => b.priority - a.priority)
-	this.stateList.splice(0, this.stateList.length, ...filteredList)
-}
-
-BaseActor.prototype.pushState = function (State, param) {
-	console.log(this.name, 'before push state', State.name, param)
-	if (typeof State !== 'function') return
-
-	let exist = this.stateList.find(s => s.active && s instanceof State)
-	if (exist) {
-		exist.onSuperposition(param)
-	} else {
-		this.stateList.push(new State(param))
-	}
-	this.filterState()
-	console.log(this.name, 'end push state', State.name, param)
-	console.log(this.stateList);
-}
-
 BaseActor.prototype.findState = function (State) {
 	return this.stateList.find(s => s.active && s instanceof State)
 }
