@@ -89,16 +89,6 @@ const cardsGroup = [
 	// new Cards.Unload(),
 ]
 
-const aiQueue = [
-	AIMap.Warrior,
-	AIMap.Witch,
-	AIMap.Bat,
-	AIMap.Mage,
-	AIMap.Ninja,
-	AIMap.Wolf,
-	AIMap.Monster1,
-]
-
 const getCards = () => cardsGroup
 
 const addCardToGroup = (Card) => {
@@ -106,12 +96,8 @@ const addCardToGroup = (Card) => {
 	cardsGroup.push(new constructor())
 }
 
-const getNextEnemy = async () => {
-	return aiQueue.pop()
-}
-
 const install = (extendCallback) => {
-	extendCallback({cardsGroup, aiQueue})
+	extendCallback({cardsGroup})
 }
 
 const getRandomCardsFromLib = (count, filter) => {
@@ -125,12 +111,21 @@ const gameInit = async () => {
 	console.log(Map.get());
 }
 
+let prepareEvent
+
+const setEvent = (event) => {
+	prepareEvent = event
+}
+
+const getEvent = () => prepareEvent
+
 export default {
 	gameInit,
 	getCards,
-	getNextEnemy,
 	install,
 	addCardToGroup,
 	getRandomCardsFromLib,
+	getEvent,
+	setEvent,
 	Map,
 }

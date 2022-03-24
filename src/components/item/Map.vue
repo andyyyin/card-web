@@ -4,6 +4,7 @@
 			<div class="flex-center" v-for="row in [...map].reverse()">
 				<div class="node" v-for="node in row" :ref="el => node.el = el" @click="clickNode(node)">
 					<div class="line" v-for="link in node.linkList" :ref="el => link.el = el"></div>
+					<div class="event">{{node.event.enemy.name}}</div>
 					<div class="player" v-if="position[0] === node.p[0] && position[1] === node.p[1]"></div>
 					<div class="available" v-if="node.p[0] === position[0] + 1 && node.linkList.find(l => l.to === position[1])"></div>
 				</div>
@@ -53,10 +54,15 @@ const drawLink = () => {
 const clickNode = (node) => {
 	if (!G.Map.checkCanMove(node)) return
 	position.value = G.Map.moveTo(node)
+	G.setEvent(node.event)
+	props.onDone()
+	close()
 }
 
 const props = defineProps({
 	show: Boolean,
+	active: Boolean,
+	onDone: Function
 })
 
 const emit = defineEmits(['update:show'])
@@ -85,6 +91,15 @@ const close = () => {
 				position: absolute;
 				left: calc(50% - 1px);
 				top: calc(50% - 1px);
+			}
+			.event{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				font-size: 12px;
+				color: #fff;
 			}
 			.player{
 				width: 36px;

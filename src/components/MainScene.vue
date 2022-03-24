@@ -82,7 +82,7 @@
 		<!-- 动态组件区 ↓↓↓↓↓↓ -->
 
 		<selector v-bind="state.selector" v-model:show="state.selector.show"/>
-		<game-map v-model:show="state.mapShow"/>
+		<game-map v-bind="state.map" v-model:show="state.map.show"/>
 
 	</div>
 </template>
@@ -149,7 +149,11 @@ const state = reactive({
 	turnNum: 0,
 	battleActive: false,
 	messageList: [],
-	mapShow: false,
+	map: {
+		show: false,
+		active: false,
+		onDone: () => {},
+	},
 	selector: {
 		show: false,
 		title: '',
@@ -327,7 +331,7 @@ const onWin = async () => {
 	await rewardCardsSelector()
 	await rewardCardsSelector()
 
-	await startBattle()
+	await mapEvent()
 }
 
 const onFail = async () => {
@@ -347,12 +351,29 @@ const rewardCardsSelector = async () => {
 	G.addCardToGroup(cardSample)
 }
 
-const createEnemy = async () => {
+const mapEvent = async () => {
+	await showMap()
+	const event = await G.getEvent()
+	if (event.type === 0) {
+		await startBattle(event.enemy)
+	}
+}
+
+const showMap = async () => {
+	await new Promise(resolve => {
+		state.map.show = true
+		state.map.active = true
+		state.map.onDone = () => {
+			resolve()
+		}
+	})
+}
+
+const createEnemy = async (Enemy) => {
+	if (!Enemy) return false
 	state.locked = true
 
-	const NextEnemy = await G.getNextEnemy()
-	if (!NextEnemy) return false
-	state.enemy.ai = new NextEnemy()
+	state.enemy.ai = new Enemy()
 	state.enemy.hp = state.enemy.mhp = state.enemy.ai.mhp
 	state.enemy.defeated = false
 	state.enemy.reset()
@@ -362,8 +383,8 @@ const createEnemy = async () => {
 	return true
 }
 
-const startBattle = async () => {
-	if (await createEnemy()) {
+const startBattle = async (Enemy) => {
+	if (await createEnemy(Enemy)) {
 		state.locked = true
 		state.drawStack.push(...AT.shuffleArray(G.getCards()))
 		await fn.drawCard(10, card => card.innate)
@@ -391,7 +412,7 @@ const startBattle = async () => {
 }
 
 G.gameInit().then(() => {
-	startBattle().then()
+	mapEvent().then()
 })
 
 onMounted(() => {

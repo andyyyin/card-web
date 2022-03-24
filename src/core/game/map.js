@@ -1,5 +1,16 @@
 import MT from '../function/mathTools'
-import {createApp} from "vue";
+import AT from '../function/arrayTools'
+import AIMap from '../ai'
+
+const AIList = [
+	AIMap.Warrior,
+	AIMap.Witch,
+	AIMap.Bat,
+	AIMap.Mage,
+	AIMap.Ninja,
+	AIMap.Wolf,
+	AIMap.Monster1,
+]
 
 let map = []
 
@@ -13,7 +24,9 @@ const create = () => {
 		let branchCount = l === 0 ? 1 : MT.randomInt(2, 5)
 		let list = []
 		for (let n = 0; n < branchCount; n++) {
-			list.push({p: [l, n], linkList: []})
+			let enemy = AT.getRandomOne(AIList)
+			let event = {type: 0, enemy}
+			list.push({p: [l, n], linkList: [], event})
 		}
 		if (l > 0) {
 			createPath(map[l - 1], list)
