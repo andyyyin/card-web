@@ -7,7 +7,6 @@ import animFn from "./anim"
 import G from '../game'
 import {waitFor} from "../function/common";
 import BlockDraw from "../state/blockDraw";
-import stat from "./stat";
 
 export default (state, refs) => {
 

@@ -18,6 +18,16 @@ const getRelativePositionByDistance = (d, r) => {
 }
 
 /**
+* 计算两个坐标点之间的直线距离长度
+* */
+const getDistanceOfTwoPoints = (p1, p2) => {
+	let x1 = p1.x || p1[0], y1 = p1.y || p1[1], x2 = p2.x || p2[0], y2 = p2.y || p2[1]
+	let a = x1 - x2
+	let b = y1 - y2
+	return Math.sqrt(a * a + b * b)
+}
+
+/**
  * 计算两点之间由start指向end的角度值（两个参数需要带有x,y属性）
  * */
 const getTwoPointAngle = (start, end) => {
@@ -43,10 +53,17 @@ const angleResult = (result, isAngle) => {
 	return result
 }
 
+const randomInt = (p1, p2 = 0) => {
+	if (!p1 && isNaN(p1)) return 0
+	let [min, max] = [p1, p2].sort((a, b) => a - b)
+	return min + Math.floor(Math.random() * (max - min + 1))
+}
 
 export default {
 	computeAngleOff,
 	getRelativePositionByDistance,
 	getTwoPointAngle,
+	getDistanceOfTwoPoints,
 	angleResult,
+	randomInt,
 }

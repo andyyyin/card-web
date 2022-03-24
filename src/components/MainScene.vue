@@ -82,6 +82,7 @@
 		<!-- 动态组件区 ↓↓↓↓↓↓ -->
 
 		<selector v-bind="state.selector" v-model:show="state.selector.show"/>
+		<game-map v-model:show="state.mapShow"/>
 
 	</div>
 </template>
@@ -92,6 +93,7 @@ import { Dialog } from 'vant';
 import BattlerView from './BattlerView.vue'
 import Card from './item/Card.vue'
 import Selector from './item/Selector.vue'
+import GameMap from './item/Map.vue'
 import {INTENTION} from "../core/enum";
 import BaseActor from "../core/actor/base";
 import G from "../core/game/index"
@@ -147,6 +149,7 @@ const state = reactive({
 	turnNum: 0,
 	battleActive: false,
 	messageList: [],
+	mapShow: false,
 	selector: {
 		show: false,
 		title: '',
@@ -321,8 +324,8 @@ const onWin = async () => {
 	state.drawStack.splice(0, state.drawStack.length)
 	state.dropStack.splice(0, state.dropStack.length)
 
-	await cardsSelector()
-	await cardsSelector()
+	await rewardCardsSelector()
+	await rewardCardsSelector()
 
 	await startBattle()
 }
@@ -334,22 +337,14 @@ const onFail = async () => {
 	await Dialog.alert({message: 'GAME OVER'})
 }
 
-const cardsSelector = () => {
+const rewardCardsSelector = async () => {
 	let options = G.getRandomCardsFromLib(3)
-	return new Promise(resolve => {
-		state.selector.show = true
-		state.selector.title = '选择一张卡牌加入牌组'
-		state.selector.limit = [1]
-		state.selector.cards = options
-		state.selector.onSkip = () => {
-			resolve()
-		}
-		state.selector.onConfirm = ([id]) => {
-			let cardSample = options.find(c => c.id === id)
-			G.addCardToGroup(cardSample)
-			resolve()
-		}
+	let [id] = await fn.cardsSelector(options, {
+		title: '选择一张卡牌加入牌组',
+		skip: true,
 	})
+	let cardSample = options.find(c => c.id === id)
+	G.addCardToGroup(cardSample)
 }
 
 const createEnemy = async () => {
@@ -395,7 +390,9 @@ const startBattle = async () => {
 	}
 }
 
-startBattle().then()
+G.gameInit().then(() => {
+	startBattle().then()
+})
 
 onMounted(() => {
 	document.addEventListener('click', () => {

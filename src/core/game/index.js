@@ -1,6 +1,7 @@
 import Cards from '../cards'
 import AIMap from '../ai'
 import AT from "../function/arrayTools";
+import Map from './map'
 
 const CardsLib = Object.values(Cards).map(Card => new Card()).filter(c => !c.isBase)
 
@@ -118,10 +119,18 @@ const getRandomCardsFromLib = (count, filter) => {
 	return AT.getRandomByCount(list, count)
 }
 
+const gameInit = async () => {
+	Map.create();
+	console.log('map created')
+	console.log(Map.get());
+}
+
 export default {
+	gameInit,
 	getCards,
 	getNextEnemy,
 	install,
 	addCardToGroup,
 	getRandomCardsFromLib,
+	Map,
 }
