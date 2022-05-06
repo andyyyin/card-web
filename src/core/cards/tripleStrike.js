@@ -3,12 +3,12 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class TripleStrike extends BaseCard {
 
-	name = '三连击'
+	static name = '三连击'
 
-	baseValue = 3
-	attackTime = 3
+	static baseValue = 3
+	static attackTime = 3
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

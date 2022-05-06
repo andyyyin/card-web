@@ -4,15 +4,15 @@ import Weak from "../state/weak";
 
 export default class LegSweep extends BaseCard {
 
-	baseCost = 2
+	static baseCost = 2
 
-	name = '扫堂腿'
+	static name = '扫堂腿'
 
-	baseValue = 11
+	static baseValue = 11
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '造成2点虚弱'
+	static desc = '造成2点虚弱'
 
 	constructor() {
 		super();

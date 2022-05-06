@@ -4,13 +4,13 @@ import BlockDraw from "../state/blockDraw";
 
 export default class BulletTime extends BaseCard {
 
-	baseCost = 3
+	static baseCost = 3
 
-	name = '子弹时间'
+	static name = '子弹时间'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '本回合不能再抽牌，本回合所有手牌费用降为0'
+	static desc = '本回合不能再抽牌，本回合所有手牌费用降为0'
 
 	constructor() {
 		super();

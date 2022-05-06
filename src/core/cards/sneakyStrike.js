@@ -4,15 +4,15 @@ import Poisoned from "../state/poisoned";
 
 export default class SneakyStrike extends BaseCard {
 
-	baseCost = 2
+	static baseCost = 2
 
-	name = '偷袭'
+	static name = '偷袭'
 
-	baseValue = 12
+	static baseValue = 12
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '本回合如果丢弃过牌，则获得两点能量'
+	static desc = '本回合如果丢弃过牌，则获得两点能量'
 
 	constructor() {
 		super();

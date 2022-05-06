@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Unload extends BaseCard {
 
-	name = '倾泻攻击'
+	static name = '倾泻攻击'
 
-	baseValue = 14
+	static baseValue = 14
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '丢弃所有非攻击牌'
+	static desc = '丢弃所有非攻击牌'
 
 	constructor() {
 		super();

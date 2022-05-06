@@ -5,13 +5,13 @@ import Weak from "../state/weak";
 
 export default class Malaise extends BaseCard {
 
-	xCost = true
+	static xCost = true
 
-	name = '萎靡'
+	static name = '萎靡'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '敌人失去x点力量，造成x点虚弱'
+	static desc = '敌人失去x点力量，造成x点虚弱'
 
 	constructor() {
 		super();

@@ -4,15 +4,15 @@ import Accuracy from "../state/accuracy";
 
 export default class Shiv extends BaseCard {
 
-	baseCost = 0
+	static baseCost = 0
 
-	name = '小刀'
+	static name = '小刀'
 
-	baseValue = 4
+	static baseValue = 4
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	exhaust = true
+	static exhaust = true
 
 	constructor() {
 		super();

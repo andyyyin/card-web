@@ -4,11 +4,11 @@ import Shiv from "./shiv";
 
 export default class BladeDance extends BaseCard {
 
-	name = '刀刃之舞'
+	static name = '刀刃之舞'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '制造3张小刀到手牌'
+	static desc = '制造3张小刀到手牌'
 
 	constructor() {
 		super();

@@ -3,17 +3,17 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class EndlessAgony extends BaseCard {
 
-	baseCost = 0
+	static baseCost = 0
 
-	name = '无尽折磨'
+	static name = '无尽折磨'
 
-	baseValue = 4
+	static baseValue = 4
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '每次抽到这张牌，制造1张此牌的复制'
+	static desc = '每次抽到这张牌，制造1张此牌的复制'
 
-	exhaust = true
+	static exhaust = true
 
 	constructor() {
 		super();

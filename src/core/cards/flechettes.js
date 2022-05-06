@@ -3,15 +3,15 @@ import {CARD_BASE_TYPE} from "../enum";
 
 export default class Flechettes extends BaseCard {
 
-	baseCost = 1
+	static baseCost = 1
 
-	name = '暗器'
+	static name = '暗器'
 
-	baseValue = 4
+	static baseValue = 4
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '手牌中每有一张技能牌，发动一次攻击'
+	static desc = '手牌中每有一张技能牌，发动一次攻击'
 
 	constructor() {
 		super();

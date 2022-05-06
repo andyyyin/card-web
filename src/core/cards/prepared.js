@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Prepared extends BaseCard {
 
-	baseCost = 0
+	static baseCost = 0
 
-	name = '准备'
+	static name = '准备'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '抽一张牌，丢弃一张牌'
+	static desc = '抽一张牌，丢弃一张牌'
 
 	constructor() {
 		super();

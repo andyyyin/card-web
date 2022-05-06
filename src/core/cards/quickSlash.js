@@ -4,13 +4,13 @@ import Poisoned from "../state/poisoned";
 
 export default class QuickSlash extends BaseCard {
 
-	name = '快斩'
+	static name = '快斩'
 
-	baseValue = 8
+	static baseValue = 8
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '抽一张牌'
+	static desc = '抽一张牌'
 
 	constructor() {
 		super();

@@ -4,13 +4,13 @@ import Fracture from "../state/fracture";
 
 export default class Terror extends BaseCard {
 
-	name = '恐吓'
+	static name = '恐吓'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '造成99级破绽'
+	static desc = '造成99级破绽'
 
-	exhaust = true
+	static exhaust = true
 
 	constructor() {
 		super();

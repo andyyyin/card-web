@@ -5,11 +5,11 @@ import Strength from "../state/strength";
 
 export default class PiercingWail extends BaseCard {
 
-	name = '尖啸'
+	static name = '尖啸'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '本回合敌人失去6点力量'
+	static desc = '本回合敌人失去6点力量'
 
 	constructor() {
 		super();

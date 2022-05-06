@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Concentrate extends BaseCard {
 
-	baseCost = 0
+	static baseCost = 0
 
-	name = '聚精会神'
+	static name = '聚精会神'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '获得2点能量，丢弃3张牌'
+	static desc = '获得2点能量，丢弃3张牌'
 
 	constructor() {
 		super();

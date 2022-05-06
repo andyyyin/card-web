@@ -3,14 +3,14 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class RiddleWithHoles extends BaseCard {
 
-	baseCost = 2
+	static baseCost = 2
 
-	name = '多重攻击'
+	static name = '多重攻击'
 
-	baseValue = 3
-	attackTime = 5
+	static baseValue = 3
+	static attackTime =  5
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

@@ -3,16 +3,16 @@ import {CARD_BASE_TYPE} from "../enum";
 
 export default class Eviscerate extends BaseCard {
 
-	baseCost = 3
+	static baseCost = 3
 
-	name = '掏空'
+	static name = '掏空'
 
-	baseValue = 7
-	attackTime = 3
+	static baseValue = 7
+	static attackTime = 3
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '在当前回合每丢弃一张牌，此牌的消费下降1点'
+	static desc = '在当前回合每丢弃一张牌，此牌的消费下降1点'
 
 	dropCountCache = 0
 

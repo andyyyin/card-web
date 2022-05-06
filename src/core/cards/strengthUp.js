@@ -4,11 +4,11 @@ import Strength from "../state/strength";
 
 export default class StrengthUp extends BaseCard {
 
-	name = '力量'
+	static name = '力量'
 
-	type = CARD_BASE_TYPE.ABILITY
+	static type = CARD_BASE_TYPE.ABILITY
 
-	desc = '获得2点力量'
+	static desc = '获得2点力量'
 
 	constructor() {
 		super();

@@ -4,13 +4,13 @@ import BlurState from "../state/blur"
 
 export default class Blur extends BaseCard {
 
-	name = '残影'
+	static name = '残影'
 
-	baseValue = 5
+	static baseValue = 5
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '下回合保留护甲值'
+	static desc = '下回合保留护甲值'
 
 	constructor() {
 		super();

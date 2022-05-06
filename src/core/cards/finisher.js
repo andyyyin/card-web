@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from "../enum";
 
 export default class Finisher extends BaseCard {
 
-	name = '终结技'
+	static name = '终结技'
 
-	baseValue = 6
+	static baseValue = 6
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '本回合每打出一张攻击牌，发动一次攻击'
+	static desc = '本回合每打出一张攻击牌，发动一次攻击'
 
 	constructor() {
 		super();

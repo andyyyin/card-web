@@ -3,15 +3,15 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Burn extends BaseCard {
 
-	name = '燃烧'
+	static name = '燃烧'
 
-	type = CARD_BASE_TYPE.STATE
+	static type = CARD_BASE_TYPE.STATE
 
-	desc = '在手牌中结束回合对自身造成攻击'
+	static desc = '在手牌中结束回合对自身造成攻击'
 
-	baseValue = 2
+	static baseValue = 2
 
-	unplayable = true
+	static unplayable = true
 
 	ethereal = true
 

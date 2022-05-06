@@ -4,15 +4,15 @@ import NextTurnAddDraw from "../state/nextTurnAddDraw";
 
 export default class Predator extends BaseCard {
 
-	baseCost = 2
+	static baseCost = 2
 
-	name = '猎杀者'
+	static name = '猎杀者'
 
-	baseValue = 15
+	static baseValue = 15
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '下回合多抽两张牌'
+	static desc = '下回合多抽两张牌'
 
 	constructor() {
 		super();

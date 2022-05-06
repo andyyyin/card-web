@@ -4,13 +4,13 @@ import NextTurnPower from "../state/nextTurnPower";
 
 export default class FlyingKnee extends BaseCard {
 
-	name = '飞踢'
+	static name = '飞踢'
 
-	baseValue = 8
+	static baseValue = 8
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '下回合开始时获得1点能量'
+	static desc = '下回合开始时获得1点能量'
 
 	constructor() {
 		super();

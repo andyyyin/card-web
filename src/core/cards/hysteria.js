@@ -3,15 +3,15 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Hysteria extends BaseCard {
 
-	name = '歇斯底里'
+	static name = '歇斯底里'
 
-	baseValue = 13
+	static baseValue = 13
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	areaAttack = true
+	static areaAttack = true
 
-	exhaust = true
+	static exhaust = true
 
 	constructor() {
 		super();

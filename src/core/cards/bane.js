@@ -4,13 +4,13 @@ import Poisoned from "../state/poisoned";
 
 export default class Bane extends BaseCard {
 
-	name = '灾祸'
+	static name = '灾祸'
 
-	baseValue = 7
+	static baseValue = 7
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '如果敌人有中毒状态，则发动两次攻击'
+	static desc = '如果敌人有中毒状态，则发动两次攻击'
 
 	constructor() {
 		super();

@@ -4,11 +4,11 @@ import Poisoned from "../state/poisoned";
 
 export default class Poison extends BaseCard {
 
-	name = '毒药'
+	static name = '毒药'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '造成5点中毒'
+	static desc = '造成5点中毒'
 
 	constructor() {
 		super();

@@ -3,15 +3,15 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class AllOutAttack extends BaseCard {
 
-	name = '全力一击'
+	static name = '全力一击'
 
-	baseValue = 12
+	static baseValue = 12
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '随机丢弃1张牌'
+	static desc = '随机丢弃1张牌'
 
-	areaAttack = true
+	static areaAttack = true
 
 	constructor() {
 		super();

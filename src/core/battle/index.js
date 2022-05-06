@@ -307,8 +307,8 @@ export default (state, refs) => {
 	fn.createRandomCard = async (count = 1, filter) => {
 		let tobeCreated = G.getRandomCardsFromLib(count, filter)
 		let createdList = []
-		for (let cardSample of tobeCreated) {
-			createdList.push(await fn.createCard(cardSample.constructor))
+		for (let Card of tobeCreated) {
+			createdList.push(await fn.createCard(Card))
 		}
 		return createdList
 	}

@@ -4,15 +4,15 @@ import ChokeState from '../state/choke'
 
 export default class Choke extends BaseCard {
 
-	baseCost = 2
+	static baseCost = 2
 
-	name = '锁喉'
+	static name = '锁喉'
 
-	baseValue = 12
+	static baseValue = 12
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '本回合后续每发动一张卡牌，对敌人发动3点攻击'
+	static desc = '本回合后续每发动一张卡牌，对敌人发动3点攻击'
 
 	constructor() {
 		super();

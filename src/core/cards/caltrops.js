@@ -4,13 +4,13 @@ import CaltropsState from "../state/caltrops";
 
 export default class Caltrops extends BaseCard {
 
-	name = '铁蒺藜'
+	static name = '铁蒺藜'
 
-	baseValue = 1
+	static baseValue = 1
 
-	type = CARD_BASE_TYPE.ABILITY
+	static type = CARD_BASE_TYPE.ABILITY
 
-	desc = '添加3级蒺藜：受到攻击时对攻击者造成反伤'
+	static desc = '添加3级蒺藜：受到攻击时对攻击者造成反伤'
 
 	constructor() {
 		super();

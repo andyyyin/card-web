@@ -3,7 +3,7 @@ import AIMap from '../ai'
 import AT from "../function/arrayTools";
 import Map from './map'
 
-const CardsLib = Object.values(Cards).map(Card => new Card()).filter(c => !c.isBase)
+const CardsLib = Object.values(Cards).filter(c => !c.isBase)
 
 const cardsGroup = [
 	new Cards.Neutralize(),
@@ -18,6 +18,7 @@ const cardsGroup = [
 	new Cards.Defense(),
 	new Cards.Defense(),
 	new Cards.Survivor(),
+
 	// new Cards.Neutralize(),
 	// new Cards.Bash(),
 	// new Cards.Hysteria(),

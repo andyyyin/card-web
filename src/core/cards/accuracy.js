@@ -4,11 +4,11 @@ import AccuracyState from "../state/accuracy";
 
 export default class Accuracy extends BaseCard {
 
-	name = '精准'
+	static name = '精准'
 
-	type = CARD_BASE_TYPE.ABILITY
+	static type = CARD_BASE_TYPE.ABILITY
 
-	desc = '小刀攻击力+4'
+	static desc = '小刀攻击力+4'
 
 	constructor() {
 		super();

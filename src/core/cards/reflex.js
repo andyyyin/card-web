@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Reflex extends BaseCard {
 
-	name = '本能反应'
+	static name = '本能反应'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '如果此牌被丢弃，抽2张牌'
+	static desc = '如果此牌被丢弃，抽2张牌'
 
-	unplayable = true
+	static unplayable = true
 
 	constructor() {
 		super();

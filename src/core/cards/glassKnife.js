@@ -4,14 +4,14 @@ import NextTurnPower from "../state/nextTurnPower";
 
 export default class GlassKnife extends BaseCard {
 
-	name = '玻璃匕首'
+	static name = '玻璃匕首'
 
-	baseValue = 8
-	attackTime = 2
+	static baseValue = 8
+	static attackTime = 2
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '每次打出这张卡，其在本场战斗基础伤害-2'
+	static desc = '每次打出这张卡，其在本场战斗基础伤害-2'
 
 	constructor() {
 		super();

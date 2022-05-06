@@ -10,6 +10,9 @@ export default class BaseCard {
 			enumerable: false
 		})
 		console.log('id', this.id)
+		for (let key in this.constructor) {
+			this[key] = this.constructor[key]
+		}
 	}
 
 	baseCost = 1;

@@ -4,11 +4,11 @@ import Poisoned from "../state/poisoned";
 
 export default class Catalyst extends BaseCard {
 
-	name = '催化剂'
+	static name = '催化剂'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '使敌人的中毒状态等级翻倍'
+	static desc = '使敌人的中毒状态等级翻倍'
 
 	constructor() {
 		super();

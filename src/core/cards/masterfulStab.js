@@ -3,15 +3,15 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class MasterfulStab extends BaseCard {
 
-	baseCost = 0
+	static baseCost = 0
 
-	name = '精湛刀法'
+	static name = '精湛刀法'
 
-	baseValue = 12
+	static baseValue = 12
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '每当你失去hp，此卡在本场战斗上涨1点消费'
+	static desc = '每当你失去hp，此卡在本场战斗上涨1点消费'
 
 	constructor() {
 		super();

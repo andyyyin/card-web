@@ -5,15 +5,15 @@ import Weak from "../state/weak";
 
 export default class CripplingCloud extends BaseCard {
 
-	baseCost = 2
+	static baseCost = 2
 
-	name = '致命毒云'
+	static name = '致命毒云'
 
 	stateValue = 5
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '造成5级中毒，3级虚弱'
+	static desc = '造成5级中毒，3级虚弱'
 
 	constructor() {
 		super();

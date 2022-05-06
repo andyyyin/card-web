@@ -4,15 +4,15 @@ import NextTurnAddDraw from "../state/nextTurnAddDraw";
 
 export default class Skewer extends BaseCard {
 
-	xCost = true
+	static xCost = true
 
-	name = '穿刺'
+	static name = '穿刺'
 
-	baseValue = 7
+	static baseValue = 7
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '发动攻击X次'
+	static desc = '发动攻击X次'
 
 	constructor() {
 		super();

@@ -4,15 +4,15 @@ import Weak from "../state/weak";
 
 export default class Neutralize extends BaseCard {
 
-	baseCost = 0
+	static baseCost = 0
 
-	name = '中和'
+	static name = '中和'
 
-	baseValue = 3
+	static baseValue = 3
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '造成1点虚弱'
+	static desc = '造成1点虚弱'
 
 	constructor() {
 		super();

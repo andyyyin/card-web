@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Nightmare extends BaseCard {
 
-	baseCost = 3
+	static baseCost = 3
 
-	name = '梦魇'
+	static name = '梦魇'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '选择一张手牌，将三张此牌的复制放入手牌'
+	static desc = '选择一张手牌，将三张此牌的复制放入手牌'
 
 	constructor() {
 		super();

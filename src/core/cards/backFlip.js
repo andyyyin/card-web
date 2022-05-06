@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from "../enum";
 
 export default class BackFlip extends BaseCard {
 
-	name = '后空翻'
+	static name = '后空翻'
 
-	baseValue = 5
+	static baseValue = 5
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '抽两张牌'
+	static desc = '抽两张牌'
 
 	constructor() {
 		super();

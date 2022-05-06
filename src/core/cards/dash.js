@@ -4,15 +4,15 @@ import Accuracy from "../state/accuracy";
 
 export default class Dash extends BaseCard {
 
-	baseCost = 2
+	static baseCost = 2
 
-	name = '猛冲'
+	static name = '猛冲'
 
-	baseValue = 10
+	static baseValue = 10
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '获得10点护甲'
+	static desc = '获得10点护甲'
 
 	constructor() {
 		super();

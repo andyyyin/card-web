@@ -4,11 +4,11 @@ import Weak from "../state/weak";
 
 export default class Acrobatics extends BaseCard {
 
-	name = '杂技'
+	static name = '杂技'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '抽3张牌，丢弃1张牌'
+	static desc = '抽3张牌，丢弃1张牌'
 
 	constructor() {
 		super();

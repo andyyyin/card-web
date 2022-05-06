@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from "../enum";
 
 export default class Survivor extends BaseCard {
 
-	name = '幸存'
+	static name = '幸存'
 
-	baseValue = 8
+	static baseValue = 8
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '丢弃1张牌'
+	static desc = '丢弃1张牌'
 
 	constructor() {
 		super();

@@ -4,11 +4,11 @@ import NextTurnPower from "../state/nextTurnPower";
 
 export default class Outmaneuver extends BaseCard {
 
-	name = '深谋远虑'
+	static name = '深谋远虑'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '下回合获得2点能量'
+	static desc = '下回合获得2点能量'
 
 	constructor() {
 		super();

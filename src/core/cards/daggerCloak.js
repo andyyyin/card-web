@@ -4,13 +4,13 @@ import Shiv from "./shiv";
 
 export default class DaggerCloak extends BaseCard {
 
-	name = '飞刀斗篷'
+	static name = '飞刀斗篷'
 
-	baseValue = 5
+	static baseValue = 5
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '制造1张小刀到手牌'
+	static desc = '制造1张小刀到手牌'
 
 	constructor() {
 		super();

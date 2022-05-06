@@ -4,13 +4,13 @@ import Weak from "../state/weak";
 
 export default class HeelHook extends BaseCard {
 
-	name = '绊脚'
+	static name = '绊脚'
 
-	baseValue = 5
+	static baseValue = 5
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '如果敌人有虚弱状态，获得1点能量，抽一张牌'
+	static desc = '如果敌人有虚弱状态，获得1点能量，抽一张牌'
 
 	constructor() {
 		super();

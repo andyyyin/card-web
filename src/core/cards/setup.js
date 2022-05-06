@@ -4,11 +4,11 @@ import Poisoned from "../state/poisoned";
 
 export default class Setup extends BaseCard {
 
-	name = '安装'
+	static name = '安装'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '选择一张手牌放到抽牌堆顶部，在下次打出之前0消费'
+	static desc = '选择一张手牌放到抽牌堆顶部，在下次打出之前0消费'
 
 	constructor() {
 		super();

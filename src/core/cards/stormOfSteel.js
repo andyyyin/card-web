@@ -4,11 +4,11 @@ import Shiv from "./shiv";
 
 export default class StormOfSteel extends BaseCard {
 
-	name = '钢铁风暴'
+	static name = '钢铁风暴'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '丢弃所有手牌，每丢弃一张牌，添加1张小刀到手牌'
+	static desc = '丢弃所有手牌，每丢弃一张牌，添加1张小刀到手牌'
 
 	constructor() {
 		super();

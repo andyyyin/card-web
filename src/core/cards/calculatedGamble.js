@@ -5,15 +5,15 @@ let _handCardNumberCache
 
 export default class CalculatedGamble extends BaseCard {
 
-	baseCost = 0
+	static baseCost = 0
 
-	name = '孤注一掷'
+	static name = '孤注一掷'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '丢弃所有手牌，然后抽相同数量的牌'
+	static desc = '丢弃所有手牌，然后抽相同数量的牌'
 
-	exhaust = true
+	static exhaust = true
 
 	constructor() {
 		super();

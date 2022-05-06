@@ -5,15 +5,15 @@ import NextTurnAddDraw from "../state/nextTurnAddDraw";
 
 export default class Doppelganger extends BaseCard {
 
-	xCost = true
+	static xCost = true
 
-	name = '双重人格'
+	static name = '双重人格'
 
-	type = CARD_BASE_TYPE.SKILL
+	static type = CARD_BASE_TYPE.SKILL
 
-	desc = '下回合获得x点能量，多抽x张牌'
+	static desc = '下回合获得x点能量，多抽x张牌'
 
-	exhaust = true
+	static exhaust = true
 
 	constructor() {
 		super();

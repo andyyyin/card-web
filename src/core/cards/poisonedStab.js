@@ -4,13 +4,13 @@ import Poisoned from "../state/poisoned";
 
 export default class PoisonedStab extends BaseCard {
 
-	name = '毒刃'
+	static name = '毒刃'
 
-	baseValue = 6
+	static baseValue = 6
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '造成3点中毒'
+	static desc = '造成3点中毒'
 
 	constructor() {
 		super();

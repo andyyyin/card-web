@@ -5,15 +5,15 @@ import Fracture from "../state/fracture";
 
 export default class Bash extends BaseCard {
 
-	baseCost = 2
+	static baseCost = 2
 
-	name = '重击'
+	static name = '重击'
 
-	baseValue = 8
+	static baseValue = 8
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
-	desc = '造成2点破绽'
+	static desc = '造成2点破绽'
 
 	constructor() {
 		super();

@@ -3,17 +3,17 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class BackStab extends BaseCard {
 
-	baseCost = 0
+	static baseCost = 0
 
-	name = '背刺'
+	static name = '背刺'
 
-	baseValue = 11
+	static baseValue = 11
 
-	exhaust = true
+	static exhaust = true
 
-	innate = true
+	static innate = true
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();

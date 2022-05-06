@@ -4,11 +4,11 @@ import Agility from "../state/agility";
 
 export default class Footwork extends BaseCard {
 
-	name = '腾挪'
+	static name = '腾挪'
 
-	type = CARD_BASE_TYPE.ABILITY
+	static type = CARD_BASE_TYPE.ABILITY
 
-	desc = '获得1点敏捷'
+	static desc = '获得1点敏捷'
 
 	constructor() {
 		super();

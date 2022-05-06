@@ -3,13 +3,13 @@ import {CARD_BASE_TYPE} from '../enum'
 
 export default class Strike extends BaseCard {
 
-	isBase = true
+	static isBase = true
 
-	name = '打击'
+	static name = '打击'
 
-	baseValue = 6
+	static baseValue = 6
 
-	type = CARD_BASE_TYPE.ATTACK
+	static type = CARD_BASE_TYPE.ATTACK
 
 	constructor() {
 		super();
