@@ -1,5 +1,4 @@
 import Cards from '../cards'
-import AIMap from '../ai'
 import AT from "../function/arrayTools";
 import Map from './map'
 

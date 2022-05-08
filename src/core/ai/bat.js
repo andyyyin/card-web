@@ -5,6 +5,8 @@ import Team from "../state/team";
 
 export default class Bat extends BaseAI{
 
+	static level = 2
+
 	prepareAction
 
 	img = 'bat'

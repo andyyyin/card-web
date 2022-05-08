@@ -4,7 +4,7 @@
 			<div class="top-row">
 				<div class="card-cost" v-if="!card.unplayable && !card.xCost"
 					 :class="{fixedUp: card.cost > card.baseCost, fixedDown: card.cost < card.baseCost}">
-					{{card.cost}}
+					{{card.cost === undefined ? card.baseCost : card.cost}}
 				</div>
 				<div class="card-cost" v-if="card.xCost">x</div>
 				<div class="name">{{card.name}}</div>
@@ -20,7 +20,7 @@
 				</div>
 				<div class="value" v-if="!isStatic"
 					 :class="{up: card.fixedValue > card.baseValue, down: card.fixedValue < card.baseValue}">
-					{{card.fixedValue || card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}
+					{{card.fixedValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}
 				</div>
 				<div class="value" v-if="isStatic">{{card.baseValue}}{{card.attackTime !== undefined ? '×' + card.attackTime : ''}}</div>
 			</div>
@@ -29,9 +29,11 @@
 </template>
 
 <script>
+import {CARD_BASE_TYPE} from "../../core/enum";
+
 export default {
 	props: {
-		card: Object,
+		card: null,
 		isStatic: false,
 		isPrepared: false,
 		isPerforming: false,
@@ -43,24 +45,30 @@ export default {
 	},
 	computed: {
 		cardClassNames () {
-			let result = [this.card.typeClassName]
-			if (this.isPerforming) result.push('performing')
-			if (this.isPrepared) result.push('active')
-			if (this.isDisabled) result.push('disabled')
-			if (this.card.comboFlag) result.push('combo')
-			return result.join(' ')
+			let classList = []
+			switch (this.card.type) {
+				case CARD_BASE_TYPE.SKILL: classList.push('type-skill'); break
+				case CARD_BASE_TYPE.ATTACK: classList.push('type-attack'); break
+				case CARD_BASE_TYPE.ABILITY: classList.push('type-ability'); break
+				case CARD_BASE_TYPE.STATE: classList.push('type-state'); break
+			}
+			if (this.isPerforming) classList.push('performing')
+			if (this.isPrepared) classList.push('active')
+			if (this.isDisabled) classList.push('disabled')
+			if (this.card.comboFlag) classList.push('combo')
+			return classList.join(' ')
 		},
 	},
 	methods: {
 		onClickCard () {
-			this.onClick && this.onClick(this.card.id)
+			this.onClick && this.onClick(this.card.id || this.card.name)
 			if (this.locked) return
 			if (this.isDisabled) return
 			if (this.card.unplayable) return
 			if (this.isPrepared || !this.cardPrepare) {
-				this.cardLaunch && this.cardLaunch(this.card.id)
+				this.cardLaunch && this.cardLaunch(this.card.id || this.card.name)
 			} else {
-				this.cardLaunch && this.cardPrepare(this.card.id)
+				this.cardLaunch && this.cardPrepare(this.card.id || this.card.name)
 			}
 		},
 	}

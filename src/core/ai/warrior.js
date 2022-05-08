@@ -6,6 +6,8 @@ import Anger from "../state/anger";
 
 export default class Warrior extends BaseAI{
 
+	static level = 2
+
 	prepareAction
 
 	img = 'warrior'

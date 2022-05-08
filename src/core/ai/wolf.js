@@ -6,6 +6,8 @@ import {waitFor} from "../function/common";
 
 export default class Wolf extends BaseAI{
 
+	static level = 2
+
 	prepareAction
 
 	img = 'wolf'

@@ -4,6 +4,8 @@ import Burn from '../cards/burn'
 
 export default class Mage extends BaseAI{
 
+	static level = 2
+
 	prepareAction
 
 	img = 'mage'

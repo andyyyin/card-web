@@ -59,6 +59,8 @@ const randomInt = (p1, p2 = 0) => {
 	return min + Math.floor(Math.random() * (max - min + 1))
 }
 
+const randomBool = () => randomInt(1)
+
 export default {
 	computeAngleOff,
 	getRelativePositionByDistance,
@@ -66,4 +68,5 @@ export default {
 	getDistanceOfTwoPoints,
 	angleResult,
 	randomInt,
+	randomBool,
 }

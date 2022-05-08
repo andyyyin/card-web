@@ -5,6 +5,8 @@ import Agility from "../state/agility";
 
 export default class Witch extends BaseAI{
 
+	static level = 2
+
 	prepareAction
 
 	img = 'witch'

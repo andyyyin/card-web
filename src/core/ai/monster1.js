@@ -4,6 +4,8 @@ import BaseAI from "./base";
 
 export default class Monster1 extends BaseAI{
 
+	static level = 2
+
 	prepareAction
 
 	img = 'monster1'

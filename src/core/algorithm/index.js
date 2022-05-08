@@ -8,7 +8,7 @@ const stateAttrFixProcess = (value, stateList, attrName) => {
 	})
 	let fixed = (value + add) * multi
 	if (fixed <= 0) return 0
-	return fixed >= value ? Math.ceil(fixed) : Math.floor(fixed)
+	return fixed >= value ? Math.ceil(fixed) : Math.floor(fixed) // 远离原始值
 }
 
 export const stateDamageFix = (value, stateList) => {

@@ -5,6 +5,8 @@ import BaseAI from "./base";
 
 export default class Ninja extends BaseAI{
 
+	static level = 2
+
 	prepareAction
 
 	img = 'ninja'

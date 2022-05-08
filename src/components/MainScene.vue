@@ -8,7 +8,7 @@
 					<span :class="{up: e_act.fixedValue > e_act.value, down: e_act.fixedValue < e_act.value}">
 						{{e_act.fixedValue}}
 					</span>
-					<span>{{e_act.time && ('×' + e_act.time)}}</span>
+					<span>{{e_act.time && e_act.time > 1 ? ('×' + e_act.time) : null}}</span>
 				</div>
 			</div>
 			<div class="progress-container grow">
@@ -343,11 +343,14 @@ const onFail = async () => {
 
 const rewardCardsSelector = async () => {
 	let options = G.getRandomCardsFromLib(3)
-	let [id] = await fn.cardsSelector(options, {
+	// 这里卡牌的 constructor 所有没有 id，传过来的是 name
+	let result = await fn.cardsSelector(options, {
 		title: '选择一张卡牌加入牌组',
 		skip: true,
 	})
-	let cardSample = options.find(c => c.id === id)
+	if (!result) return
+	let [name] = result
+	let cardSample = options.find(c => c.name === name)
 	G.addCardToGroup(cardSample)
 }
 
@@ -400,7 +403,8 @@ const startBattle = async (Enemy) => {
 
 		state.battleActive = true
 
-		fn.battlePushState(Dark)
+		// todo 全局状态测试
+		// fn.battlePushState(Dark)
 
 		state.locked = false
 		await startNewTurn()

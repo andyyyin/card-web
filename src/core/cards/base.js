@@ -15,6 +15,7 @@ export default class BaseCard {
 		}
 	}
 
+	static baseCost = 1;
 	baseCost = 1;
 	costFixOfTurn = 0;
 	costFixOfBattle = 0;
@@ -52,16 +53,6 @@ export default class BaseCard {
 	extraLaunchCount = 0 // 额外发动次数，打出此牌的时候额外打出n次
 
 	areaAttack; // 是否范围攻击，范围攻击拥有team状态敌人的时候可以击穿hp限制造成全额伤害
-
-	get typeClassName () {
-		switch (this.type) {
-			case CARD_BASE_TYPE.SKILL: return 'type-skill'
-			case CARD_BASE_TYPE.ATTACK: return 'type-attack'
-			case CARD_BASE_TYPE.ABILITY: return 'type-ability'
-			case CARD_BASE_TYPE.STATE: return 'type-state'
-		}
-		return '#999999'
-	}
 
 	async onDraw (fn) {}
 	async onDrop (fn) {}

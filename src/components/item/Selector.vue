@@ -5,7 +5,7 @@
 			<card class="card-item"
 				  v-for="card in cards"
 				  :key="card.id"
-				  :is-prepared="readyList.includes(card.id)"
+				  :is-prepared="readyList.includes(card.id || card.name)"
 				  :card="card"
 				  :on-click="clickCard"
 				  :is-static="true"

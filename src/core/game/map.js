@@ -10,6 +10,8 @@ const AIList = [
 	AIMap.Ninja,
 	AIMap.Wolf,
 	AIMap.Monster1,
+	AIMap.Dog1,
+	AIMap.Dog2,
 ]
 
 let map = []
@@ -24,7 +26,7 @@ const create = () => {
 		let branchCount = l === 0 ? 1 : MT.randomInt(2, 5)
 		let list = []
 		for (let n = 0; n < branchCount; n++) {
-			let enemy = AT.getRandomOne(AIList)
+			let enemy = getEnemyByLevel(l + 1)
 			let event = {type: 0, enemy}
 			list.push({p: [l, n], linkList: [], event})
 		}
@@ -66,12 +68,22 @@ const createPath = (group1, group2) => {
 			} else if ((process1 - process2) > 0.2) {
 				cursor2++
 			} else {
-				MT.randomInt(1) === 0 ? cursor2++ : cursor1++
+				MT.randomBool() ? cursor2++ : cursor1++
 			}
 		}
-
 	}
 
+}
+
+const getEnemyByLevel = (level) => {
+	const filtered = AIList.filter(ai => {
+		if (level <= 3) {
+			return ai.level === 1
+		} else {
+			return ai.level > 1
+		}
+	})
+	return AT.getRandomOne(filtered)
 }
 
 const getPosition = () => position
