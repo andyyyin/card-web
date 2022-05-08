@@ -9,6 +9,10 @@
 					<div class="available" v-if="node.p[0] === position[0] + 1 && node.linkList.find(l => l.to === position[1])"></div>
 				</div>
 			</div>
+			<div class="test-node" @click="clickTestNode">
+				{{testAi.name}}
+				<span class="desc">测试</span>
+			</div>
 		</div>
 	</van-popup>
 </template>
@@ -20,6 +24,8 @@ import G from "../../core/game/index"
 
 const map = G.Map.get()
 const position = ref(G.Map.getPosition())
+
+const testAi = G.Test.getTestAi()
 
 onMounted(() => {
 	watchEffect(() => {
@@ -55,6 +61,12 @@ const clickNode = (node) => {
 	if (!G.Map.checkCanMove(node)) return
 	position.value = G.Map.moveTo(node)
 	G.setEvent(node.event)
+	props.onDone()
+	close()
+}
+
+const clickTestNode = () => {
+	G.setEvent({type: 0, enemy: testAi})
 	props.onDone()
 	close()
 }
@@ -117,6 +129,25 @@ const close = () => {
 				width: 36px;
 				height: 36px;
 				border: 2px solid #42b983;
+			}
+		}
+
+		.test-node{
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			background-color: black;
+			width: 36px;
+			height: 36px;
+			color: #fff;
+			font-size: 12px;
+			text-align: center;
+			.desc{
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				text-align: center;
 			}
 		}
 	}

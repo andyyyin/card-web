@@ -1,6 +1,7 @@
 import Cards from '../cards'
 import AT from "../function/arrayTools";
 import Map from './map'
+import Test from './testRoom'
 
 const CardsLib = Object.values(Cards).filter(c => !c.isBase)
 
@@ -128,4 +129,5 @@ export default {
 	getEvent,
 	setEvent,
 	Map,
+	Test,
 }
