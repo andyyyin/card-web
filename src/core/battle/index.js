@@ -8,7 +8,9 @@ import G from '../game'
 import {waitFor} from "../function/common";
 import BlockDraw from "../state/blockDraw";
 
-export default (state, refs) => {
+let extension
+
+const battleFunctions = (state, refs) => {
 
 	const fn = {}
 
@@ -435,11 +437,18 @@ export default (state, refs) => {
 	logFn(fn, state, refs)
 	statFn(fn, state, refs)
 	animFn(fn, state, refs)
+	extension && extension(fn, state, refs)
 
 	console.log(fn.anim);
 
 	return fn
 }
 
+
+battleFunctions.install = (extensionFn) => {
+	extension = extensionFn
+}
+
+export default battleFunctions
 
 
