@@ -50,6 +50,7 @@ export default class BaseAI {
 		fn.pushLog({text: '攻击，威力=' + value + (time > 1 ? ('x' + time) : '')})
 		let damageList = []
 		for (let i = 0; i < time; i++) {
+			await fn.anim.enemyPower()
 			damageList.push(await fn.strikeHero(value))
 		}
 		return damageList.length > 1 ? damageList : damageList[0]

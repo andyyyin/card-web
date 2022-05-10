@@ -25,7 +25,7 @@ export default class Witch extends BaseAI{
 			this.actionList = [{intention: INTENTION.DEBUFF, run: this.weaken.bind(this)}]
 			this.baseDamage += 1
 		} else {
-			this.actionList = [{intention: INTENTION.ATTACK, run: this.commonAttack.bind(this), value: this.baseDamage}]
+			this.actionList = [{intention: INTENTION.ATTACK, run: this.commonAttack.bind(this)}]
 		}
 		return super.prepare();
 	}

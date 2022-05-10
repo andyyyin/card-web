@@ -27,6 +27,7 @@ export default class Mage extends BaseAI{
 	}
 
 	async fireAttack (fn) {
+		await fn.anim.enemyPower()
 		await fn.strikeHero(this.baseDamage)
 		fn.addCardIntoDraw(new Burn())
 	}

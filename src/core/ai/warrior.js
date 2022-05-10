@@ -23,7 +23,7 @@ export default class Warrior extends BaseAI{
 		if (turnNum === 2) {
 			this.actionList = [{intention: INTENTION.BUFF, run: this.pushAnger.bind(this)}]
 		} else {
-			this.actionList = [{intention: INTENTION.ATTACK, run: this.commonAttack.bind(this), value: this.baseDamage}]
+			this.actionList = [{intention: INTENTION.ATTACK, run: this.commonAttack.bind(this)}]
 		}
 		return super.prepare();
 	}

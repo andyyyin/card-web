@@ -22,17 +22,11 @@ export default class Wolf extends BaseAI{
 		const turnNum = fn.getTurnNum()
 		this.baseDamage = turnNum < 3 ? (this.baseDamage + 4) : 16
 		if (turnNum % 3 === 0) {
-			this.actionList = [{intention: INTENTION.ATTACK, run: this.multiAttack.bind(this), value: 7, time: 3}]
+			this.actionList = [{intention: INTENTION.ATTACK, run: this.commonAttack.bind(this), value: 7, time: 3}]
 		} else {
-			this.actionList = [{intention: INTENTION.ATTACK, run: this.commonAttack.bind(this), value: this.baseDamage}]
+			this.actionList = [{intention: INTENTION.ATTACK, run: this.commonAttack.bind(this)}]
 		}
 		return super.prepare();
-	}
-
-	async multiAttack (fn) {
-		await fn.strikeHero(7)
-		await fn.strikeHero(7)
-		await fn.strikeHero(7)
 	}
 
 }

@@ -1,7 +1,7 @@
 
 import AIMap from '../ai'
 
-const testAi = AIMap.Witch
+const testAi = AIMap.Mage
 
 const getTestAi = () => testAi
 

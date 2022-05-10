@@ -28,7 +28,6 @@ export default (state, refs) => {
 		state.hero.changeDefense(fixedValue)
 	}
 	fn.strikeHero = async (value) => {
-		await fn.anim.enemyPower()
 		let fixedValue = value
 		fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
 		fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
