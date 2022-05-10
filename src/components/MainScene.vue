@@ -278,7 +278,7 @@ const endTheTurn = async () => {
 	state.locked = true
 
 	/* 玩家回合结束 */
-	for (let c of state.handCards) await c.onHandTurnEnd(fn)
+	for (let c of state.handCards) await c.onHostEndTurn(fn)
 	for (let c of getActiveCards()) await c.onTurnEnd(fn)
 
 	for (let s of state.hero.stateList) s.active && await s.onHostEndTurn(fn)

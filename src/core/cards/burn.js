@@ -19,7 +19,7 @@ export default class Burn extends BaseCard {
 		super();
 	}
 
-	async onHandTurnEnd (fn) {
+	async onHostEndTurn (fn) {
 		fn.pureStrikeHero(this.baseValue)
 	}
 }

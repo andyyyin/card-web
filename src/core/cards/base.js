@@ -56,7 +56,7 @@ export default class BaseCard {
 
 	async onDraw (fn) {}
 	async onDrop (fn) {}
-	async onHandTurnEnd () {}
+	async onHostEndTurn () {}
 
 	async onLeaveFromHand () {}
 
