@@ -2,17 +2,6 @@ import MT from '../function/mathTools'
 import AT from '../function/arrayTools'
 import AIMap from '../ai'
 
-const AIList = [
-	AIMap.Warrior,
-	AIMap.Witch,
-	AIMap.Bat,
-	AIMap.Mage,
-	AIMap.Ninja,
-	AIMap.Wolf,
-	AIMap.Monster1,
-	AIMap.Dog1,
-	AIMap.Dog2,
-]
 
 let map = []
 
@@ -20,7 +9,10 @@ let position = [0, 0]
 
 const LEVEL_COUNT = 10
 
-const create = () => {
+let _aiList
+
+const create = (aiList) => {
+	_aiList = aiList
 	map = []
 	for (let l = 0; l < LEVEL_COUNT; l++) {
 		let branchCount = l === 0 ? 1 : MT.randomInt(2, 5)
@@ -76,7 +68,7 @@ const createPath = (group1, group2) => {
 }
 
 const getEnemyByLevel = (level) => {
-	const filtered = AIList.filter(ai => {
+	const filtered = _aiList.filter(ai => {
 		if (level <= 3) {
 			return ai.level === 1
 		} else {

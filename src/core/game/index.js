@@ -2,6 +2,7 @@ import Cards from '../cards'
 import AT from "../function/arrayTools";
 import Map from './map'
 import Test from './testRoom'
+import AIMap from "../ai";
 
 const CardsLib = Object.values(Cards).filter(c => !c.isBase)
 
@@ -90,6 +91,19 @@ const cardsGroup = [
 	// new Cards.Unload(),
 ]
 
+
+const aiList = [
+	AIMap.Warrior,
+	AIMap.Witch,
+	AIMap.Bat,
+	AIMap.Mage,
+	AIMap.Ninja,
+	AIMap.Wolf,
+	AIMap.Monster1,
+	AIMap.Dog1,
+	AIMap.Dog2,
+]
+
 const getCards = () => cardsGroup
 
 const addCardToGroup = (Card) => {
@@ -98,7 +112,7 @@ const addCardToGroup = (Card) => {
 }
 
 const install = (extendCallback) => {
-	extendCallback({cardsGroup})
+	extendCallback({cardsGroup, aiList})
 }
 
 const getRandomCardsFromLib = (count, filter) => {
@@ -107,7 +121,7 @@ const getRandomCardsFromLib = (count, filter) => {
 }
 
 const gameInit = async () => {
-	Map.create();
+	Map.create(aiList);
 	console.log('map created')
 	console.log(Map.get());
 }
