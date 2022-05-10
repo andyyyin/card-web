@@ -5,7 +5,7 @@ import {waitFor} from "../function/common";
 export default (fn, state, refs) => {
 	let anim = {}
 	anim.glint = async () => {
-		const mask = refs.animEl.mask
+		const mask = refs.animEl.battleMask
 		mask.style.display = 'block'
 		await anime.glint(mask)
 		mask.style.display = 'none'
