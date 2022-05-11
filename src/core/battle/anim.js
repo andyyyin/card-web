@@ -39,9 +39,13 @@ export default (fn, state, refs) => {
 
 	anim.getAttack = async (isDamage = true, isBlock = false) => {
 		let animList = []
-		if (isDamage) animList.push(heroHpFlash())
+		if (isDamage) animList.push(heroHpFlashRed())
 		if (isBlock) animList.push(heroDfFlash())
 		await Promise.all(animList)
+	}
+
+	anim.getHeal = async () => {
+		await heroHpFlashGreen()
 	}
 
 	anim.enemyGetAttack = async (isDamage = true, isBlock = false) => {
@@ -71,7 +75,8 @@ export default (fn, state, refs) => {
 	const enemyHpFlash = () => stateFlash(refs.animEl.enemyHpMask, 'white')
 
 	const heroDfFlash = () => stateFlash(refs.animEl.heroDfMask, 'white')
-	const heroHpFlash = () => stateFlash(refs.animEl.heroHpMask, '#FF6464')
+	const heroHpFlashRed = () => stateFlash(refs.animEl.heroHpMask, '#FF6464')
+	const heroHpFlashGreen = () => stateFlash(refs.animEl.heroHpMask, '#5cb85c')
 
 	const stateFlash = async (el, color) => {
 		const duration = 500

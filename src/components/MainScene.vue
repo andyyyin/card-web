@@ -24,6 +24,7 @@
 		<battler-view
 			:stateShowUpList="filteredEnemyStateList"
 			:stateShowDownList="filteredHeroStateList"
+			:stateShowDown2List="filteredHeroFStateList"
 			:stateShowRightList="filteredBattleStateList"
 			:img="state.enemy.ai && state.enemy.ai.img"
 			:logs="state.logs"
@@ -101,6 +102,8 @@ import anime from "../anime";
 import battleFunctionsInit from "../core/battle"
 import AT from "../core/function/arrayTools";
 import Dark from "../core/state/dark";
+import IronSword from "../core/state/ironSword";
+import HamAmulet from "../core/state/hamAmulet";
 
 const refs = {
 	dropStack: null,
@@ -214,7 +217,8 @@ const state = reactive({
 	}
 })
 const filteredEnemyStateList = computed(() => state.enemy.stateList.filter(s => s.active))
-const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => s.active))
+const filteredHeroStateList = computed(() => state.hero.stateList.filter(s => s.active && !s.follow))
+const filteredHeroFStateList = computed(() => state.hero.stateList.filter(s => s.active && s.follow))
 const filteredBattleStateList = computed(() => state.battleStateList.filter(s => s.active))
 
 watchEffect(() => {
@@ -328,6 +332,9 @@ const onWin = async () => {
 	state.drawStack.splice(0, state.drawStack.length)
 	state.dropStack.splice(0, state.dropStack.length)
 
+	for (let s of state.hero.stateList) await s.onBattleEnd(fn)
+	state.hero.stateList = state.hero.stateList.filter(s => s.follow)
+
 	await rewardCardsSelector()
 	await rewardCardsSelector()
 
@@ -394,7 +401,6 @@ const startBattle = async (Enemy) => {
 
 		// 主角初始化
 		state.hero.defense = 0
-		state.hero.stateList.splice(0, state.hero.stateList.length)
 		state.battleStat.reset()
 
 		console.log('new battle begin')
@@ -405,6 +411,8 @@ const startBattle = async (Enemy) => {
 
 		// todo 全局状态测试
 		// fn.battlePushState(Dark)
+		// fn.heroPushState(IronSword)
+		fn.heroPushState(HamAmulet)
 
 		state.locked = false
 		await startNewTurn()

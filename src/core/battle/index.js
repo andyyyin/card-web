@@ -20,6 +20,9 @@ const battleFunctions = (state, refs) => {
 			state.battleStat.loseHpCount++
 			await fn.anim.getAttack(true)
 		}
+		if (value > 0) {
+			await fn.anim.getHeal()
+		}
 		if (state.hero.hp <= 0) state.hero.lose()
 	}
 	fn.heroPushState = (...params) => {

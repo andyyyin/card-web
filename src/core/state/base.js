@@ -5,6 +5,8 @@ export default class BaseState {
 	active = 1
 	level
 
+	follow // 全局状态，战斗结束不会清除
+
 	priority = 1 // 显示优先级，值越大优先度越高
 
 	constructor(props) {
@@ -34,6 +36,8 @@ export default class BaseState {
 	async onEnemyLaunchAttack () {}
 
 	async onHpEmpty () {}
+
+	async onBattleEnd () {}
 
 	async finalDamageFilter (fn, damage, isThrough) { return damage }
 

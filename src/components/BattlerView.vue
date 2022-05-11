@@ -9,14 +9,22 @@
 			</transition-group>
 		</div>
 
+		<!-- 状态图标 - 敌人 -->
 		<section class="special-state-section up row-align">
 			<state-icon v-for="state in stateShowUpList" v-bind="state"/>
 		</section>
 
+		<!-- 状态图标 - 主角 -->
 		<section class="special-state-section down row-align">
 			<state-icon v-for="state in stateShowDownList" v-bind="state"/>
 		</section>
 
+		<!-- 状态图标 - 主角全局 -->
+		<section class="special-state-section down2 row-align">
+			<state-icon v-for="state in stateShowDown2List" v-bind="state"/>
+		</section>
+
+		<!-- 状态图标 - 战斗 -->
 		<section class="special-state-section right">
 			<state-icon v-for="state in stateShowRightList" v-bind="state" :size="26"/>
 		</section>
@@ -40,6 +48,7 @@ import anime, {flatten} from "../anime";
 const props = defineProps({
 	stateShowUpList: Array,
 	stateShowDownList: Array,
+	stateShowDown2List: Array,
 	stateShowRightList: Array,
 	logs: Array,
 	img: String,
