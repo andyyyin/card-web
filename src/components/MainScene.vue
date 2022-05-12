@@ -132,15 +132,18 @@ const cardOnEnter = (el, done) => {
 }
 
 const intentionClassName = computed(() => {
+	let result
 	switch (state.enemy.action.intention) {
-		case INTENTION.ATTACK: return 'attack'
-		case INTENTION.DEFENSE: return 'defense'
-		case INTENTION.BUFF: return 'buff'
-		case INTENTION.DEBUFF: return 'debuff'
-		case INTENTION.STAY: return 'stay'
-		case INTENTION.ATTACK_DEBUFF: return 'attack-debuff'
-		default: return state.enemy.action.intention
+		case INTENTION.ATTACK: result = 'attack'; break
+		case INTENTION.DEFENSE: result = 'defense'; break
+		case INTENTION.BUFF: result = 'buff'; break
+		case INTENTION.DEBUFF: result = 'debuff'; break
+		case INTENTION.STAY: result = 'stay'; break
+		case INTENTION.ATTACK_DEBUFF: result = 'attack-debuff'; break
+		default:
 	}
+	if (state.enemy.action.subIntention) result += ' ' + state.enemy.action.subIntention
+	return result
 })
 const e_act = computed(() => state.enemy.action)
 
@@ -181,6 +184,7 @@ const state = reactive({
 		defeated: false,
 		action: {
 			intention: 0,
+			subIntention: null,
 			name: null,
 			value: null,
 			fixedValue: null,
@@ -266,10 +270,13 @@ const startNewTurn = async () => {
 	if (!state.hero.stateList.some(s => s.keepBlock)) {
 		state.hero.defense = 0
 	}
+	await fn.enemyPrepareAction()
+	await state.enemy.ai.onStartNewTurn(fn)
+
 	for (let s of state.hero.stateList) s.active && await s.onHostStartTurn(fn)
 	for (let s of allStateList()) s.active && await s.onHeroStartTurn(fn)
 
-	await fn.enemyPrepareAction()
+	fn.updateRelationValueShow()
 
 	state.locked = false
 }

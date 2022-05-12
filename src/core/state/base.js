@@ -5,7 +5,7 @@ export default class BaseState {
 	active = 1
 	level
 
-	follow // 全局状态，战斗结束不会清除
+	follow // 是否全局状态，全局状态战斗结束不会清除（相当于杀戮尖塔里的遗物）
 
 	priority = 1 // 显示优先级，值越大优先度越高
 

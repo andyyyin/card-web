@@ -26,6 +26,7 @@ export default class Bat extends BaseAI{
 
 	async afterGetDamage (fn) {
 		fn.enemyPrepareAction()
+		fn.updateRelationValueShow()
 	}
 
 	async onDebut (fn) {

@@ -1,5 +1,5 @@
 <template>
-	<div class="state-icon" :style="style">
+	<div class="state-icon" :class="iconClass" :style="style">
 		<div v-if="level" class="level">{{level}}</div>
 	</div>
 </template>
@@ -13,6 +13,7 @@ export default {
 		level: Number,
 		size: Number,
 		comboFlag: Boolean,
+		iconClass: String,
 	},
 	computed: {
 		style () {

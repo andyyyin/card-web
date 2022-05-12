@@ -172,7 +172,7 @@ const battleFunctions = (state, refs) => {
 				console.log('shuffle')
 			}
 		}
-		updateRelationValueShow()
+		fn.updateRelationValueShow()
 		return drawList
 	}
 	fn.launchCard = async (id) => {
@@ -203,10 +203,10 @@ const battleFunctions = (state, refs) => {
 		}
 		for (let s of state.hero.stateList) s.active && await s.onLaunchCard(fn, card)
 		for (let s of state.enemy.stateList) s.active && await s.onLaunchCard(fn, card)
-		updateRelationValueShow()
+		fn.updateRelationValueShow()
 
 		await card.afterLaunch(fn)
-		updateRelationValueShow()
+		fn.updateRelationValueShow()
 
 		while (card.extraLaunchCount > 0) {
 			await card.onLaunch(fn)
@@ -294,13 +294,14 @@ const battleFunctions = (state, refs) => {
 	fn.enemyPrepareAction = async () => {
 		const actionParam = state.enemy.ai.prepare(fn)
 		state.enemy.action.intention = actionParam.intention
+		state.enemy.action.subIntention = actionParam.subIntention
 		state.enemy.action.name = actionParam.name
 		state.enemy.action.value = actionParam.value
 		state.enemy.action.fixedValue = actionParam.value
 		state.enemy.action.time = actionParam.time
-		await state.enemy.ai.onStartNewTurn(fn)
-		updateRelationValueShow()
 	}
+
+	fn.getEnemyIntention = () => state.enemy.action
 
 	fn.createCard = async (Card) => {
 		const card = new Card()
@@ -333,6 +334,27 @@ const battleFunctions = (state, refs) => {
 		}
 	}
 
+	fn.updateRelationValueShow = () => {
+		state.handCards.map(card => {
+			card.updateRel(fn)
+			if (card.type === CARD_BASE_TYPE.ATTACK && card.baseValue) {
+				let fixedValue = card.baseValue
+				fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
+				fixedValue = stateGetDamageFix(fixedValue, state.enemy.stateList)
+				card.fixedValue = fixedValue
+			}
+			if (card.type === CARD_BASE_TYPE.SKILL && card.baseValue) {
+				card.fixedValue = stateDefenseFix(card.baseValue, state.hero.stateList)
+			}
+		})
+		if ([INTENTION.ATTACK, INTENTION.ATTACK_DEBUFF].includes(state.enemy.action.intention) && state.enemy.action.value) {
+			let fixedValue = state.enemy.action.value
+			fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
+			fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
+			state.enemy.action.fixedValue = fixedValue
+		}
+	}
+
 	const pushCardToHand = async (card) => {
 		state.handCards.push(card)
 		await waitFor(250)
@@ -353,27 +375,6 @@ const battleFunctions = (state, refs) => {
 		let cardList = getFilteredHandCards(filter)
 		if (!cardList.length) return
 		return AT.getRandomByCount(cardList, count)
-	}
-
-	const updateRelationValueShow = () => {
-		state.handCards.map(card => {
-			card.updateRel(fn)
-			if (card.type === CARD_BASE_TYPE.ATTACK && card.baseValue) {
-				let fixedValue = card.baseValue
-				fixedValue = stateDamageFix(fixedValue, state.hero.stateList)
-				fixedValue = stateGetDamageFix(fixedValue, state.enemy.stateList)
-				card.fixedValue = fixedValue
-			}
-			if (card.type === CARD_BASE_TYPE.SKILL && card.baseValue) {
-				card.fixedValue = stateDefenseFix(card.baseValue, state.hero.stateList)
-			}
-		})
-		if ([INTENTION.ATTACK, INTENTION.ATTACK_DEBUFF].includes(state.enemy.action.intention) && state.enemy.action.value) {
-			let fixedValue = state.enemy.action.value
-			fixedValue = stateDamageFix(fixedValue, state.enemy.stateList)
-			fixedValue = stateGetDamageFix(fixedValue, state.hero.stateList)
-			state.enemy.action.fixedValue = fixedValue
-		}
 	}
 
 	const addCardIntoStack = (card, stack, positionType) => {
