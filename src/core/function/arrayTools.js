@@ -1,12 +1,12 @@
 
 const shuffleArray = (array, count) => {
 	if (!array || !array.length) return
-	if (array.length === 1) return array[0]
+	if (array.length === 1) return array
 	let currentIndex = array.length, temporaryValue, randomIndex;
 	count = count || array.length
 
 	// While there remain elements to shuffle...
-	while (currentIndex > array.length - count) {
+	while (currentIndex > array.length - count && currentIndex > 0) {
 
 		// Pick a remaining element...
 		randomIndex = Math.floor(Math.random() * currentIndex);
