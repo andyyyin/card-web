@@ -7,24 +7,31 @@ let map = []
 
 let position = [0, 0]
 
-const LEVEL_COUNT = 10
+let _levelCount = 20
 
 let _aiList
+let _aiUsed = []
 
-const create = (aiList) => {
-	_aiList = aiList
+const create = (aiList, levelCount) => {
+	_aiList = [...aiList]
 	map = []
-	for (let l = 0; l < LEVEL_COUNT; l++) {
-		let branchCount = l === 0 ? 1 : MT.randomInt(2, 5)
+	if (levelCount) _levelCount = levelCount
+	for (let l = 0; l <= _levelCount; l++) {
 		let list = []
-		for (let n = 0; n < branchCount; n++) {
-			let enemy = getEnemyByLevel(l + 1)
-			let event = {type: 0, enemy}
-			list.push({p: [l, n], linkList: [], event})
-		}
-		if (l > 0) {
+		if (l === 0) {
+			list.push({p: [0, 0], linkList: [], event: {}})
+		} else {
+			let branchCount = MT.randomInt(2, 5)
+			for (let n = 0; n < branchCount; n++) {
+				let enemy = getEnemyByLevel(l)
+				let event = {type: 0, enemy}
+				if (enemy.avatar) event.img = enemy.avatar
+				else event.name = enemy.name
+				list.push({p: [l, n], linkList: [], event})
+			}
 			createPath(map[l - 1], list)
 		}
+
 		map.push(list)
 	}
 	return map
@@ -68,14 +75,19 @@ const createPath = (group1, group2) => {
 }
 
 const getEnemyByLevel = (level) => {
-	const filtered = _aiList.filter(ai => {
-		if (level <= 3) {
-			return ai.level === 1
-		} else {
-			return ai.level > 1
-		}
-	})
-	return AT.getRandomOne(filtered)
+	let tIndex = _aiList.findIndex(a => a.level === level)
+	if (tIndex > -1) {
+		const [target] = _aiList.splice(tIndex, 1)
+		_aiUsed.push(target)
+		return target
+	} else if (_aiList.length) {
+		const target = AT.getRandomOne(_aiList)
+		_aiList.splice(_aiList.indexOf(target), 1)
+		_aiUsed.push(target)
+		return target
+	} else {
+		return AT.getRandomOne(_aiUsed)
+	}
 }
 
 const getPosition = () => position

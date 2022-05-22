@@ -112,7 +112,7 @@ const addCardToGroup = (Card) => {
 }
 
 const install = (extendCallback) => {
-	extendCallback({cardsGroup, aiList})
+	extendCallback({cardsGroup, aiList, CardsLib})
 }
 
 const getRandomCardsFromLib = (count, filter) => {

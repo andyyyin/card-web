@@ -1,12 +1,19 @@
 <template>
 	<section class="battle-view" :style="battleViewStyle" :ref="el => props.setAnimEl(el, 'battleView')">
 		<img class="actor-show" :src="imgSrc" alt="">
+
+		<!-- 战斗LOG显示区 -->
 		<div class="log-show-panel">
 			<transition-group :css="false" @before-enter="logBeforeEnter" @enter="logEnter" @leave="logLeave">
 				<div class="log-text-row" v-for="(log, index) in logShowList" :key="log.index" :data-index="index"
 					 v-html="log.text">
 				</div>
 			</transition-group>
+		</div>
+
+		<!-- 对话内容显示区 -->
+		<div class="enemy-words-block">
+			<div v-html="words"/>
 		</div>
 
 		<!-- 状态图标 - 敌人 -->
@@ -51,6 +58,7 @@ const props = defineProps({
 	stateShowDown2List: Array,
 	stateShowRightList: Array,
 	logs: Array,
+	words: String,
 	img: String,
 	setAnimEl: Function,
 })

@@ -28,6 +28,7 @@
 			:stateShowRightList="filteredBattleStateList"
 			:img="state.enemy.ai && state.enemy.ai.img"
 			:logs="state.logs"
+			:words="state.enemy.action.words"
 			:setAnimEl="(el, name) => { if (el) refs.animEl[name] = el}"
 		/>
 
@@ -189,6 +190,7 @@ const state = reactive({
 			value: null,
 			fixedValue: null,
 			time: null,
+			words: null,
 			reset: function () {
 				this.name = this.value = this.fixedValue = this.time = null
 				this.intention = 0

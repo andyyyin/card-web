@@ -10,6 +10,7 @@ export default {
 		icon: String,
 		iconUrl: String,
 		iconPic: String,
+		iconStyle: {},
 		level: Number,
 		size: Number,
 		comboFlag: Boolean,
@@ -25,6 +26,7 @@ export default {
 				backgroundSize: (this.size || 18) + 'px',
 				backgroundRepeat: 'no-repeat',
 				backgroundPosition: 'center',
+				...this.iconStyle
 			}
 			if (this.comboFlag) {
 				result.backgroundColor = 'rgba(0, 200, 0, .4)'

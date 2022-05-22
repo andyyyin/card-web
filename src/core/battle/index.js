@@ -232,6 +232,7 @@ const battleFunctions = (state, refs) => {
 	}
 	fn.dropRandomHandCard = async (count = 1, filter) => {
 		let tobeDropped = getRandomHandCards(count, filter)
+		if (!tobeDropped) return
 		await fn.dropCardWithEvent(tobeDropped)
 	}
 
@@ -245,7 +246,7 @@ const battleFunctions = (state, refs) => {
 	fn.raiseCostRandomCard = (count, filter) => {
 		let toBeRaised = getRandomHandCards(count, filter)
 		for (let card of toBeRaised) {
-			card.addCostFixOfTurn(1)
+			card.setCostFixOfBattle(1)
 		}
 	}
 
@@ -280,7 +281,7 @@ const battleFunctions = (state, refs) => {
 	 * 将一张手牌、弃牌堆或者抽牌堆中的卡牌取出插入抽牌堆
 	 * @param {number} positionType -1：底部（最后抽到），1：顶部（马上抽到），其他：随机位置
 	 * @param {number} id 卡牌id
-	* */
+	 * */
 	fn.putCardToDrawStack = async (positionType, id) => {
 		let card = drawOutACard(id)
 		switch (positionType) {
@@ -299,6 +300,7 @@ const battleFunctions = (state, refs) => {
 		state.enemy.action.value = actionParam.value
 		state.enemy.action.fixedValue = actionParam.value
 		state.enemy.action.time = actionParam.time
+		state.enemy.action.words = actionParam.words
 	}
 
 	fn.getEnemyIntention = () => state.enemy.action

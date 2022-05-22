@@ -18,8 +18,8 @@ const getRelativePositionByDistance = (d, r) => {
 }
 
 /**
-* 计算两个坐标点之间的直线距离长度
-* */
+ * 计算两个坐标点之间的直线距离长度
+ * */
 const getDistanceOfTwoPoints = (p1, p2) => {
 	let x1 = p1.x || p1[0], y1 = p1.y || p1[1], x2 = p2.x || p2[0], y2 = p2.y || p2[1]
 	let a = x1 - x2
@@ -61,6 +61,37 @@ const randomInt = (p1, p2 = 0) => {
 
 const randomBool = () => randomInt(1)
 
+/**
+ * 区间参数转换，将参数转换为 最小值和最大值 两个区间边界的数组，如果只传一个值，另一个边界值自动取零
+ * @param range 区间参数，可以是数值或者数组
+ */
+const rangeParamParse = (range) => {
+	if (!range) return
+	let value1, value2
+	if (typeof range === 'number') { value1 = range; value2 = 0 }
+	else { value1 = range[0]; value2 = range[1] || 0}
+	if (!value1 && value1 !== 0) return
+	return value1 > value2 ? [value2, value1] : [value1, value2]
+}
+
+/**
+ * 数值区间转换，把一个 源数值 按照 源区间的位置 映射到 目标区间的对应位置 的值
+ * @param sourceValue {number} 源数值
+ * @param sourceRange 源数值的取值区间
+ * @param resultRange 映射区间
+ *  @returns {number}
+ * */
+const rangeConvert = (sourceValue, sourceRange, resultRange) => {
+	const [sMin, sMax] = rangeParamParse(sourceRange)
+	const [rMin, rMax] = rangeParamParse(resultRange)
+	if (sourceRange <= sMin) return 0
+	let percent = (sourceValue - sMin) / (sMax - sMin)
+	let resultRaw = rMin + percent * (rMax - rMin)
+	let resultInt = Math.floor(resultRaw)
+	let float = resultRaw % 1
+	return resultInt + Number(Math.random() < float)
+}
+
 export default {
 	computeAngleOff,
 	getRelativePositionByDistance,
@@ -69,4 +100,5 @@ export default {
 	angleResult,
 	randomInt,
 	randomBool,
+	rangeConvert,
 }
